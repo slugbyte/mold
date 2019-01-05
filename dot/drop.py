@@ -87,7 +87,12 @@ def _load(args):
 def _edit_help():
     print('USAGE: dot drop edit <filename>')
 
-def _edit_complete():
+def _edit_complete(args):
+    files = os.listdir(_DROP_DIR)
+    if len(args) == 2:
+        for f in files:
+            if f == args[1]:
+                return print('')
     print(' '.join(os.listdir(_DROP_DIR)))
 
 def _edit(args):
@@ -105,8 +110,8 @@ def _edit(args):
 def _nuke_help():
     print('USAGE: dot drop nuke <filename>')
 
-def _nuke_complete():
-    _edit_complete()    
+def _nuke_complete(args):
+    _edit_complete(args)    
 
 def _nuke(args):
     if len(args) != 1 or args[0] == 'help':
@@ -120,6 +125,24 @@ def _nuke(args):
         print(f'REMOVED {filename}')
         return 
     print(f'ERROR: no "{filename}" dropfile found')
+
+def complete(args):
+    if len(args) == 0:
+        return print('help list make load edit nuke')
+    if args[0] == 'help':
+        return print('')
+    if args[0] == 'list':
+        return print('')
+    if args[0] == 'make':
+        return _make_complete()
+    if args[0] == 'load':
+        return _load_complete()
+    if args[0] == 'edit':
+        return _edit_complete(args)
+    if args[0] == 'nuke':
+        return _nuke_complete(args)
+    return print('help list make load edit nuke')
+    print('sweat complete', ' '.join(args))
 
 def drop(options):
     if len(options) == 0:

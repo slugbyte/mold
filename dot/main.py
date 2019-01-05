@@ -1,5 +1,6 @@
 import sys
 from drop import drop
+from complete import complete
 
 def help():
     print('''
@@ -23,8 +24,8 @@ def main(argv):
         return help()
     sub_command = argv[1]
     options = argv[2:]
-    print('                                DEBUG: sub_command', sub_command)
-    print('                                DEBUG: options', options)
+    # print('                                DEBUG: sub_command', sub_command)
+    # print('                                DEBUG: options', options)
     if(sub_command == 'drop'):
         return drop(options)
     if(sub_command == 'temp'):
@@ -43,6 +44,8 @@ def main(argv):
         return print('stat')
     if(sub_command == 'diff'):
         return print('diff')
+    if(sub_command == 'complete'):
+        return complete(argv)
     # help()
 
 if __name__ == "__main__":
