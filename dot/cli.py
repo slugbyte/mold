@@ -1,5 +1,5 @@
 import sys
-from core import core
+from dotcore import core
 from complete import complete
 
 def help():
@@ -52,5 +52,4 @@ def main(argv):
     # help()
 
 if __name__ == "__main__":
-    main(sys.argv)
-
+        main(sys.argv)

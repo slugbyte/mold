@@ -43,6 +43,9 @@ def _make(args):
         return _make_complete()
     filename = args[0]
     filepath = get_type_dir() + '/' + filename
+    if _TYPE == 'temp':
+        os.mkdir(filepath)
+        os.chdir(filepath)
     os.system(env.EDITOR + ' ' + filepath)
     if Path(filepath).exists():
         print('MADE FILE:', filename)
@@ -109,6 +112,8 @@ def _edit(args):
     filename = args[0]
     filepath = get_type_dir() + '/' + filename
     if Path(filepath).exists():
+        if _TYPE == 'temp':
+            os.chdir(filepath)
         os.system(env.EDITOR + ' ' + filepath)
         return 
     print(f'ERROR: no "{filename}" {_TYPE} file found')

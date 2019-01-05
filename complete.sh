@@ -1,5 +1,5 @@
 export DOT=$HOME/.dot
-alias dot="python3 $PWD/dot/main.py"
+alias dot="python3 $PWD/dot/cli.py"
 
 _dot(){
   for canidate in $(dot complete $COMP_LINE); do 

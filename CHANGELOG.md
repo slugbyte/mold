@@ -1,6 +1,6 @@
 # CHANGELOG 
 
-## v0.0.2
+## v0.0.3
 * modfied bash in to core.py
 * conf temp drop plug pack and exec now supported
 * above all have working tab complete
