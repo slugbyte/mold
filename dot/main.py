@@ -1,5 +1,6 @@
 import sys
-from drop import drop
+from core import core
+from complete import complete
 
 def help():
     print('''
@@ -7,6 +8,7 @@ USAGE: dot [SUBCOMMAND] [OPTIONS]
     A system configuration and shell workflow tool.
 
     SUBCOMMANDS: 
+        conf    mange config files (init, make, load, nuke, help)
         temp    project scaffolding templates (init, make, load, nuke, help)
         drop    file asset templates (<name>, make, load, edit, nuke, help)
         plug    bash pugins (make, edit, nuke)
@@ -23,18 +25,20 @@ def main(argv):
         return help()
     sub_command = argv[1]
     options = argv[2:]
-    print('                                DEBUG: sub_command', sub_command)
-    print('                                DEBUG: options', options)
+    # print('                                DEBUG: sub_command', sub_command)
+    # print('                                DEBUG: options', options)
     if(sub_command == 'drop'):
-        return drop(options)
+        return core(options, 'drop')
     if(sub_command == 'temp'):
-        return print('temp')
+        return core(options, 'temp')
     if(sub_command == 'plug'):
-        return print('plug')
+        return core(options, 'plug')
     if(sub_command == 'pack'):
-        return print('pack')
+        return core(options, 'pack')
     if(sub_command == 'exec'):
-        return print('exec')
+        return core(options, 'exec')
+    if(sub_command == 'conf'):
+        return core(options, 'conf')
     if(sub_command == 'push'):
         return print('push')
     if(sub_command == 'pull'):
@@ -43,6 +47,8 @@ def main(argv):
         return print('stat')
     if(sub_command == 'diff'):
         return print('diff')
+    if(sub_command == 'complete'):
+        return complete(argv)
     # help()
 
 if __name__ == "__main__":
