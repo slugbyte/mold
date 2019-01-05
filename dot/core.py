@@ -1,6 +1,7 @@
 import os
 import env
 from shutil import copyfile
+from shutil import copytree
 from pathlib import Path
 
 _TYPE = ''
@@ -67,25 +68,27 @@ def _list(args):
 def _load_help():
     print(f'USAGE: dot {_TYPE} load <filepath> [optional new name]')
 
-def _load_complete():
-    print(' '.join(os.listdir('./')))
-    return  
+def _load_complete(args):
+    print(' '.join(os.listdir('./')), len(args))
 
 def _load(args):
     if len(args) < 0 or args[0] == 'help':
         return _load_help()
     if args[0] == '____COMPLETE____':
-        return _load_complete()
+        return _load_complete(args)
     filepath = args[0]
     filename = os.path.basename(filepath)
     if len(args) == 2:
         filename = args[1]
     print('len', len(args))
     if Path(filepath).exists():
-        copyfile(filepath, get_type_dir() + '/' + filename)
+        if _TYPE == 'temp':
+            copytree(filepath, get_type_dir() + '/' + filename)
+        else:
+            copyfile(filepath, get_type_dir() + '/' + filename)
         print(f'LOADED {filename}')
         return 
-    print(f'ERROR: no "{filename}" {_TYPE} file found')
+    print(f'ERROR: no "{filename}" {_TYPE} found')
 
 def _edit_help():
     print(f'USAGE: dot {_TYPE} edit <filename>')
@@ -129,6 +132,22 @@ def _nuke(args):
         return 
     print(f'ERROR: no "{filename}" {_TYPE} file found')
 
+def _export(args):
+    if len(args) < 1 or args[0] == 'help':
+        return _help()
+    filename = args[0]
+    filepath = get_type_dir() + '/' + filename
+    if len(args) == 2:
+        filename = args[1]
+    if Path(filepath).exists():
+        if _TYPE == 'drop':
+            copyfile(filepath, './' + filename)
+            return 
+        if _TYPE == 'temp':
+            copytree(filepath, './' + filename)
+            return 
+    print(f'ERROR: no "{filename}" {_TYPE} file found')
+
 def complete(args, _type):
     global _TYPE
     _TYPE=_type
@@ -141,7 +160,7 @@ def complete(args, _type):
     if args[0] == 'make':
         return _make_complete()
     if args[0] == 'load':
-        return _load_complete()
+        return _load_complete(args)
     if args[0] == 'edit':
         return _edit_complete(args)
     if args[0] == 'nuke':
@@ -165,4 +184,5 @@ def core(options, _type):
         return _edit(options[1:])
     if options[0] == 'nuke':
         return _nuke(options[1:])
-    return print('CHECK FOR FILES')
+    if _type == 'drop' or _type == 'temp':
+        return  _export(options)
