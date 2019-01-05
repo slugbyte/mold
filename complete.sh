@@ -1,3 +1,4 @@
+export DOT=$HOME/.dot
 alias dot="python3 $PWD/dot/main.py"
 
 _dot(){
