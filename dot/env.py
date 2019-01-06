@@ -2,4 +2,4 @@ import os
 
 ROOT_DIR = os.environ['DOT']
 EDITOR = os.environ['EDITOR']
-PAGER = os.environ['PAGER']
+# TODO: SETUP optional paging help PAGER = os.environ['PAGER']

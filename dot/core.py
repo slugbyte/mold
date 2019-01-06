@@ -1,10 +1,13 @@
 import os
-import env
-from shutil import copyfile
-from shutil import copytree
-from pathlib import Path
+import dot.fs as fs
+import dot.env as env
 
+# SINGLETON STATE
 _TYPE = ''
+
+def set_TYPE(_type):
+    global _TYPE
+    _TYPE=_type
 
 def get_type_dir():
     return env.ROOT_DIR + '/' + _TYPE 
@@ -44,10 +47,10 @@ def _make(args):
     filename = args[0]
     filepath = get_type_dir() + '/' + filename
     if _TYPE == 'temp':
-        os.mkdir(filepath)
+        fs.mkdir(filepath)
         os.chdir(filepath)
     os.system(env.EDITOR + ' ' + filepath)
-    if Path(filepath).exists():
+    if fs.exists(filepath):
         print('MADE FILE:', filename)
     else:
         print(f'MAKE ABORTED: {filename} not created')
@@ -62,7 +65,7 @@ def _list_complete():
 
 def _list(args):
     if len(args) == 0:
-        print('\n'.join(os.listdir(get_type_dir())))
+        print('\n'.join(fs.listdir(get_type_dir())))
         return 
     if args[0] == '____COMPLETE____':
         return _list_complete()
@@ -72,7 +75,7 @@ def _load_help():
     print(f'USAGE: dot {_TYPE} load <filepath> [optional new name]')
 
 def _load_complete(args):
-    print(' '.join(os.listdir('./')), len(args))
+    print(' '.join(fs.listdir('./')), len(args))
 
 def _load(args):
     if len(args) < 0 or args[0] == 'help':
@@ -80,15 +83,14 @@ def _load(args):
     if args[0] == '____COMPLETE____':
         return _load_complete(args)
     filepath = args[0]
-    filename = os.path.basename(filepath)
+    filename = fs.basename(filepath)
     if len(args) == 2:
         filename = args[1]
-    print('len', len(args))
-    if Path(filepath).exists():
+    if fs.exists(filepath):
         if _TYPE == 'temp':
-            copytree(filepath, get_type_dir() + '/' + filename)
+            fs.copydir(filepath, get_type_dir() + '/' + filename)
         else:
-            copyfile(filepath, get_type_dir() + '/' + filename)
+            fs.copy(filepath, get_type_dir() + '/' + filename)
         print(f'LOADED {filename}')
         return 
     print(f'ERROR: no "{filename}" {_TYPE} found')
@@ -97,12 +99,12 @@ def _edit_help():
     print(f'USAGE: dot {_TYPE} edit <filename>')
 
 def _edit_complete(args):
-    files = os.listdir(get_type_dir())
+    files = fs.listdir(get_type_dir())
     if len(args) == 2:
         for f in files:
             if f == args[1]:
                 return print('')
-    print(' '.join(os.listdir(get_type_dir())))
+    print(' '.join(fs.listdir(get_type_dir())))
 
 def _edit(args):
     if len(args) != 1 or args[0] == 'help':
@@ -111,7 +113,7 @@ def _edit(args):
         return _edit_complete()
     filename = args[0]
     filepath = get_type_dir() + '/' + filename
-    if Path(filepath).exists():
+    if fs.exists(filepath):
         if _TYPE == 'temp':
             os.chdir(filepath)
         os.system(env.EDITOR + ' ' + filepath)
@@ -131,8 +133,11 @@ def _nuke(args):
         return _nuke_complete()
     filename = args[0]
     filepath = get_type_dir() + '/' + filename
-    if Path(filepath).exists():
-        os.remove(filepath)
+    if fs.exists(filepath):
+        if _type == 'temp':
+            fs.rimraf(filepath)
+        else:
+            fs.rm(filepath)
         print(f'REMOVED {filename}')
         return 
     print(f'ERROR: no "{filename}" {_TYPE} file found')
@@ -144,18 +149,17 @@ def _export(args):
     filepath = get_type_dir() + '/' + filename
     if len(args) == 2:
         filename = args[1]
-    if Path(filepath).exists():
+    if fs.exists(filepath):
         if _TYPE == 'drop':
-            copyfile(filepath, './' + filename)
+            fs.copy(filepath, './' + filename)
             return 
         if _TYPE == 'temp':
-            copytree(filepath, './' + filename)
+            fs.copydir(filepath, './' + filename)
             return 
     print(f'ERROR: no "{filename}" {_TYPE} file found')
 
 def complete(args, _type):
-    global _TYPE
-    _TYPE=_type
+    set_TYPE(_type)
     if len(args) == 0:
         return print('help list make load edit nuke')
     if args[0] == 'help':
@@ -172,9 +176,8 @@ def complete(args, _type):
         return _nuke_complete(args)
     return print('help list make load edit nuke')
 
-def core(options, _type):
-    global _TYPE
-    _TYPE=_type
+def main(options, _type):
+    set_TYPE(_type)
     if len(options) == 0:
         return _help()
     if options[0] == 'help':

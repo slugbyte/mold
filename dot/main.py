@@ -1,6 +1,11 @@
+import os
 import sys
-from dotcore import core
-from complete import complete
+from pathlib import Path
+
+import dot.env as env
+import dot.ensure as ensure
+from dot.core import core
+from dot.complete import complete
 
 def help():
     print('''
@@ -20,13 +25,21 @@ USAGE: dot [SUBCOMMAND] [OPTIONS]
         help    show this help  
     '''.strip())
 
-def main(argv):
+def main():
+    if ensure.check() != ensure.OK:
+        print(ensure.warning(), file=sys.stderr)
+        return sys.exit(1)
+    argv = sys.argv
     if len(argv) == 1:
         return help()
     sub_command = argv[1]
     options = argv[2:]
-    # print('                                DEBUG: sub_command', sub_command)
-    # print('                                DEBUG: options', options)
+    if(sub_command == '--inistall'):
+        return print('TODO: --install')
+    if(sub_command == '--fix-root'):
+        return print('TODO: --fix-root')
+    if(sub_command == 'complete'):
+        return complete(argv)
     if(sub_command == 'drop'):
         return core(options, 'drop')
     if(sub_command == 'temp'):
@@ -47,9 +60,4 @@ def main(argv):
         return print('stat')
     if(sub_command == 'diff'):
         return print('diff')
-    if(sub_command == 'complete'):
-        return complete(argv)
-    # help()
 
-if __name__ == "__main__":
-        main(sys.argv)
