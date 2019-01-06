@@ -10,15 +10,15 @@ import sys
 from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
-import dot 
+import mold 
 
 # Package meta-data.
-NAME = dot.__name__
-URL = dot.__url__
-EMAIL = dot.__email__
-AUTHOR = dot.__author__
-VERSION = dot.__version__
-DESCRIPTION = dot.__description__
+NAME = mold.__name__
+URL = mold.__url__
+EMAIL = mold.__email__
+AUTHOR = mold.__author__
+VERSION = mold.__version__
+DESCRIPTION = mold.__description__
 REQUIRES_PYTHON = '>=3.6.0'
 
 # What packages are required for this module to be executed?
@@ -107,12 +107,12 @@ setup(
     # py_modules=['mypackage'],
 
     entry_points={
-        'console_scripts': ['dot=dot.cli:main'],
+        'console_scripts': ['mold=mold.cli:main'],
     },
     install_requires=REQUIRED,
     extras_require=EXTRAS,
     include_package_data=True,
-    license=dot.__licence__, 
+    license=mold.__licence__, 
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers

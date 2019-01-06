@@ -5,6 +5,7 @@ import mold.env as env
 import mold.ensure as ensure
 from mold.core import main
 from mold.complete import complete
+from mold.install import install
 
 def help():
     print(f'''
@@ -12,20 +13,47 @@ def help():
 
 USAGE: mold [SUBCOMMAND] [OPTIONS]
 
-SETUP and CONFIGURATION:
-    Run `mold --install` to use the interactive installer.
-    For manual intall instrcuions see {mold.__url__}.
+ABOUT:
+    mold uses a git repository to store and track system configuration
+    files. It splits the files in to the following classifications.
+        conf -- conf files are the dotfiles that will be hard linked to 
+                the $HOME directory. e.g. dot load ~/.bashrc
+        plug -- plug files are shell scripts that will be sourced each time
+                you create a new shell. e.g. dot plug make alias.sh
+        exec -- exec files will be added to a directory that will be in 
+                the $PATH. e.g. exec load ./my-program 
+        drop -- drop files are file asset templates that you want add to 
+                future projects. e.g. dot drop MIT-LICENSE.md
+        fold -- a fold is a project directory scaffold template, its like
+                drop but its a whole directory. dot fold react-starter
 
-    Run `mold --set-origin [https://github.com/user/example.git]` 
-    to reset your $DOT_ROOT's git remote.
+INSTALL:
+    To install a $MOLD_ROOT for the first time run `mold --install` 
+    The $MOLD_ROOT directory will be set to ~/.mold and it will
+    use $EDITOR or nano as the text editor.
+
+    For custom installation see the mold github repository.
+
+INSTALL USING AN EXISTING GIT REMOTE:
+    To install from an existing remote run `mold --clone [git uri]`
+
+CONFIGURATION:
+    GIT REMOTE:
+    You can either manualy change the MOLD_ROOT git remote, or you can 
+    also run `mold --set-origin [https://github.com/user/example.git]` 
+    to reset the git remote.
+
+    TEXT EDITOR:
+    To change the text editor use bash to $EDITOR to point to the 
+    a text editor executable.
+    e.g. In the shell config write 'export EDITOR = /usr/local/bin/vim'
 
 HELP: 
     mold and each of the mold subcomands have -h, --help, and help options for 
     printing help.
 
 SUBCOMANDS: 
-    stat    check the status of the $DOT_ROOT repository 
-    pack    manage and execute system package installers 
+    stat    check the status of the $MOLD_ROOT repository 
     conf    manage configuration files (aka. moldfiles)
     temp    manage project scaffolding templates 
     drop    manage file asset templates 
@@ -34,14 +62,10 @@ SUBCOMANDS:
     sync    sync git remote 
     help    show this help  
 
-<3 Bug reports are much appreciated {mold.__url__.replace('https://', '')}/issues
+<3 Bug reports are much appreciated {mold.__url__}/issues
     '''.strip())
 
 def main():
-    if ensure.check() != ensure.OK:
-        print('goo')
-        print(ensure.warning(), file=sys.stderr)
-        return sys.exit(1)
     argv = sys.argv
     if len(argv) == 1:
         return print('''USAGE: mold [SUBCOMMAND] [OPTIONS] 
@@ -50,6 +74,11 @@ def main():
     options = argv[2:]
     if(sub_command == 'help' or sub_command == '-h' or sub_command == '--help'):
         return help()
+    if ensure.check() != ensure.OK:
+        if sub_command == '--install':
+            return install()
+        print(ensure.warning(), file=sys.stderr)
+        return sys.exit(1)
     if(sub_command == '--inistall'):
         return print('TODO: --install')
     if(sub_command == 'complete'):

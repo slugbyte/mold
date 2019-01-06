@@ -1,3 +1,3 @@
 import os 
-import dot.env 
+import mold.env 
 # sync (Add -> Commit -> Pull -> ?Commit -> Push)

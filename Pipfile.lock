@@ -16,7 +16,7 @@
         ]
     },
     "default": {
-        "dot": {
+        "mold": {
             "path": "."
         }
     },
