@@ -26,8 +26,8 @@ def listdir(path):
 def exists(path):
     return Path(path).exists()
 
-def is_dirr(path):
-    return Path(path).is_dirr()
+def is_dir(path):
+    return Path(path).is_dir()
 
 def copy(src, dest):
     return shutil.copyfile(src, dest)

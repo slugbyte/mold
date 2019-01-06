@@ -1,5 +1,5 @@
-import dot.env as env 
-import dot.fs as fs
+import mold.env as env 
+import mold.fs as fs
 
 # ensure's errno values
 ENV_ERROR = 1
@@ -20,14 +20,14 @@ def warning():
         return "Make sure your DOT_ROOT and EDITOR environment variables are set"
     if _result == DIR_ERROR:
         return '''Looks like your DOT_ROOT directory is missing or broken. 
-Try runing dot --install, or dot --fix-root'''
+Try runing mold --install, or mold --fix-root'''
 
 def check():
     if _result != -1:
         return _result
     if (not env.ROOT_DIR) or (not env.EDITOR):
         return _set_result(ENV_ERROR)
-    if (not fs.exists(env.ROOT_DIR)) or (not root_dir.is_dir(env.ROOT_DIR)):
+    if (not fs.exists(env.ROOT_DIR)) or (not fs.is_dir(env.ROOT_DIR)):
         return _set_result(DIR_ERROR)
     for d in ['conf', 'plug', 'temp', 'drop', 'pack']:
         if not fs.exists(env.ROOT_DIR + '/' + d):

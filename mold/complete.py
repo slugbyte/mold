@@ -1,5 +1,5 @@
-import dot.core
-import dot.ensure
+import mold.core
+import mold.ensure
 
 _core_comands = ['conf', 'temp', 'drop', 'plug', 'pack', 'exec', 'push', 'pull', 'stat', 'help']
 _sync_comands = ['push', 'pull', 'link']

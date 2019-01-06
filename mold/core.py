@@ -1,6 +1,6 @@
 import os
-import dot.fs as fs
-import dot.env as env
+import mold.fs as fs
+import mold.env as env
 
 # SINGLETON STATE
 _TYPE = ''
@@ -14,11 +14,11 @@ def get_type_dir():
 
 def _help():
     print(f'''
-USAGE: dot {_TYPE} [*OPTIONS] [FILENAME]
-    dot {_TYPE} helps manage file assets that you want to often need to {_TYPE} in a directory.
+USAGE: mold {_TYPE} [*OPTIONS] [FILENAME]
+    mold {_TYPE} helps manage file assets that you want to often need to {_TYPE} in a directory.
 
     If you want {_TYPE} a {_TYPE} file just run... 
-    dot {_TYPE} <filename> 
+    mold {_TYPE} <filename> 
 
     If you need to manage {_TYPE} files use the folling options.
 
@@ -33,7 +33,7 @@ USAGE: dot {_TYPE} [*OPTIONS] [FILENAME]
 
 def _make_help():
     print(f'''
-USAGE: dot {_TYPE} make <filename>
+USAGE: mold {_TYPE} make <filename>
     '''.strip())
 
 def _make_complete():
@@ -57,7 +57,7 @@ def _make(args):
 
 def _list_help():
     print(f'''
-USAGE: dot {_TYPE} list
+USAGE: mold {_TYPE} list
     '''.strip())
 
 def _list_complete():
@@ -72,7 +72,7 @@ def _list(args):
     return _list_help()
 
 def _load_help():
-    print(f'USAGE: dot {_TYPE} load <filepath> [optional new name]')
+    print(f'USAGE: mold {_TYPE} load <filepath> [optional new name]')
 
 def _load_complete(args):
     print(' '.join(fs.listdir('./')), len(args))
@@ -96,7 +96,7 @@ def _load(args):
     print(f'ERROR: no "{filename}" {_TYPE} found')
 
 def _edit_help():
-    print(f'USAGE: dot {_TYPE} edit <filename>')
+    print(f'USAGE: mold {_TYPE} edit <filename>')
 
 def _edit_complete(args):
     files = fs.listdir(get_type_dir())
@@ -121,7 +121,7 @@ def _edit(args):
     print(f'ERROR: no "{filename}" {_TYPE} file found')
 
 def _nuke_help():
-    print(f'USAGE: dot {_TYPE} nuke <filename>')
+    print(f'USAGE: mold {_TYPE} nuke <filename>')
 
 def _nuke_complete(args):
     _edit_complete(args)    
