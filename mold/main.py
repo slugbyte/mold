@@ -1,6 +1,4 @@
-import os
 import sys
-from pathlib import Path
 
 import mold
 import mold.env as env
@@ -10,8 +8,9 @@ from mold.complete import complete
 
 def help():
     print(f'''
+{mold.__description__} 
+
 USAGE: mold [SUBCOMMAND] [OPTIONS]
-    {mold.__description__} 
 
 SETUP and CONFIGURATION:
     Run `mold --install` to use the interactive installer.
@@ -35,23 +34,24 @@ SUBCOMANDS:
     sync    sync git remote 
     help    show this help  
 
-<3 Bug reports are much appreciated: {mold.__url__}/issues
+<3 Bug reports are much appreciated {mold.__url__.replace('https://', '')}/issues
     '''.strip())
 
 def main():
-       # if ensure.check() != ensure.OK:
-        # print(ensure.warning(), file=sys.stderr)
-        # return sys.exit(1)
+    if ensure.check() != ensure.OK:
+        print('goo')
+        print(ensure.warning(), file=sys.stderr)
+        return sys.exit(1)
     argv = sys.argv
-    print(argv)
     if len(argv) == 1:
-        return help()
+        return print('''USAGE: mold [SUBCOMMAND] [OPTIONS] 
+    run "mold help" for more info''')
     sub_command = argv[1]
     options = argv[2:]
+    if(sub_command == 'help' or sub_command == '-h' or sub_command == '--help'):
+        return help()
     if(sub_command == '--inistall'):
         return print('TODO: --install')
-    if(sub_command == '--fix-root'):
-        return print('TODO: --fix-root')
     if(sub_command == 'complete'):
         return complete(argv)
     if(sub_command == 'drop'):

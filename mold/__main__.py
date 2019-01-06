@@ -8,7 +8,6 @@ from .main import main
 
 if __name__ == '__main__':
     if os.environ['MOLD_DEBUG_MODE']:
-        print('DEBUG_MODE')
         main()
     else:
         try:

@@ -10,7 +10,7 @@
 * get help with append `help`, `--help`, or `-h` to your command of interes
 * `mold help`, `mold -h`, and `mold --help` will print the general docs
 * subcommands also have specialized docs 
-    * `mold temp --help` and `mold temp load --help`
+    * E.g. `mold temp --help` and `mold temp load --help`
 
 ## Development 
 * Requires [pipenv](https://github.com/pypa/pipenv)

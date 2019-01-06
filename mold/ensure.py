@@ -32,3 +32,4 @@ def check():
     for d in ['conf', 'plug', 'temp', 'drop', 'pack']:
         if not fs.exists(env.ROOT_DIR + '/' + d):
             return _set_result(DIR_ERROR)
+    return OK
