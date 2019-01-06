@@ -25,7 +25,7 @@ Try runing dot --install, or dot --fix-root'''
 def check():
     if _result != -1:
         return _result
-    if (not env.ROOT_DIR) or (not EDITOR):
+    if (not env.ROOT_DIR) or (not env.EDITOR):
         return _set_result(ENV_ERROR)
     if (not fs.exists(env.ROOT_DIR)) or (not root_dir.is_dir(env.ROOT_DIR)):
         return _set_result(DIR_ERROR)

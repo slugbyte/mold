@@ -4,7 +4,7 @@ from pathlib import Path
 
 import dot.env as env
 import dot.ensure as ensure
-from dot.core import core
+from dot.core import main
 from dot.complete import complete
 
 def help():
