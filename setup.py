@@ -8,17 +8,18 @@ import io
 import os
 import sys
 from shutil import rmtree
-
 from setuptools import find_packages, setup, Command
 
+import dot 
+
 # Package meta-data.
-NAME = 'dot'
-DESCRIPTION = 'A system configuration and shell workflow tool'
-URL = 'https://github.com/slugbyte/dot'
-EMAIL = 'slugbyte@slugbyte.com'
-AUTHOR = 'Duncan Marsh'
+NAME = dot.__name__
+URL = dot.__url__
+EMAIL = dot.__email__
+AUTHOR = dot.__author__
+VERSION = dot.__version__
+DESCRIPTION = dot.__description__
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.0.4'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
@@ -111,7 +112,7 @@ setup(
     install_requires=REQUIRED,
     extras_require=EXTRAS,
     include_package_data=True,
-    license='MIT',
+    license=dot.__licence__, 
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
