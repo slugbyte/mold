@@ -1,9 +1,12 @@
-from pathlib import Path
-import shutil 
 import os
+import shutil
+from pathlib import Path
 
 # wrappers for file functions because i wanted a single file api 
 # only created methods when they were needed
+
+def mv(src, dest):
+    return os.replace(src, dest)
 
 def rm(path):
     return os.remove(path)
@@ -12,13 +15,16 @@ def rimraf(path):
     return shutil.rmtree(path)
 
 def basename(path):
-    return os.path.basename(filepath)
+    return os.path.basename(path)
 
 def dirname(path):
-    return os.path.dirname(filepath)
+    return os.path.dirname(path)
 
 def mkdir(path):
     return os.mkdir(path) 
+
+def mkfile(path):
+    return Path(path).touch()
 
 def listdir(path):
     return os.listdir(path) 

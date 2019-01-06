@@ -1,14 +1,12 @@
 import os 
 from  shutil import which
 
-ROOT_DIR = ''
-EDITOR = ''
-MOLD_DEBUG_MODE = ''
+HOME = os.environ['HOME']
 
 try:
     ROOT_DIR = os.environ['MOLD_ROOT']
 except:
-    ROOT_DIR = ''
+    ROOT_DIR = HOME + '/.mold'
 
 try:
     EDITOR = os.environ['EDITOR']

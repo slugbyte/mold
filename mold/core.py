@@ -2,6 +2,8 @@ import os
 import mold.fs as fs
 import mold.env as env
 
+MAGIC_MOLD = '__MAGIC_MOLD__'
+
 # SINGLETON STATE
 _TYPE = ''
 
@@ -37,7 +39,7 @@ USAGE: mold {_TYPE} make <filename>
     '''.strip())
 
 def _make_complete():
-    return  print('')
+    return  print(MAGIC_MOLD)
 
 def _make(args):
     if len(args) != 1 or args[0] == 'help':
@@ -49,7 +51,7 @@ def _make(args):
     if _TYPE == 'temp':
         fs.mkdir(filepath)
         os.chdir(filepath)
-    os.system(env.EDITOR + ' ' + filepath)
+    exec(env.EDITOR + ' ' + filepath)
     if fs.exists(filepath):
         print('MADE FILE:', filename)
     else:
@@ -65,7 +67,7 @@ def _list_complete():
 
 def _list(args):
     if len(args) == 0:
-        print('\n'.join(fs.listdir(get_type_dir())))
+        print('\n'.join(fs.listdir(get_type_dir())).replace('.mold', '').strip())
         return 
     if args[0] == '____COMPLETE____':
         return _list_complete()
@@ -75,7 +77,7 @@ def _load_help():
     print(f'USAGE: mold {_TYPE} load <filepath> [optional new name]')
 
 def _load_complete(args):
-    print(' '.join(fs.listdir('./')), len(args))
+    print(MAGIC_MOLD)
 
 def _load(args):
     if len(args) < 0 or args[0] == 'help':

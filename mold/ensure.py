@@ -31,8 +31,7 @@ def check():
         return _result
     if (not env.ROOT_DIR) or (not fs.exists(env.ROOT_DIR)) or (not fs.is_dir(env.ROOT_DIR)):
         return _set_result(ROOT_ERROR)
-    print('goo')
-    for d in ['conf', 'plug', 'temp', 'drop', 'pack']:
+    for d in ['conf', 'plug', 'fold', 'drop', 'exec']:
         if not fs.exists(env.ROOT_DIR + '/' + d):
             return _set_result(DIR_ERROR)
     return OK

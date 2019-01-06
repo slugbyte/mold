@@ -1,5 +1,5 @@
-import mold.core
-import mold.ensure
+import mold.core as core
+import mold.ensure as ensure
 
 _core_comands = ['conf', 'temp', 'drop', 'plug', 'pack', 'exec', 'push', 'pull', 'stat', 'help']
 _sync_comands = ['push', 'pull', 'link']

@@ -1,39 +1,46 @@
+import time
 import os 
 import sys
+import tarfile
 from shutil import which
+from subprocess import call 
+
 import mold.fs as fs
+import mold.env as env 
+from mold.util import exec
+
+BUILD_DIR = __file__.replace('install.py', '')
+
+def create_mold_root():
+    if fs.exists(env.ROOT_DIR):
+        fs.rimraf(env.ROOT_DIR)
+    os.chdir(BUILD_DIR)
+    tarpath = BUILD_DIR + 'mold-root.tar.gz'
+    tar = tarfile.open(tarpath, 'r:gz')
+    tar.extractall()
+    tar.close()
+    fs.mv(BUILD_DIR + '/mold-root', env.ROOT_DIR)
+
+def setup_git(remote):
+    os.chdir(env.ROOT_DIR)
+    exec('git init .')
+    exec('git add -A')
+    exec('git commit -m inital-commit')
+    if not remote: 
+        return print(f'\n{env.ROOT_DIR} is setup complete\nRun \'mold help\' for help setting up a git remote')
+    if remote:
+        result = exec(f'git remote add origin {remote}')
+        if result.check_ok():
+            exec('git push origin HEAD')
 
 def install():
-    mold_root = '' 
-    editor = os.environ['EDITOR']
-    remote = ''
-    print('Hit enter for defaults')
-    mold_root = input('Enter direcotry in which to save mold content (~/.mold): ~/')
-    if not mold_root:
-        mold_root = os.environ['HOME'] + '/.mold'
-    else:
-        mold_root = os.environ['HOME'] + '/' + mold_root
-    while not editor:
-        choice  = input('Enter the command to you want use as a text editor (nano):')
-        if not choice:
-            editor  = which('nano')
-        else:
-            editor = which(choice)
-            if not editor:
-                print(f'${choice} not found.')
-    print('whould you like to configure a git remote?')
-    remote = input('Enter a git remote uri (none):')
-    if not remote:
-        remote = 'NONE'
+    if fs.exists(env.ROOT_DIR):
+        print(f'{env.ROOT_DIR} allready exits, want to continue and replace it?')
+        quit = input('Hit enter to contine, type anything to abort: ')
+        if quit:
+            print('intall cancled')
+            return 
+    create_mold_root()
+    print('Do you want to set the git remote? leave blank for none')
+    setup_git(input('Enter a git uri: '))
     
-    print('\nYou have selected the following options.')
-    print(f'MOLD_ROOT = {mold_root}\nEDITOR = {editor}\nGIT REMOTE = {remote}')
-    quit = input('\nWould you like continue the installation? Type anything to cancel:')
-    if quit:
-        print('canceled')
-        return 
-
-    
-
-
-

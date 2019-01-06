@@ -2,8 +2,8 @@ import sys
 
 import mold
 import mold.env as env
+import mold.core as core
 import mold.ensure as ensure
-from mold.core import main
 from mold.complete import complete
 from mold.install import install
 
@@ -17,15 +17,15 @@ ABOUT:
     mold uses a git repository to store and track system configuration
     files. It splits the files in to the following classifications.
         conf -- conf files are the dotfiles that will be hard linked to 
-                the $HOME directory. e.g. dot load ~/.bashrc
+                the $HOME directory. e.g. mold load ~/.bashrc
         plug -- plug files are shell scripts that will be sourced each time
-                you create a new shell. e.g. dot plug make alias.sh
+                you create a new shell. e.g. mold plug make alias.sh
         exec -- exec files will be added to a directory that will be in 
                 the $PATH. e.g. exec load ./my-program 
         drop -- drop files are file asset templates that you want add to 
-                future projects. e.g. dot drop MIT-LICENSE.md
+                future projects. e.g. mold drop MIT-LICENSE.md
         fold -- a fold is a project directory scaffold template, its like
-                drop but its a whole directory. dot fold react-starter
+                drop but its a whole directory. mold fold react-starter
 
 INSTALL:
     To install a $MOLD_ROOT for the first time run `mold --install` 
@@ -84,17 +84,17 @@ def main():
     if(sub_command == 'complete'):
         return complete(argv)
     if(sub_command == 'drop'):
-        return core(options, 'drop')
+        return core.main(options, 'drop')
     if(sub_command == 'temp'):
-        return core(options, 'temp')
+        return core.main(options, 'temp')
     if(sub_command == 'plug'):
-        return core(options, 'plug')
+        return core.main(options, 'plug')
     if(sub_command == 'pack'):
-        return core(options, 'pack')
+        return core.main(options, 'pack')
     if(sub_command == 'exec'):
-        return core(options, 'exec')
+        return core.main(options, 'exec')
     if(sub_command == 'conf'):
-        return core(options, 'conf')
+        return core.main(options, 'conf')
     if(sub_command == 'push'):
         return print('push')
     if(sub_command == 'pull'):
