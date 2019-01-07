@@ -1,6 +1,5 @@
 """
 mold - a CLI for system configuration and shell workflow.
-
 """
 
 # used byte setup.py

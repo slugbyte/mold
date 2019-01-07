@@ -1,3 +1,7 @@
+''' 
+ensure defines logic for detecting if the MOLD_ROOT is setup.
+'''
+
 import mold.env as env 
 import mold.fs as fs
 

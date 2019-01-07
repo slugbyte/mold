@@ -1,5 +1,11 @@
+'''
+fs defines a consistant api for working with the file system. 
+It is made of wrapper functions for methods in os, shutil, tarfile, and pathlib.
+'''
+
 import os
 import shutil
+import tarfile
 from pathlib import Path
 
 # wrappers for file functions because i wanted a single file api 
@@ -43,3 +49,8 @@ def copy_dir(src, dest):
 
 def link(src, dest):
     return os.link(src, dest)
+
+def unpack_tarball(path):
+    tar = tarfile.open(path, 'r:gz')
+    tar.extractall()
+    tar.close()

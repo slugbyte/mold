@@ -1,19 +1,33 @@
-import os 
+'''
+env parses sys.argv, os.environ, and defines mold constants.
+'''
+
+import sys 
+from os import environ
 from  shutil import which
 
-HOME = os.environ['HOME']
+def get(table, prop):
+    try:
+        return table[prop]
+    except:
+        return None
 
-try:
-    ROOT_DIR = os.environ['MOLD_ROOT']
-except:
-    ROOT_DIR = HOME + '/.mold'
+# ARG PARSE
+ARGV = sys.argv
+SUB_COMMAND = get(ARGV, 1)
+OPTIONS = ARGV[2:]
 
-try:
-    EDITOR = os.environ['EDITOR']
-except:
-    EDITOR = which('nano')
+# ENVIRON PARSE
+HOME = get(environ, 'HOME')
+ROOT_DIR = get(environ, 'MOLD_ROOT') or HOME + '/.mold'
+EDITOR = get(environ, 'EDITOR') or which('nano')
+MOLD_DEBUG_MODE = get(environ, 'MOLD_DEBUG_MODE') 
 
-try:
-    MOLD_DEBUG_MODE = os.environ['MOLD_DEBUG_MODE']
-except:
-    MOLD_DEBUG_MODE = ''
+# completion magic 
+MAGIC_MOLD = '__MAGIC_MOLD__'
+
+# CLI EXIT CODES
+EXIT_STATUS_OK = 0
+EXIT_STATUS_FAIL = 1
+EXIT_STATUS_DEVELOPER_TODO = 2
+

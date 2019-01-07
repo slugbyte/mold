@@ -1,106 +1,72 @@
+'''
+main is defines the logic for the cli, it is a router 
+for SUB_COMMANDs and OPTIONS.
+'''
+
 import sys
 
-import mold
 import mold.env as env
 import mold.core as core
 import mold.ensure as ensure
+import mold.help as help
 from mold.complete import complete
 from mold.install import install
 
-def help():
-    print(f'''
-{mold.__description__} 
-
-USAGE: mold [SUBCOMMAND] [OPTIONS]
-
-ABOUT:
-    mold uses a git repository to store and track system configuration
-    files. It splits the files in to the following classifications.
-        conf -- conf files are the dotfiles that will be hard linked to 
-                the $HOME directory. e.g. mold load ~/.bashrc
-        plug -- plug files are shell scripts that will be sourced each time
-                you create a new shell. e.g. mold plug make alias.sh
-        exec -- exec files will be added to a directory that will be in 
-                the $PATH. e.g. exec load ./my-program 
-        drop -- drop files are file asset templates that you want add to 
-                future projects. e.g. mold drop MIT-LICENSE.md
-        fold -- a fold is a project directory scaffold template, its like
-                drop but its a whole directory. mold fold react-starter
-
-INSTALL:
-    To install a $MOLD_ROOT for the first time run `mold --install` 
-    The $MOLD_ROOT directory will be set to ~/.mold and it will
-    use $EDITOR or nano as the text editor.
-
-    For custom installation see the mold github repository.
-
-INSTALL USING AN EXISTING GIT REMOTE:
-    To install from an existing remote run `mold --clone [git uri]`
-
-CONFIGURATION:
-    GIT REMOTE:
-    You can either manualy change the MOLD_ROOT git remote, or you can 
-    also run `mold --set-origin [https://github.com/user/example.git]` 
-    to reset the git remote.
-
-    TEXT EDITOR:
-    To change the text editor use bash to $EDITOR to point to the 
-    a text editor executable.
-    e.g. In the shell config write 'export EDITOR = /usr/local/bin/vim'
-
-HELP: 
-    mold and each of the mold subcomands have -h, --help, and help options for 
-    printing help.
-
-SUBCOMANDS: 
-    stat    check the status of the $MOLD_ROOT repository 
-    conf    manage configuration files (aka. moldfiles)
-    temp    manage project scaffolding templates 
-    drop    manage file asset templates 
-    exec    manage executables
-    plug    manage bash pugins 
-    sync    sync git remote 
-    help    show this help  
-
-<3 Bug reports are much appreciated {mold.__url__}/issues
-    '''.strip())
-
-def main():
-    argv = sys.argv
-    if len(argv) == 1:
-        return print('''USAGE: mold [SUBCOMMAND] [OPTIONS] 
+def check_usage(cmd, options):
+    if cmd == None:
+        print('''USAGE: mold [SUBCOMMAND] [OPTIONS] 
     run "mold help" for more info''')
-    sub_command = argv[1]
-    options = argv[2:]
-    if(sub_command == 'help' or sub_command == '-h' or sub_command == '--help'):
-        return help()
+        return False
+    return True
+
+def check_help(cmd, options):
+    if(cmd == 'help' or cmd == '-h' or cmd == '--help'):
+        help.main()
+        return False 
+    return True
+
+def check_install(cmd, options):
     if ensure.check() != ensure.OK:
-        if sub_command == '--install':
+        if cmd  == '--install':
             return install()
         print(ensure.warning(), file=sys.stderr)
-        return sys.exit(1)
-    if(sub_command == '--inistall'):
-        return print('TODO: --install')
-    if(sub_command == 'complete'):
-        return complete(argv)
-    if(sub_command == 'drop'):
-        return core.main(options, 'drop')
-    if(sub_command == 'temp'):
-        return core.main(options, 'temp')
-    if(sub_command == 'plug'):
-        return core.main(options, 'plug')
-    if(sub_command == 'pack'):
-        return core.main(options, 'pack')
-    if(sub_command == 'exec'):
-        return core.main(options, 'exec')
-    if(sub_command == 'conf'):
-        return core.main(options, 'conf')
-    if(sub_command == 'push'):
-        return print('push')
-    if(sub_command == 'pull'):
-        return print('pull')
-    if(sub_command == 'stat'):
-        return print('stat')
-    if(sub_command == 'diff'):
-        return print('diff')
+        return False
+    return True
 
+def check_complete(cmd, options):
+    if(cmd == 'complete'):
+        complete()
+        return False
+    return True
+
+def check_core(cmd, options):
+    for current in ['drop', 'fold', 'exec', 'conf', 'plug']:
+        if cmd == current:
+            core.main(cmd, options)
+            return False 
+    return True
+
+def main(cmd, options):
+    if not check_usage(cmd, options):
+        return env.EXIT_STATUS_OK
+    if not check_help(cmd, options):
+        return env.EXIT_STATUS_OK
+    if not check_install(cmd, options):
+        return env.EXIT_STATUS_FAIL
+    if not check_complete(cmd, options):
+        return env.EXIT_STATUS_OK
+    if not check_core(cmd, options):
+        return env.EXIT_STATUS_OK
+    if cmd == 'push':
+        print('push')
+        return env.EXIT_STATUS_DEVELOPER_TODO
+    if cmd == 'pull':
+        print('pull')
+        return env.EXIT_STATUS_DEVELOPER_TODO
+    if cmd == 'stat':
+        print('stat')
+        return env.EXIT_STATUS_DEVELOPER_TODO
+    if cmd  == 'diff':
+        print('diff')
+        return env.EXIT_STATUS_DEVELOPER_TODO
+    return env.EXIT_STATUS_DEVELOPER_TODO

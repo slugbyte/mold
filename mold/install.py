@@ -1,31 +1,26 @@
-import time
-import os 
-import sys
-import tarfile
-from shutil import which
-from subprocess import call 
+'''
+install defines an api for installing a MOLD_ROOT.
+'''
 
 import mold.fs as fs
 import mold.env as env 
-from mold.util import exec
+import mold.util as util
 
 BUILD_DIR = __file__.replace('install.py', '')
 
 def create_mold_root():
     if fs.exists(env.ROOT_DIR):
         fs.rimraf(env.ROOT_DIR)
-    os.chdir(BUILD_DIR)
+    util.cd(BUILD_DIR)
     tarpath = BUILD_DIR + 'mold-root.tar.gz'
-    tar = tarfile.open(tarpath, 'r:gz')
-    tar.extractall()
-    tar.close()
+    fs.unpack_tarball(tarpath)
     fs.mv(BUILD_DIR + '/mold-root', env.ROOT_DIR)
 
 def setup_git(remote):
-    os.chdir(env.ROOT_DIR)
-    exec('git init .')
-    exec('git add -A')
-    exec('git commit -m inital-commit')
+    util.cd(env.ROOT_DIR)
+    util.exec('git init .')
+    util.exec('git add -A')
+    util.exec('git commit -m inital-commit')
     if not remote: 
         return print(f'\n{env.ROOT_DIR} is setup complete\nRun \'mold help\' for help setting up a git remote')
     if remote:

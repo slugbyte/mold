@@ -1,19 +1,24 @@
+'''
+complete defines the routing routing logic for arguments to  mold --complete. 
+'''
+
+import mold.env as env 
 import mold.core as core
 import mold.ensure as ensure
 
-_core_comands = ['conf', 'temp', 'drop', 'plug', 'pack', 'exec', 'push', 'pull', 'stat', 'help']
+_core_comands = ['conf', 'drop', 'plug', 'exec', 'stat', 'help', 'fold']
 _sync_comands = ['push', 'pull', 'link']
-_main_comands = ['stat']
+_main_comands = ['stat', '--install', '--clone']
 
 def _main_complete():
-   print('temp drop conf plug pack exec sync stat help')
+   print('fold drop conf plug exec sync stat help')
 
-def complete(args):
+def complete():
     if  ensure.check() != ensure.OK:
         return 
-    if len(args) < 4:
+    if len(env.ARGV) < 4:
         return _main_complete()
     for cmd in _core_comands:
-        if args[3] == cmd:
-            return core.complete(args[4:], cmd)
+        if env.ARGV[3] == cmd:
+            return core.complete(cmd, env.ARGV[4:])
     return _main_complete()

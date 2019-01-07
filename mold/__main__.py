@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-"""The main entry point. Invoke as `mold' or `python -m mold'.
+"""
+The main entry point. Invoke as `mold' or `python -m mold'.
 """
 import os 
 import sys
@@ -9,10 +10,10 @@ from .main import main
 
 if __name__ == '__main__':
     if env.MOLD_DEBUG_MODE:
-        main()
+        main(env.SUB_COMMAND, env.OPTIONS)
     else:
         try:
-            main()
+            main(env.SUB_COMMAND, env.OPTIONS)
         except:
             sys.exit(1)
     sys.exit(0)
