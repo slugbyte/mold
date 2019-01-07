@@ -7,9 +7,10 @@ import mold.fs as fs
 import mold.env as env 
 import mold.util as util
 
+# PRIVATE
 BUILD_DIR = __file__.replace('install.py', '')
 
-def create_mold_root():
+def _create_mold_root():
     if fs.exists(env.ROOT_DIR):
         fs.rimraf(env.ROOT_DIR)
     util.cd(BUILD_DIR)
@@ -17,7 +18,7 @@ def create_mold_root():
     fs.unpack_tarball(tarpath)
     fs.mv(BUILD_DIR + '/mold-root', env.ROOT_DIR)
 
-def setup_git(remote):
+def _setup_git(remote):
     util.cd(env.ROOT_DIR)
     if not git.init():
         return 
@@ -29,6 +30,7 @@ def setup_git(remote):
         if result.check_ok():
             exec('git push origin HEAD')
 
+# INTERFACE
 def install():
     if fs.exists(env.ROOT_DIR):
         print(f'{env.ROOT_DIR} allready exits, want to continue and replace it?')
@@ -36,7 +38,7 @@ def install():
         if quit:
             print('intall cancled')
             return 
-    create_mold_root()
+    _create_mold_root()
     print('Do you want to set the git remote? leave blank for none')
-    setup_git(input('Enter a git uri: '))
+    _setup_git(input('Enter a git uri: '))
     

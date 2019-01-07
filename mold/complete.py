@@ -6,6 +6,7 @@ import mold.env as env
 import mold.core as core
 import mold.ensure as ensure
 
+# PRIVATE 
 _core_comands = ['conf', 'drop', 'plug', 'exec', 'stat', 'help', 'fold']
 _sync_comands = ['push', 'pull', 'link']
 _main_comands = ['stat', '--install', '--clone']
@@ -13,6 +14,7 @@ _main_comands = ['stat', '--install', '--clone']
 def _main_complete():
    print('fold drop conf plug exec sync stat help')
 
+# INTERFACE
 def complete():
     if  ensure.check() != ensure.OK:
         return 

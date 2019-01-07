@@ -4,6 +4,7 @@ help defines an api for printing mold help messages.
 
 import mold 
 
+# INTERFACE
 def main():
     print(f'''
 {mold.__description__} 

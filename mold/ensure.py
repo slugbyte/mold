@@ -5,20 +5,20 @@ ensure defines logic for detecting if the MOLD_ROOT is setup.
 import mold.env as env 
 import mold.fs as fs
 
-# ensure's errno values
-ENV_ERROR = 1
-DIR_ERROR = 2
-ROOT_ERROR = 3
-OK = 0 
-
+# PRIVATE
 # Singleton state (HAHHHAH I hate singletons, me sooo lazy :p)
 _result = -1 # -1 == check no run yet
 
-# Singleton interface
 def _set_result(errno):
     global _result
     _result = errno
     return errno
+
+# INTERFACE
+ENV_ERROR = 1
+DIR_ERROR = 2
+ROOT_ERROR = 3
+OK = 0 
 
 def warning(): 
     if _result == ENV_ERROR:

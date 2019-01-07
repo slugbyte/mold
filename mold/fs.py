@@ -11,6 +11,7 @@ from pathlib import Path
 # wrappers for file functions because i wanted a single file api 
 # only created methods when they were needed
 
+# INTERFACE
 def mv(src, dest):
     return os.replace(src, dest)
 

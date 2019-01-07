@@ -2,6 +2,7 @@
 """
 The main entry point. Invoke as `mold' or `python -m mold'.
 """
+
 import os 
 import sys
 import mold.env as env

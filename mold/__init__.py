@@ -2,7 +2,6 @@
 mold - a CLI for system configuration and shell workflow.
 """
 
-# used byte setup.py
 __name__ = 'mold'
 __licence__ = 'MIT'
 __version__ = '0.0.4'
