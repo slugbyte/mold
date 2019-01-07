@@ -2,6 +2,7 @@
 install defines an api for installing a MOLD_ROOT.
 '''
 
+import mold.git as git 
 import mold.fs as fs
 import mold.env as env 
 import mold.util as util
@@ -18,9 +19,9 @@ def create_mold_root():
 
 def setup_git(remote):
     util.cd(env.ROOT_DIR)
-    util.exec('git init .')
-    util.exec('git add -A')
-    util.exec('git commit -m inital-commit')
+    if not git.init():
+        return 
+    
     if not remote: 
         return print(f'\n{env.ROOT_DIR} is setup complete\nRun \'mold help\' for help setting up a git remote')
     if remote:
