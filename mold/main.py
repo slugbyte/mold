@@ -43,7 +43,7 @@ def _check_complete(cmd, options):
 def _check_core(cmd, options):
     for current in ['drop', 'fold', 'exec', 'conf', 'plug']:
         if cmd == current:
-            core.main(cmd, options)
+            core.handle_task(cmd, options)
             return False 
     return True
 

@@ -9,7 +9,7 @@ def main():
     print(f'''
 {mold.__description__} 
 
-USAGE: mold [SUBCOMMAND] [OPTIONS]
+USAGE: mold [COMMAND] [TASK] [OPTIONS]
 
 ABOUT:
     mold uses a git repository to store and track system configuration
@@ -47,18 +47,21 @@ CONFIGURATION:
     e.g. In the shell config write 'export EDITOR = /usr/local/bin/vim'
 
 HELP: 
-    mold and each of the mold subcomands have -h, --help, and help options for 
+    mold and each of the mold comands have -h, --help, and help options for 
     printing help.
 
-SUBCOMANDS: 
+COMMANDS: 
+    TASKLESS:
+    help    show this help  
+    sync    sync git with remote and system config
     stat    check the status of the $MOLD_ROOT repository 
-    conf    manage configuration files (aka. moldfiles)
-    fold    manage project scaffolding templates 
-    drop    manage file asset templates 
+
+    WITH TASKS (make load edit nuke) 
+    fold    manage project scaffolding templates (+ dump task)
+    drop    manage file asset templates (+ dump task) 
+    conf    manage configuration files 
     exec    manage executables
     plug    manage bash pugins 
-    sync    sync git remote 
-    help    show this help  
 
 <3 Bug reports are much appreciated {mold.__url__}/issues
     '''.strip())

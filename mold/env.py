@@ -4,27 +4,21 @@ env parses sys.argv, os.environ, and defines mold constants.
 
 import sys 
 from os import environ
-from  shutil import which
-
-# PRIVATE
-def _get(table, prop):
-    try:
-        return table[prop]
-    except:
-        return None
+from shutil import which
+from mold.query import query
 
 # INTERFACE
 
 # ARG PARSE
 ARGV = sys.argv
-SUB_COMMAND = _get(ARGV, 1)
+SUB_COMMAND = query(ARGV, 1)
 OPTIONS = ARGV[2:]
 
 # ENVIRON PARSE
-HOME = _get(environ, 'HOME')
-ROOT_DIR = _get(environ, 'MOLD_ROOT') or HOME + '/.mold'
-EDITOR = _get(environ, 'EDITOR') or which('nano')
-MOLD_DEBUG_MODE = _get(environ, 'MOLD_DEBUG_MODE') 
+HOME = query(environ, 'HOME')
+ROOT_DIR = query(environ, 'MOLD_ROOT') or HOME + '/.mold'
+EDITOR = query(environ, 'EDITOR') or which('nano')
+MOLD_DEBUG_MODE = query(environ, 'MOLD_DEBUG_MODE') 
 
 # completion magic 
 MAGIC_MOLD = '__MAGIC_MOLD__'

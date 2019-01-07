@@ -49,6 +49,6 @@ def shell(cmd):
     parsed[0] = which(parsed[0])
     if not parsed[0]:
        return _ExecResult(fail=True) 
-    status = subprocess.Popen(parsed, shell=True).wait()
+    status = subprocess.Popen(parsed).wait()
     return _ExecResult(status, None, None)
 

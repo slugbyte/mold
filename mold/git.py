@@ -66,3 +66,20 @@ def set_remote(uri):
     if not _git_exec('remote add origin ' + uri):
         return False
     return True
+
+
+
+def commit():
+    if not _git_exec('add -A').check_ok():
+        print('Nothing to commit.')
+        return False
+    if not _git_shell('commit').check_ok():
+        return False
+    return True
+
+
+
+
+
+# mold sync 
+    # pull add commit (with editor) push 
