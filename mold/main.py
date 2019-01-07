@@ -71,4 +71,6 @@ def main(cmd, options):
     if cmd  == 'diff':
         print('diff')
         return env.EXIT_STATUS_DEVELOPER_TODO
+    print(f'doh! mold {cmd} isn\'t a feature yet.')
     return env.EXIT_STATUS_DEVELOPER_TODO
+
