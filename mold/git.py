@@ -69,7 +69,6 @@ def set_remote(uri):
 
 def add():
     if not _git_exec('add -A').check_ok():
-        print('Nothing to commit.')
         return False
     return True
 

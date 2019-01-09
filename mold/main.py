@@ -26,11 +26,15 @@ def _check_help(cmd, options):
         return False 
     return True
 
-def _check_install(cmd, options):
+def _check_mold_root(cmd, options):
     if ensure.check() != ensure.OK:
-        if cmd  == '--install':
-            return install()
         print(ensure.warning(), file=sys.stderr)
+        return False
+    return True
+
+def _check_install(cmd, options):
+    if cmd  == '--install':
+        install()
         return False
     return True
 
@@ -54,6 +58,8 @@ def main(cmd, options):
     if not _check_help(cmd, options):
         return env.EXIT_STATUS_OK
     if not _check_install(cmd, options):
+        return env.EXIT_STATUS_OK
+    if not _check_mold_root:
         return env.EXIT_STATUS_FAIL
     if not _check_complete(cmd, options):
         return env.EXIT_STATUS_OK
