@@ -68,7 +68,7 @@ COMMANDS:
 
 def fold():
     print('''
-USAGE: mold fold [task] [file] [*file rename]
+USAGE: mold fold [task] [diectorry] [new-name]
 
 mold folds are templates for scaffold dierctorys. You can use 
 mold fold load or create a directory, and later when you want 
@@ -96,11 +96,11 @@ TASKS:
 e.g. 
     LOAD A FOLD:    mold fold load ./react-boiler
     EXPORT A FOLD:  mold fold dump react-boiler ./peronal-blog
-'''
+    '''.strip())
 
-def fold():
+def drop():
     print('''
-USAGE: mold drop [task] [file] [*file rename]
+USAGE: mold drop [task] [file] [new-name]
 
 mold drops are file templates. You can use mold drop to create 
 or load a file template, and later when you want a copy of 
@@ -128,7 +128,7 @@ e.g.
     LOAD DROPS:     mold drop load ./LICENSE.md mit.md 
                     mold drop load ./LICENSE.md cc-share-alike.md 
     EXPORT A DROP:  mold drop dump mit.md ./LICENSE.md 
-'''
+'''.strip())
 
 def conf():
     print('''
@@ -162,7 +162,7 @@ TASKS:
 e.g. 
     LOAD CONFs:     mold conf load ~/.bashrc 
                     mold comf load ~/.nethackrc
-'''
+'''.strip())
 
 def plug():
     print('''
@@ -191,7 +191,7 @@ e.g.
     CREATE PLUGS:   mold plug make my-aliases.sh 
                     mold plug make git-shortcuts.sh         
                     mold plug load ./git-aware-prompt.sh
-'''
+'''.strip())
 
 def exec():
     print('''
@@ -221,7 +221,7 @@ TASKS:
 e.g. 
     CREATE EXECS:   mold exec make troll.py
     LOAD EXECS:     mold load ./a.out fetch-metadata
-'''
+'''.strip())
 
 def _task_one_file_arg_help(cmd, task, description):
     print(f'USAGE: mold {cmd} {task} <filename>\n{description}')
@@ -236,7 +236,10 @@ def edit(cmd):
     _task_one_file_arg_help(cmd, 'edit', f'Edit an existing {cmd}.')
 
 def nuke(cmd):
-    _task_one_file_arg_help(cmd, 'edit', f'Delete a {cmd} from your config repo.')
+    also = ''
+    if cmd == 'conf':
+        also = '\nIt will not delete the file fom your $HOME directoy.'
+    _task_one_file_arg_help(cmd, 'edit', f'Delete a {cmd} from your config repo.{also}')
 
 def load(cmd):
     _task_two_file_arg_help(cmd, 'load', f'Load a {cmd} into your config repo.')

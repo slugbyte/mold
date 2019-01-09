@@ -137,13 +137,21 @@ _task_handlers = {
     "dump": _dump,
 }
 
+_cmd_helps = {
+    "conf": help.conf,
+    "plug": help.plug,
+    "exec": help.exec,
+    "fold": help.fold,
+    "drop": help.drop,
+}
+
 # INTERFACE
 def complete(cmd, args):
     if cmd == None or len(args) == 0:
         return print('help make load list edit nuke')
     task = args[0]
     if task == 'help':
-        return print('TODO: IMPLAMENT HELP FO EACH TASK')
+        return ''
     for current in ['make', 'load', 'list', 'edit', 'nuke']:
         if task == current:
             return _task_completions[task](cmd, args)
@@ -152,7 +160,7 @@ def complete(cmd, args):
 def handle_task(cmd, options):
     task = query(options, 0)
     if task == 'help' or not task:
-        return print('TODO: MAKE INDIVIDUAL COMMAND HELP')
+        return _cmd_helps[cmd]()
     filename = query(options, 1)
     for current in ['make', 'load', 'list', 'edit', 'nuke', 'dump']:
         if task == current:

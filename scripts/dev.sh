@@ -25,4 +25,3 @@ _mold(){
   fi
 }
 complete -F _mold mold
-echo 'loaded dev'
