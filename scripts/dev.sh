@@ -1,7 +1,9 @@
 # setup bash environment vars and a dev MOLD_ROOT_ROOT
 export MOLD_ROOT=$HOME/.mold-dev
 export MOLD_DEBUG='true'
+export MOLD_COLOR='true'
 alias mold="python3 -m mold"
+alias less='less -r'
 alias clean_mold='rm -rf build mold.egg-info mold/__pycache__ dev-root'
 
 _mold(){

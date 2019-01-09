@@ -19,6 +19,7 @@ HOME = query(environ, 'HOME')
 ROOT_DIR = query(environ, 'MOLD_ROOT') or HOME + '/.mold'
 EDITOR = query(environ, 'EDITOR') or which('nano')
 MOLD_DEBUG = bool(query(environ, 'MOLD_DEBUG'))
+MOLD_COLOR = bool(query(environ, 'MOLD_COLOR'))
 
 # completion magic 
 MAGIC_MOLD = '__MAGIC_MOLD__'

@@ -3,6 +3,7 @@ sync defines the logic for maintaining a MOLD_ROOT using git
 '''
 
 import mold.git as git 
+import mold.help as help
 from mold.util import query
 
 def _auto(options):
@@ -20,6 +21,7 @@ def _auto(options):
 def _make_no_arg_git_task(git_method):
     git_methods = {
         "add": git.add,
+        "help": help.sync,
         "log": git.log,
         "status": git.status,
         "branch": git.branch,
@@ -52,6 +54,7 @@ _task_handlers = {
     # custom 
     "auto": _auto,
     # curry no arg
+    'help': _make_no_arg_git_task('help'),
     "add": _make_no_arg_git_task('add'),
     "log": _make_no_arg_git_task('log'),
     "status": _make_no_arg_git_task('status'),
