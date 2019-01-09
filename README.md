@@ -33,11 +33,4 @@
 # IDEAS?
 * (drop, plug, conf, exec) load -- suport for urls 
 * fold load -- suport for github repositorys ? -> submodule support? 
-* dot note -- a sudo-append-only diary of short notes 
-    * could be usefull for teeping track of your progress towards projets over time
-    * TAKS
-        * tell --  message - add the message to the note store
-        * tail -- list the last 10 lines of the note store
-        * read -- put the whole log (newest to oldest) into $PAGER 
-        * edit open the note store in $EDITOR
 * Build a start mold_root for beginners to using a shell (a oh-my-zsh/bash lite)

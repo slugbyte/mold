@@ -15,7 +15,6 @@ from mold.util import query
 # much of the time the arguments will not be used, but it will make adding features in the 
 # future much easier if the inteface for all the functions is allways the same. :)
 
-
 MAGIC_MOLD = '__MAGIC_MOLD__'
 
 # PRIVATE
@@ -104,7 +103,7 @@ def _nuke(cmd, args):
         return 
     print(f'ERROR: no "{filename}" {cmd} file found')
 
-# EXPORT 
+# EXPORT and LINK
 def _dump(cmd, args):
     filename = query(args, 0)
     if filename == 'help' or not filename:
@@ -119,6 +118,14 @@ def _dump(cmd, args):
             fs.copydir(filepath, './' + output)
             return 
     print(f'ERROR: no "{filename}" {cmd} file found')
+
+def _link_conf(cmd, task,  args):
+    conf_dir = _cmd_dir(cmd, args)
+    for current in fs.listdir(conf_dir):
+        if current != '.mold':
+            src = conf_dir + '/' + current
+            dest = env.HOME + '/' + current
+            fs.force_link(src, dest)
 
 _task_completions = {
     "make": _make_complete,
@@ -164,5 +171,8 @@ def handle_task(cmd, options):
     filename = query(options, 1)
     for current in ['make', 'load', 'list', 'edit', 'nuke', 'dump']:
         if task == current:
-            return _task_handlers[task](cmd, options[1:])
+            _task_handlers[task](cmd, options[1:])
+            if cmd == 'conf' and ((task == 'load') or (task == 'make')):
+                return _link_conf(cmd, task, options[1:])
+            return 
     print(f'wut whoe, {task} is not known to mold {cmd}.')

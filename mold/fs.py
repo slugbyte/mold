@@ -51,6 +51,14 @@ def copy_dir(src, dest):
 def link(src, dest):
     return os.link(src, dest)
 
+def force_link(src, dest):
+    if(exists(dest)):
+        if(is_dir(dest)):
+            rimraf(dest)
+        else:
+            rm(dest)
+    return link(src, dest)
+
 def unpack_tarball(path):
     tar = tarfile.open(path, 'r:gz')
     tar.extractall()
