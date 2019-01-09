@@ -18,7 +18,7 @@ OPTIONS = ARGV[2:]
 HOME = query(environ, 'HOME')
 ROOT_DIR = query(environ, 'MOLD_ROOT') or HOME + '/.mold'
 EDITOR = query(environ, 'EDITOR') or which('nano')
-MOLD_DEBUG_MODE = query(environ, 'MOLD_DEBUG_MODE') 
+MOLD_DEBUG = bool(query(environ, 'MOLD_DEBUG'))
 
 # completion magic 
 MAGIC_MOLD = '__MAGIC_MOLD__'

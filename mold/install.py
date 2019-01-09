@@ -47,7 +47,7 @@ def _setup_git(remote):
 
 # INTERFACE
 def install():
-    print(f'Installing a MOLD_ROOT in {env.ROOT_DIR}.')
+    print(f'Installing a MOLD_ROOT in {env.ROOT_DIR}')
     if fs.exists(env.ROOT_DIR):
         print(f'\nHmm, {env.ROOT_DIR} allready exits.\nDo you want to remove it and continue? [Leave blank to continue]')
         cancel = input('Type anything to cancel: ')

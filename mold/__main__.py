@@ -10,7 +10,7 @@ import mold.env as env
 from .main import main
 
 if __name__ == '__main__':
-    if env.MOLD_DEBUG_MODE:
+    if env.MOLD_DEBUG:
         main(env.SUB_COMMAND, env.OPTIONS)
     else:
         try:

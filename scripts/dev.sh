@@ -1,9 +1,8 @@
 # setup bash environment vars and a dev MOLD_ROOT_ROOT
-export MOLD_ROOT=$PWD/dev-root
-export MOLD_DEBUG_MODE='true'
+export MOLD_ROOT=$HOME/.mold-dev
+export MOLD_DEBUG='true'
 alias mold="python3 -m mold"
 alias clean_mold='rm -rf build mold.egg-info mold/__pycache__ dev-root'
-mkdir -p $MOLD_ROOT/conf $MOLD_ROOT/pack $MOLD_ROOT/drop $MOLD_ROOT/temp $MOLD_ROOT/plug
 
 _mold(){
   MOLD_COMPLETE=$(mold complete $COMP_LINE) 
