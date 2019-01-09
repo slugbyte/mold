@@ -46,6 +46,8 @@ def _get_remote_uri():
 # API INTERFACE
 def set_remote(uri):
     '''works as both git add and git set for the MOLD_ROOT'''
+    if not uri:
+        return False 
     if not _check_remote_uri(uri):
         return False
     name = _get_remote_name()
@@ -56,25 +58,24 @@ def set_remote(uri):
         return False
     return True
 
-
-
 def add():
     if not _git_shell('add -A').check_ok():
         return False
     return True
 
-def stat():
+def status():
     if not _git_shell('status').check_ok():
         return False
     return True
 
-def diff(githash=''):
+def diff(githash='HEAD'):
+    if not githash:
+        githash= 'HEAD'
     if not _git_shell(f'diff {githash}').check_ok():
         return False
     return True
 
 def commit(message):
-    print('_DEBUG', message)
     if message:
         if not _git_shell(f"commit -m '{message}'").check_ok():
             return False
@@ -84,17 +85,16 @@ def commit(message):
     return True
 
 def hard_reset(githash='HEAD'):
+    if not branch:
+        branch = 'HEAD'
     if not _git_shell(f"reset --hard {githash}").check_ok():
         return False
     return True
 
-def pull():
-    if not _git_shell('pull origin master').check_ok():
-        return False
-    return True
-
-def push():
-    if not _git_shell('push origin master').check_ok():
+def soft_reset(githash='HEAD'):
+    if not branch:
+        branch = 'HEAD'
+    if not _git_shell(f"reset {githash}").check_ok():
         return False
     return True
 
@@ -103,8 +103,50 @@ def log():
         return False
     return True
 
-def force_push():
-    if not _git_shell('push origin master --force').check_ok():
+def branch():
+    if not _git_shell('branch -av').check_ok():
+        return False
+    return True
+
+def merge(branch='HEAD'):
+    if not branch:
+        branch = 'HEAD'
+    if not _git_shell(f'merge {branch}').check_ok():
+        return False
+    return True
+
+def checkout(branch='HEAD'):
+    if not branch:
+        branch = 'HEAD'
+    if not _git_shell(f'checkout  {branch}').check_ok():
+        return False
+    return True
+
+def new_branch(branch=None):
+    if not branch:
+        return False
+    if not _git_shell(f'checkout -b {branch}').check_ok():
+        return False
+    return True
+
+def pull(branch='HEAD'):
+    if not branch:
+        branch = 'HEAD'
+    if not _git_shell(f'pull origin {branch}').check_ok():
+        return False
+    return True
+
+def push(branch='HEAD'):
+    if not branch:
+        branch = 'HEAD'
+    if not _git_shell(f'push origin {branch}').check_ok():
+        return False
+    return True
+
+def force_push(branch='HEAD'):
+    if not branch:
+        branch = 'HEAD'
+    if not _git_shell(f'push origin {branch} --force').check_ok():
         return False
     return True
 
