@@ -7,6 +7,7 @@ import sys
 
 import mold.env as env
 import mold.core as core
+import mold.sync as sync
 import mold.ensure as ensure
 import mold.help as help
 from mold.complete import complete
@@ -51,6 +52,12 @@ def _check_core(cmd, options):
             return False 
     return True
 
+def _check_sync(cmd, options):
+    if cmd == 'sync':
+        sync.handle_task(cmd, options)
+        return False
+    return True
+
 # INTERFACE
 def main(cmd, options):
     if not _check_usage(cmd, options):
@@ -65,18 +72,8 @@ def main(cmd, options):
         return env.EXIT_STATUS_OK
     if not _check_core(cmd, options):
         return env.EXIT_STATUS_OK
-    if cmd == 'push':
-        print('push')
-        return env.EXIT_STATUS_DEVELOPER_TODO
-    if cmd == 'pull':
-        print('pull')
-        return env.EXIT_STATUS_DEVELOPER_TODO
-    if cmd == 'stat':
-        print('stat')
-        return env.EXIT_STATUS_DEVELOPER_TODO
-    if cmd  == 'diff':
-        print('diff')
-        return env.EXIT_STATUS_DEVELOPER_TODO
+    if not _check_sync(cmd, options):
+        return env.EXIT_STATUS_OK
     print(f'doh! mold {cmd} isn\'t a feature yet.')
     return env.EXIT_STATUS_DEVELOPER_TODO
 

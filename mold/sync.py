@@ -2,14 +2,17 @@
 sync defines the logic for maintaining a MOLD_ROOT using git 
 '''
 
-# sync auto 
+import mold.git as git 
+from mold.query import query
+
+# sync help 
+# sync 
     # (pull add commit push)
 # sync push 
 # sync pull 
 # sync commit
-
-import mold.git as git 
-def auto(message):
+def _auto(options):
+    message = query(options, 0)
     if not git.pull():
         print('UHHHG, unable to pull origin')
         return False
@@ -24,3 +27,16 @@ def auto(message):
         return False
     return True
 
+_task_handlers = {
+    "auto": _auto,
+}
+
+def handle_task(cmd, options):
+    # is it a specifc task? -> run it 
+    # else -> wun AUTO
+    task = query(options, 0)
+    for current in ['push', 'pull', 'sync', 'stat', 'diff', 'add', 'commit', 'auto', 'help']:
+        if task == current:
+            _task_handlers[task](options)
+            return print('BOOM FOUND TASK:', task)
+    print(f'mold sync can\'t {task} yet.')
