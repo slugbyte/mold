@@ -1,5 +1,5 @@
 '''
-util defines an sane api for running executbales.
+system defines an sane api for running executbales.
 '''
 
 import os 
@@ -29,7 +29,7 @@ class _ExecResult:
 
 # INTERFACE
 def cd(path):
-    '''cd will change the current working directory for the util.exec and util.shell commands'''
+    '''cd will change the current working directory for the system.exec and system.shell commands'''
     return os.chdir(path)
 
 def exec(cmd):

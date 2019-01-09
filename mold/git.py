@@ -5,16 +5,16 @@ The Public interface returns a Bool on the success of the opperation
 '''
 
 import mold.env as env
-import mold.util as util 
+import mold.system as system 
 
 # PRIVATE
 def _git_exec(args):
-    util.cd(env.ROOT_DIR)
-    return util.exec('git ' + args)
+    system.cd(env.ROOT_DIR)
+    return system.exec('git ' + args)
 
 def _git_shell(args):
-    util.cd(env.ROOT_DIR)
-    return util.shell('git ' + args)
+    system.cd(env.ROOT_DIR)
+    return system.shell('git ' + args)
 
 def _check_remote_uri(uri):
     '''checks that a git remote uri is valid'''

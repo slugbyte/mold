@@ -5,7 +5,7 @@ install defines an api for installing a MOLD_ROOT.
 import mold.git as git 
 import mold.fs as fs
 import mold.env as env 
-import mold.util as util
+import mold.system as system
 
 # PRIVATE
 BUILD_DIR = __file__.replace('install.py', 'assets')
@@ -29,7 +29,7 @@ def _create_mold_root():
     try:
         if fs.exists(env.ROOT_DIR):
             fs.rimraf(env.ROOT_DIR)
-        util.cd(BUILD_DIR)
+        system.cd(BUILD_DIR)
         tarpath = BUILD_DIR + '/mold-root.tar.gz'
         fs.unpack_tarball(tarpath)
         fs.mv(BUILD_DIR + '/mold-root', env.ROOT_DIR)
@@ -40,7 +40,7 @@ def _create_mold_root():
         return False
 
 def _setup_git(remote):
-    util.cd(env.ROOT_DIR)
+    system.cd(env.ROOT_DIR)
     if not git.init(remote):
         return False
     return True

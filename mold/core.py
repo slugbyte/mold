@@ -6,7 +6,7 @@ It also defines the abilty for drop and fold to export content.
 import os 
 import mold.fs as fs
 import mold.env as env
-import mold.util as util
+import mold.system as system
 import mold.help as help
 from mold.query import query
 
@@ -33,8 +33,8 @@ def _make(cmd, args):
     filepath = _cmd_dir(cmd, args) + '/' + filename
     if cmd == 'fold':
         fs.mkdir(filepath)
-        util.cd(filepath)
-    util.shell(env.EDITOR + ' ' + filepath)
+        system.cd(filepath)
+    system.shell(env.EDITOR + ' ' + filepath)
     if fs.exists(filepath):
         print('MADE FILE:', filename)
     else:
@@ -81,8 +81,8 @@ def _edit(cmd, args):
         return help.edit(cmd)
     filepath = _cmd_dir(cmd, args) + '/' + filename
     if fs.exists(filepath):
-        # if cmd == 'fold': # util.cd(filepath) # TEST WITH OUT AND RESTORE IF USEFULL
-        util.shell(env.EDITOR + ' ' + filepath)
+        # if cmd == 'fold': # system.cd(filepath) # TEST WITH OUT AND RESTORE IF USEFULL
+        system.shell(env.EDITOR + ' ' + filepath)
         return 
     print(f'ERROR: no "{filename}" {cmd} file found')
 
