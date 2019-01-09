@@ -14,7 +14,7 @@ def _create_mold_root():
     if fs.exists(env.ROOT_DIR):
         fs.rimraf(env.ROOT_DIR)
     util.cd(BUILD_DIR)
-    tarpath = BUILD_DIR + 'mold-root.tar.gz'
+    tarpath = BUILD_DIR + '/assets/mold-root.tar.gz'
     fs.unpack_tarball(tarpath)
     fs.mv(BUILD_DIR + '/mold-root', env.ROOT_DIR)
 
