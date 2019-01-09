@@ -19,14 +19,14 @@ def _git_shell(args):
 def _check_remote_uri(uri):
     '''checks that a git remote uri is valid'''
     print(f'Checking {uri}: ', end='')
-    if not _git_exec('ls-remote ' + uri).check_ok():
+    if not _git_shell('ls-remote ' + uri).check_ok():
         print(f'Sorry, that a not valid remote uri, make sure it exists.') 
         return False
     print('OK')
     return True
 
 def _get_remote_name():
-    r = _git_exec('remote -v')
+    r = _git_shell('remote -v')
     if not r.check_ok() or not r.out:
         return None
     try:
@@ -35,7 +35,7 @@ def _get_remote_name():
         return None
 
 def _get_remote_uri():
-    r = _git_exec('remote -v')
+    r = _git_shell('remote -v')
     if not r.check_ok() or not r.out:
         return None
     try:
@@ -50,46 +50,72 @@ def set_remote(uri):
         return False
     name = _get_remote_name()
     if name:
-        if not _git_exec('remote remove ' + name):
+        if not _git_shell('remote remove ' + name):
             return False
-    if not _git_exec('remote add origin ' + uri):
+    if not _git_shell('remote add origin ' + uri):
         return False
     return True
 
 
 
 def add():
-    if not _git_exec('add -A').check_ok():
+    if not _git_shell('add -A').check_ok():
+        return False
+    return True
+
+def stat():
+    if not _git_shell('status').check_ok():
+        return False
+    return True
+
+def diff(githash=''):
+    if not _git_shell(f'diff {githash}').check_ok():
         return False
     return True
 
 def commit(message):
+    print('_DEBUG', message)
     if message:
-        if not _git_shell(f'commit -m {message}').check_ok():
+        if not _git_shell(f"commit -m '{message}'").check_ok():
             return False
-    if not _git_exec('commit').check_ok():
+        return True
+    if not _git_shell('commit').check_ok():
+        return False
+    return True
+
+def hard_reset(githash='HEAD'):
+    if not _git_shell(f"reset --hard {githash}").check_ok():
         return False
     return True
 
 def pull():
-    if not _git_exec('pull origin master').check_ok():
+    if not _git_shell('pull origin master').check_ok():
         return False
     return True
 
 def push():
-    if not _git_exec('push origin master').check_ok():
+    if not _git_shell('push origin master').check_ok():
         return False
     return True
 
+def log():
+    if not _git_shell('log').check_ok():
+        return False
+    return True
+
+def force_push():
+    if not _git_shell('push origin master --force').check_ok():
+        return False
+    return True
 
 def init():
-    if not _git_exec('init .').check_ok():
+    if not _git_shell('init .').check_ok():
         print('Error: git init failed')
         return False
-    if not _git_exec('add -A').check_ok():
+    if not _git_shell('add -A').check_ok():
         print('Error: git add -A failed')
         return False
-    if not _git_exec('commit  -m "initial commit"').check_ok():
+    if not _git_shell('commit  -m "initial commit"').check_ok():
         print('Error: inital git commit failed')
         return False
     return True
