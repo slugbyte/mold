@@ -7,7 +7,6 @@ import shlex
 import subprocess
 from shutil import which 
 
-
 # PRIVATE
 class _ExecResult:
     '''_ExecResult is a wrapper for the results of subprocess.Popen'''

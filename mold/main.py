@@ -12,6 +12,7 @@ import mold.ensure as ensure
 import mold.help as help
 from mold.complete import complete
 from mold.install import install
+from mold.color import red, reset
 
 # PRIVATE
 def _check_usage(cmd, options):
@@ -74,6 +75,6 @@ def main(cmd, options):
         return env.EXIT_STATUS_OK
     if not _check_sync(cmd, options):
         return env.EXIT_STATUS_OK
-    print(f'doh! mold {cmd} isn\'t a feature yet.')
+    print(f'{red}doh!{reset} mold {cmd} isn\'t a feature yet.')
     return env.EXIT_STATUS_DEVELOPER_TODO
 

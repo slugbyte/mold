@@ -53,8 +53,9 @@ HELP:
 COMMANDS: 
     TASKLESS:
     help    show this help  
+
+    WITH TASKS (auto, add, commit, pull, push, stat, diff)
     sync    sync git with remote and system config
-    stat    check the status of the $MOLD_ROOT repository 
 
     WITH TASKS (make load edit nuke) 
     fold    manage project scaffolding templates (+ dump task)

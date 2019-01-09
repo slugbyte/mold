@@ -44,17 +44,6 @@ def _get_remote_uri():
         return None
 
 # API INTERFACE
-def init():
-    if not _git_exec('init .').check_ok():
-        print('Error: git init failed')
-        return False
-    if not _git_exec('add -A').check_ok():
-        print('Error: git add -A failed')
-        return False
-    if not _git_exec('commit  -m "initial commit"').check_ok():
-        print('Error: inital git commit failed')
-        return False
-
 def set_remote(uri):
     '''works as both git add and git set for the MOLD_ROOT'''
     if not _check_remote_uri(uri):
@@ -66,6 +55,8 @@ def set_remote(uri):
     if not _git_exec('remote add origin ' + uri):
         return False
     return True
+
+
 
 def add():
     if not _git_exec('add -A').check_ok():
@@ -91,3 +82,14 @@ def push():
     return True
 
 
+def init():
+    if not _git_exec('init .').check_ok():
+        print('Error: git init failed')
+        return False
+    if not _git_exec('add -A').check_ok():
+        print('Error: git add -A failed')
+        return False
+    if not _git_exec('commit  -m "initial commit"').check_ok():
+        print('Error: inital git commit failed')
+        return False
+    return True

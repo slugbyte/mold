@@ -8,7 +8,7 @@ import mold.fs as fs
 import mold.env as env
 import mold.system as system
 import mold.help as help
-from mold.query import query
+from mold.util import query
 
 # TASK AND TASK HELPER FUNCTION SIGNATURE
 # def _name(cmd, args) (data is a filename or filepath but file is a reserved word)

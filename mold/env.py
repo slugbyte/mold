@@ -5,7 +5,7 @@ env parses sys.argv, os.environ, and defines mold constants.
 import sys 
 from os import environ
 from shutil import which
-from mold.query import query
+from mold.util import query
 
 # INTERFACE
 

@@ -3,7 +3,7 @@ sync defines the logic for maintaining a MOLD_ROOT using git
 '''
 
 import mold.git as git 
-from mold.query import query
+from mold.util import query
 
 # sync help 
 # sync 
