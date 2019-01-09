@@ -12,6 +12,7 @@ from mold.query import query
 # sync pull 
 # sync commit
 def _auto(options):
+    print('AUTO')
     message = query(options, 0)
     if not git.pull():
         print('UHHHG, unable to pull origin')
