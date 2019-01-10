@@ -1,8 +1,4 @@
-import mold
-from mold.color import green, reset
-
-def get_main_help_text(ctx):
-    return f'''
+text = '''
 {green}{mold.__description__}{reset}
 
 USAGE: mold [COMMAND] [TASK] [OPTIONS]

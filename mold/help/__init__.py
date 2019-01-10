@@ -2,14 +2,19 @@
 help defines an api for printing mold help messages.
 '''
 
-import mold 
-from mold.color import *
-from mold.help.main_help import get_main_help_text
+import mold as _mold
+import mold.color as color
 
-header_color = cyan 
-task_color = blue
-command_color = magenta
-warning_color = red 
+# load all the help files
+import mold.help.main_help as main_help 
+import mold.help.core.conf_help as conf_help
+import mold.help.core.fold_help as conf_help
+
+header_color = color.cyan 
+task_color = color.blue
+command_color = color.magenta
+warning_color = color.red 
+reset = color.reset
 
 # TODO: refacter each help to be a string
 # then create a comple fiunction that will choose to colorify base on ctx
@@ -38,165 +43,18 @@ def color_print(*args):
 
 # INTERFACE
 
+def compile(ctx, text):
+    green = color.green
+    reset = color.reset
+    mold = _mold
+    return text.format(**locals())
+
 def main(ctx):
-    color_print(get_main_help_text(ctx))
-
-def fold(ctx):
-    color_print('''
-USAGE: mold fold [task] [diectorry] [new-name]
-
-mold folds are templates for scaffold dierctorys. You can use 
-mold fold load or create a directory, and later when you want 
-a copy of that directory you can get a copy back.
-
-TASKS:
-    list: -- will color_print a list of the folds you have created.
-
-    make: -- will create a new fold directory and open it in your 
-            text editor, so you can desing a new dirrectory 
-            template. 
-
-    load: -- will copy an exisiting directory into your config 
-            repository as a fold. load allows you to rename the
-            directory you are importing.
-
-    edit: -- will open an existing fold with your text editor.
-
-    nuke: -- will remove an fold from your config repository.
-
-    dump: -- will copy a fold from you config repository into
-            your current directory. dump allows you to rename
-            the exported fold.
-
-e.g. 
-    LOAD A FOLD:    mold fold load ./react-boiler
-    EXPORT A FOLD:  mold fold dump react-boiler ./peronal-blog
-    '''.strip())
-
-def drop(ctx):
-    color_print('''
-USAGE: mold drop [task] [file] [new-name]
-
-mold drops are file templates. You can use mold drop to create 
-or load a file template, and later when you want a copy of 
-your drop back.
-
-TASKS:
-    list: -- will color_print a list of the drop you have created.
-
-    make: -- will create a new drop file and open it in your 
-            text editor, so you can desing a file template. 
-
-    load: -- will a file intor into your config repository 
-            as a drop . load allows you to rename the drop
-            you are importing.
-
-    edit: -- will open an existing drop with your text editor.
-
-    nuke: -- will remove an drop  from your config repository.
-
-    dump: -- will copy a drop from you config repository into
-            your current directory. dump allows you to rename
-            the exported drop.
-
-e.g. 
-    LOAD DROPS:     mold drop load ./LICENSE.md mit.md 
-                    mold drop load ./LICENSE.md cc-share-alike.md 
-    EXPORT A DROP:  mold drop dump mit.md ./LICENSE.md 
-'''.strip())
+    color_print(compile(ctx, main_help.text))
 
 def conf(ctx):
-    color_print('''
-USAGE: mold conf [task] [file] 
+    color_print(compile(ctx, conf_help.text))
 
-mold confs are dotfiles. When you create or load a conf it 
-will be hard linked to your home directory. Hard links are 
-filesystem references to the same file. Editing the file in
-your home directory will also edit the file in your config 
-repository, and vice versa. 
-
-If you run the nuke task it will only delete the file from 
-your config repository. It will NOT remove it from your 
-home directory. 
-
-TASKS:
-    list: -- will color_print a list all of your conf files. 
-
-    make: -- will create a new conf file and open it in your 
-            text editor, when the file will be hard linked 
-            to your home directory. 
-
-    load: -- will a file into your config repository as a conf 
-            file and then hard link it to your home directory.
-
-    edit: -- will open an existing conf with your text editor.
-
-    nuke: -- will remove an conf file from your config repository, 
-            but it will NOT remove it from your $HOME directory.
-
-e.g. 
-    LOAD CONFs:     mold conf load ~/.bashrc 
-                    mold comf load ~/.nethackrc
-'''.strip())
-
-def plug(ctx):
-    color_print('''
-USAGE: mold plug [task] [file] 
-
-mold plugs are shell scripts that will be loaded each time 
-you create a new shell. Its great place to add ENV var 
-config, aliases, functions, or startup scripts. 
-
-NOTE: Anything you load as a plug will be sourced by your shell 
-on load, so be carful to only load files your shell can source. 
-
-TASKS:
-    list: -- will color_print a list all of your plug files. 
-
-    make: -- will create a new plug file and open it in your 
-            text editor.
-
-    load: -- will a file into your config repository as a plug.
-
-    edit: -- will open an existing plug with your text editor.
-
-    nuke: -- will remove an plug file from your config repository. 
-
-e.g. 
-    CREATE PLUGS:   mold plug make my-aliases.sh 
-                    mold plug make git-shortcuts.sh         
-                    mold plug load ./git-aware-prompt.sh
-'''.strip())
-
-def exec(ctx):
-    color_print('''
-USAGE: mold exec [task] [file] 
-
-mold execs are executbale files that will be stored in
-a directory on your $PATH. 
-
-NOTE: If your file does not have executable permsions 
-you will not be able to run it. so remember to chmod 775 it
-if you need to.
-
-TASKS:
-    list: -- will color_print a list all of your exec files. 
-
-    make: -- will create a new exec file and open it in your 
-            text editor. It will automaticly have executable 
-            permissions (755).
-
-    load: -- will a file into your config repository as a exec.
-            You can rename execs that you are loading
-
-    edit: -- will open an existing exec with your text editor.
-
-    nuke: -- will remove an exec file from your config repository. 
-
-e.g. 
-    CREATE EXECS:   mold exec make troll.py
-    LOAD EXECS:     mold load ./a.out fetch-metadata
-'''.strip())
 
 def _task_one_file_arg_help(ctx, description):
     color_print(f'USAGE: mold {ctx.command} {ctx.task} <filename>\n{description}')
