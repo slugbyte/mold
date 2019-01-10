@@ -1,7 +1,9 @@
 import sys 
-import mold.env as env 
+# import mold.env as env 
 # check if pogram is being piped dont print colors or MOLD_COLOR is set
-_is_colormode = sys.stdout.isatty() or env.MOLD_COLOR 
+
+# FIX OR MIGRATE COLOR_MODE
+_is_colormode = sys.stdout.isatty() #or env.MOLD_COLOR 
 
 red = '\033[31m' if _is_colormode else ''
 green = '\033[32m' if _is_colormode else ''

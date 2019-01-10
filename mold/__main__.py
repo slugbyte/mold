@@ -5,16 +5,17 @@ The main entry point. Invoke as `mold' or `python -m mold'.
 
 import os 
 import sys
-import mold.env as env
 
+from mold.context import MoldContext
 from .main import main
 
 if __name__ == '__main__':
-    if env.MOLD_DEBUG:
-        main(env.SUB_COMMAND, env.OPTIONS)
+    ctx = MoldContext(sys.argv, os.environ)
+    if ctx.MOLD_DEBUG:
+        sys.exit(main(ctx))
     else:
         try:
-            main(env.SUB_COMMAND, env.OPTIONS)
+            sys.exit(main(ctx))
         except:
             sys.exit(1)
-    sys.exit(0)
+    sys.exit(2)

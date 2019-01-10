@@ -5,135 +5,128 @@ It also defines the abilty for drop and fold to export content.
 
 import os 
 import mold.fs as fs
-import mold.env as env
 import mold.system as system
 import mold.help as help
 from mold.util import query
 
-# TASK AND TASK HELPER FUNCTION SIGNATURE
-# def _name(cmd, args) (data is a filename or filepath but file is a reserved word)
-# much of the time the arguments will not be used, but it will make adding features in the 
-# future much easier if the inteface for all the functions is allways the same. :)
+# TODO: have each task handler return an exit code from the ctx
+# then refactor main to return the result of the task handler
+# IDEA create two log functions for OK and FAIL , they can be used
+# They should return OK or FAIL exit codes they can be used 
+# to log a status and exit in one one :)
 
-MAGIC_MOLD = '__MAGIC_MOLD__'
+# TODO: have _make and _load only link the single conf that is being added to 
+# the MOLD_ROOT
+def _link_conf(ctx):
+    if ctx.command != 'conf':
+        return 
+    for current in ctx.get_command_dirlist():
+        src = ctx.MOLD_ROOT + '/conf/' + current
+        dest = ctx.HOME + '/' + current
+        fs.force_link(src, dest)
 
-# PRIVATE
-def _cmd_dir(cmd, args):
-    return env.ROOT_DIR + '/' + cmd
-
-# MAKE
-def _make_complete(cmd, args):
-    return  print(MAGIC_MOLD)
-
-def _make(cmd, args):
-    filename = query(args, 0)
+def _make(ctx):
+    filename = ctx.get_option(0)
     if filename == 'help' or not filename:
-        return help.make(cmd)
-    filepath = _cmd_dir(cmd, args) + '/' + filename
-    if cmd == 'fold':
+        return help.make(ctx)
+    filepath = ctx.get_command_dir() + '/' + filename
+    if ctx.command == 'fold':
         fs.mkdir(filepath)
         system.cd(filepath)
-    system.shell(env.EDITOR + ' ' + filepath)
+    # TODO: LOG ERROR IF EDIT WASNT POSSIBLE
+    system.shell(ctx.EDITOR + ' ' + filepath)
     if fs.exists(filepath):
-        print('MADE FILE:', filename)
+        if ctx.command == 'conf':
+            _link_conf(ctx)
+        print(f'MADE {ctx.command.upper()}:', filename)
     else:
-        print(f'MAKE ABORTED: {filename} not created')
+        print(f'MAKE {ctx.command.upper()} ABORTED: {filename} not created')
 
-# LOAD
-def _load_complete(cmd, args):
-    print(MAGIC_MOLD)
-
-# TODO: add checks for if file or if dir (dep on cmd)
-def _load(cmd, args):
-    filepath = query(args, 0)
+def _load(ctx):
+    filepath = ctx.get_option(0)
     if filepath == 'help' or not filepath:
-        return help.load(cmd)
-    filename = query(args, 1) or fs.basename(filepath)
+        return help.load(ctx)
+    filename = ctx.get_option(1) or fs.basename(filepath)
     if fs.exists(filepath):
-        if cmd == 'fold':
-            fs.copy_dir(filepath, _cmd_dir(cmd, args) + '/' + filename)
+        # first load conten
+        if ctx.command == 'fold':
+            fs.copy_dir(filepath, ctx.get_command_dir() + '/' + filename)
         else:
-            fs.copy(filepath, _cmd_dir(cmd, args) + '/' + filename)
-        print(f'LOADED {filename}')
+            fs.copy(filepath, ctx.get_command_dir() + '/' + filename)
+        # then if its a conf link it 
+        if ctx.command == 'conf':
+            _link_conf(ctx)
+        print(f'LOADED {ctx.command.upper()}: {filename}')
         return 
-    print(f'ERROR: no "{filename}" {cmd} found')
+    print(f'ERROR: no "{filename}" {ctx.command} found')
 
 # LIST
-def _list_complete(cmd, args):
-    return  print('')
+def _list(ctx):
+    if ctx.get_option(0) == 'help':
+        return help.list(ctx)
+    else:
+        #TODO: consider -v flag for adding things like timestamp or byte size
+        print('\n'.join(ctx.get_command_dirlist()))
 
-def _list(cmd, args):
-    arg = query(args, 0)
-    if arg == 'help':
-        return help.list(cmd)
-    for current in fs.listdir(_cmd_dir(cmd, args)):
-        if current != '.mold':
-            print(current)
-
-# EDIT
-def _edit_complete(cmd, args):
-    _list(cmd, args)
-
-def _edit(cmd, args):
-    filename = query(args, 0)
+def _edit(ctx):
+    filename = ctx.get_option(0)
     if filename == 'help' or not filename:
-        return help.edit(cmd)
-    filepath = _cmd_dir(cmd, args) + '/' + filename
+        return help.edit(ctx)
+    filepath = ctx.get_command_dir() + '/' + filename
     if fs.exists(filepath):
-        # if cmd == 'fold': # system.cd(filepath) # TEST WITH OUT AND RESTORE IF USEFULL
-        system.shell(env.EDITOR + ' ' + filepath)
+        if ctx.command == 'fold': # IF you dont cd when using TUI editors its edit a dir structure
+            system.cd(filepath) 
+        # TODO: LOG ERROR IF EDIT WASNT POSSIBLE
+        system.shell(ctx.EDITOR + ' ' + filepath)
         return 
-    print(f'ERROR: no "{filename}" {cmd} file found')
+    print(f'ERROR: no "{filename}" {ctx.command} file found')
 
-# NUKE
-def _nuke_complete(cmd, args):
-    _list(cmd, args)
-
-def _nuke(cmd, args):
-    filename = query(args, 0)
+def _nuke(ctx):
+    filename = ctx.get_option(0)
     if filename == 'help' or not filename:
-        return help.nuke(cmd)
-    filepath = _cmd_dir(cmd, args) + '/' + filename
+        return help.nuke(ctx)
+    filepath = ctx.get_command_dir() + '/' + filename
     if fs.exists(filepath):
-        if cmd == 'fold':
+        if ctx.command == 'fold':
             fs.rimraf(filepath)
         else:
             fs.rm(filepath)
         print(f'REMOVED {filename}')
         return 
-    print(f'ERROR: no "{filename}" {cmd} file found')
+    print(f'ERROR: no "{filename}" {ctx.command} file found')
 
 # EXPORT and LINK
-def _dump(cmd, args):
-    filename = query(args, 0)
+def _dump(ctx):
+    if not (ctx.command == 'fold' or ctx.command == 'drop'):
+        print(f'Error: {ctx.command} does not support the drop task')
+        return 
+    filename = ctx.get_option(0)
     if filename == 'help' or not filename:
-        return help.dump(cmd)
-    filepath = _cmd_dir(cmd, args) + '/' + filename
-    output  = query(args, 1) or filename
+        return help.dump(ctx.command)
+    filepath = ctx.get_command_dir() + '/' + filename
+    output  = ctx.get_option(1) or filename
     if fs.exists(filepath):
-        if cmd == 'drop':
+        if ctx.command == 'drop':
             fs.copy(filepath, './' + output) 
             return 
-        if cmd == 'fold':
+        if ctx.command == 'fold':
             fs.copydir(filepath, './' + output)
             return 
-    print(f'ERROR: no "{filename}" {cmd} file found')
+    print(f'ERROR: no "{filename}" {ctx.command} file found')
 
-def _link_conf(cmd, task,  args):
-    conf_dir = _cmd_dir(cmd, args)
-    for current in fs.listdir(conf_dir):
-        if current != '.mold':
-            src = conf_dir + '/' + current
-            dest = env.HOME + '/' + current
-            fs.force_link(src, dest)
+def _help(ctx):
+    _command_help_handlers = {
+        "conf": help.conf,
+        "plug": help.plug,
+        "exec": help.exec,
+        "fold": help.fold,
+        "drop": help.drop,
+    }
+    help_handler = query(_command_help_handlers, ctx.command)
+    if(help_handler):
+        return help_handler(ctx)
+    return print(f'TODO: FIX THIS ERROR IT SHOULD NEVER HAPPEN, Sorry, no help for {ctx.command}.')
 
-_task_completions = {
-    "make": _make_complete,
-    "load": _load_complete,
-    "list": _list_complete,
-    "edit": _edit_complete,
-    "nuke": _nuke_complete,
-}
 
 _task_handlers = {
     "make": _make,
@@ -142,37 +135,12 @@ _task_handlers = {
     "edit": _edit,
     "nuke": _nuke,
     "dump": _dump,
+    "help": _help,
 }
 
-_cmd_helps = {
-    "conf": help.conf,
-    "plug": help.plug,
-    "exec": help.exec,
-    "fold": help.fold,
-    "drop": help.drop,
-}
 
-# INTERFACE
-def complete(cmd, args):
-    if cmd == None or len(args) == 0:
-        return print('help make load list edit nuke')
-    task = args[0]
-    if task == 'help':
-        return ''
-    for current in ['make', 'load', 'list', 'edit', 'nuke']:
-        if task == current:
-            return _task_completions[task](cmd, args)
-    return complete(None, [])
-
-def handle_task(cmd, options):
-    task = query(options, 0)
-    if task == 'help' or not task:
-        return _cmd_helps[cmd]()
-    filename = query(options, 1)
-    for current in ['make', 'load', 'list', 'edit', 'nuke', 'dump']:
-        if task == current:
-            _task_handlers[task](cmd, options[1:])
-            if cmd == 'conf' and ((task == 'load') or (task == 'make')):
-                return _link_conf(cmd, task, options[1:])
-            return 
-    print(f'wut whoe, {task} is not known to mold {cmd}.')
+def handle_task(ctx):
+    try: 
+        _task_handlers[ctx.task or 'help'](ctx)
+    except: 
+        print(f'wut whoe, {ctx.task} is not known to mold {ctx.command}.')

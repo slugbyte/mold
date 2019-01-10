@@ -6,33 +6,32 @@ import mold.git as git
 import mold.help as help
 from mold.util import query
 
-def _auto(options):
-    message = query(options, 1)
-    if not git.pull():
+def _auto(ctx):
+    message = ctx.get_option(0)
+    if not git.pull(ctx):
         return False
-    if not git.add():
+    if not git.add(ctx):
         return False
-    if not git.commit(message):
+    if not git.commit(ctx, message):
         return False
-    if not git.push():
+    if not git.push(ctx):
         return False
     return True
 
-def _make_no_arg_git_task(git_method):
-    git_methods = {
+def _make_no_arg_git_task(name):
+    methods = {
         "add": git.add,
-        "help": help.sync,
         "log": git.log,
-        "status": git.status,
+        "help": help.sync,
         "branch": git.branch,
+        "status": git.status,
     }
-    def handler(options):
-        print('foo yee', git_method)
-        git_methods[git_method]()
+    def handler(ctx):
+        methods[name](ctx)
     return handler
 
-def _make_one_arg_git_task(git_method):
-    git_methods = {
+def _make_one_arg_git_task(name):
+    methods = {
         "diff": git.diff,
         "push": git.push,
         "pull": git.pull,
@@ -44,10 +43,10 @@ def _make_one_arg_git_task(git_method):
         "soft_reset": git.soft_reset,
         "force_push": git.force_push,
     }
-    def handler(options):
-        arg = query(options, 1)
-        print('foo yee', git_method, arg)
-        git_methods[git_method](arg)
+    def handler(ctx):
+        arg = ctx.get_option(0)
+        print('foo yee', name, arg)
+        methods[name](ctx, arg)
     return handler
 
 _task_handlers = {
@@ -72,14 +71,12 @@ _task_handlers = {
     "--force-push": _make_one_arg_git_task('force_push'),
 }
 
-def handle_task(cmd, options):
-    # is it a specifc task? -> run it 
-    # else -> wun AUTO
-    task = query(options, 0)
-    for current in [ 'help', 'auto', 'diff', 'push', 'pull', 'add',
-        'log', 'status', 'branch', 'commit', '--merge', '--checkout',
-        '--new-branch', '--force-push', '--soft-reset', '--hard-reset', ]:
-        if task == current:
-            _task_handlers[task](options)
-            return print('BOOM FOUND TASK:', task)
-    print(f'mold sync can\'t {task} yet.')
+def handle_task(ctx):
+    # TODO: consider not default to the long help for all the commands
+    # Instad there could be a shor USAGE: comand [task] [options] for
+    # each command? **FUTURE**
+    try:
+        _task_handlers[ctx.task or 'help'](ctx)
+    except:
+        print(f'mold sync can\'t {ctx.task} yet.')
+

@@ -2,7 +2,6 @@
 ensure defines logic for detecting if the MOLD_ROOT is setup.
 '''
 
-import mold.env as env 
 import mold.fs as fs
 
 # PRIVATE
@@ -15,12 +14,14 @@ def _set_result(errno):
     return errno
 
 # INTERFACE
+
+# FAUX ENUM
 ENV_ERROR = 1
 DIR_ERROR = 2
 ROOT_ERROR = 3
 OK = 0 
 
-def warning(): 
+def warning(ctx): 
     if _result == ENV_ERROR:
         return "Make sure your MOLD_ROOT and EDITOR environment variables are set"
     if _result == ROOT_ERROR:
@@ -30,12 +31,14 @@ Try runing mold --install'''
         return '''Hmmm, Somthing is wrong with your MOLD_ROOT directory
 Try runing mold --fix-root'''
 
-def check():
+def check(ctx):
+    # TODO: on refactor where check uses warning 
+    # dont long anythin if ctx.command == 'complete'
     if _result != -1:
         return _result
-    if (not env.ROOT_DIR) or (not fs.exists(env.ROOT_DIR)) or (not fs.is_dir(env.ROOT_DIR)):
+    if (not ctx.MOLD_ROOT) or (not fs.exists(ctx.MOLD_ROOT)) or (not fs.is_dir(ctx.MOLD_ROOT)):
         return _set_result(ROOT_ERROR)
     for d in ['conf', 'plug', 'fold', 'drop', 'exec']:
-        if not fs.exists(env.ROOT_DIR + '/' + d):
+        if not fs.exists(ctx.MOLD_ROOT + '/' + d):
             return _set_result(DIR_ERROR)
     return OK

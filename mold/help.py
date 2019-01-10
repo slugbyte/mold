@@ -10,6 +10,10 @@ task_color = blue
 command_color = magenta
 warning_color = red 
 
+# TODO: refacter each help to be a string
+# then create a comple fiunction that will choose to colorify base on ctx
+# then make a create_help_handler to generate help defs (functions)
+
 def colorify(str):
     for header in ['USAGE:', 'ABOUT:', 'INSTALL:', 'CONFIGURATION:', 'HELP:', 'COMMANDS:', 
             'TASKS:', 'NOTE:', 'INSTALL FROM REPOSITORY:']:
@@ -32,7 +36,7 @@ def color_print(*args):
     print(*color_args)
 
 # INTERFACE
-def main():
+def main(ctx):
     color_print(colorify(f'''
 {green}{mold.__description__}{reset}
 
@@ -94,7 +98,7 @@ COMMANDS:
 <3 Bug reports are much appreciated {mold.__url__}/issues
     '''.strip()))
 
-def fold():
+def fold(ctx):
     color_print('''
 USAGE: mold fold [task] [diectorry] [new-name]
 
@@ -126,7 +130,7 @@ e.g.
     EXPORT A FOLD:  mold fold dump react-boiler ./peronal-blog
     '''.strip())
 
-def drop():
+def drop(ctx):
     color_print('''
 USAGE: mold drop [task] [file] [new-name]
 
@@ -158,7 +162,7 @@ e.g.
     EXPORT A DROP:  mold drop dump mit.md ./LICENSE.md 
 '''.strip())
 
-def conf():
+def conf(ctx):
     color_print('''
 USAGE: mold conf [task] [file] 
 
@@ -192,7 +196,7 @@ e.g.
                     mold comf load ~/.nethackrc
 '''.strip())
 
-def plug():
+def plug(ctx):
     color_print('''
 USAGE: mold plug [task] [file] 
 
@@ -221,7 +225,7 @@ e.g.
                     mold plug load ./git-aware-prompt.sh
 '''.strip())
 
-def exec():
+def exec(ctx):
     color_print('''
 USAGE: mold exec [task] [file] 
 
@@ -251,36 +255,36 @@ e.g.
     LOAD EXECS:     mold load ./a.out fetch-metadata
 '''.strip())
 
-def _task_one_file_arg_help(cmd, task, description):
-    color_print(f'USAGE: mold {cmd} {task} <filename>\n{description}')
+def _task_one_file_arg_help(ctx, description):
+    color_print(f'USAGE: mold {ctx.command} {ctx.task} <filename>\n{description}')
 
-def _task_two_file_arg_help(cmd, task, description):
-    color_print(f'USAGE: mold {cmd} {task} <filename> [optional <new-filename>]\n{description}')
+def _task_two_file_arg_help(ctx,  description):
+    color_print(f'USAGE: mold {ctx.command} {ctx.task} <filename> [optional <new-filename>]\n{description}')
 
-def make(cmd):
-    _task_one_file_arg_help(cmd, 'make', f'Make a new {cmd} with your text editor.')
+def make(ctx):
+    _task_one_file_arg_help(ctx, f'Make a new {ctx.command} with your text editor.')
 
-def edit(cmd):
-    _task_one_file_arg_help(cmd, 'edit', f'Edit an existing {cmd}.')
+def edit(ctx):
+    _task_one_file_arg_help(ctx,  f'Edit an existing {ctx.command}.')
 
-def nuke(cmd):
+def nuke(ctx):
     also = ''
-    if cmd == 'conf':
+    if ctx.command == 'conf':
         also = '\nIt will not delete the file fom your $HOME directoy.'
-    _task_one_file_arg_help(cmd, 'edit', f'Delete a {cmd} from your config repo.{also}')
+    _task_one_file_arg_help(ctx, f'Delete a {ctx.command} from your config repo.{also}')
 
-def load(cmd):
-    _task_two_file_arg_help(cmd, 'load', f'Load a {cmd} into your config repo.')
+def load(ctx):
+    _task_two_file_arg_help(ctx, f'Load a {ctx.command} into your config repo.')
 
-def dump(cmd):
-    _task_two_file_arg_help(cmd, 'load', f'Copy a {cmd} from your config repo into your current directory.')
+def dump(ctx):
+    _task_two_file_arg_help(ctx.command, 'load', f'Copy a {ctx.command} from your config repo into your current directory.')
 
-def list(cmd):
-    color_print(f'USAGE: mold {cmd} list\nList the {cmd}z in your config repo')
+def list(ctx):
+    color_print(f'USAGE: mold {ctx.command} list\nList the {ctx.command}z in your config repo')
 
 
 #SYNC 
-def sync():
+def sync(ctx):
     color_print('''
 USAGE: mold sync [task] [arg] 
     mold sync is a wrapper for a few git commands. For all of the sync tasks
