@@ -91,9 +91,9 @@ def hard_reset(ctx, githash):
     return True
 
 def soft_reset(ctx, githash):
-    if not branch:
-        branch = 'HEAD'
-    if not _git_shell(ctx, f"reset {githash}").check_ok():
+    if not githash:
+        githash = 'HEAD'
+    if not _git_shell(ctx, f"reset --soft {githash}").check_ok():
         return False
     return True
 

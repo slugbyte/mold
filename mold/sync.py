@@ -45,7 +45,6 @@ def _make_one_arg_git_task(name):
     }
     def handler(ctx):
         arg = ctx.get_option(0)
-        print('foo yee', name, arg)
         methods[name](ctx, arg)
     return handler
 
