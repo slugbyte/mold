@@ -50,8 +50,12 @@ def _load(ctx):
     if fs.exists(filepath):
         # first load conten
         if ctx.command == 'fold':
+            if not fs.is_dir(filepath):
+                return print(f'USAGE ERROR: {filepath} is not a directory, use mold drop instead.')
             fs.copy_dir(filepath, ctx.get_command_dir() + '/' + filename)
         else:
+            if fs.is_dir(filepath):
+                return print(f'USAGE ERROR: {filepath}" is a directory, mold {ctx.command} only supports files.')
             fs.copy(filepath, ctx.get_command_dir() + '/' + filename)
         # then if its a conf link it 
         if ctx.command == 'conf':
