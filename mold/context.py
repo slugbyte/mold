@@ -40,13 +40,13 @@ class MoldContext:
 
         # CONSTANTS
         # TODO: evaluate if colors in color.py should be migrated to context contants
-        self.MOLD_MAGIC = '__MAGIC_MOLD__' # used by _mold (bash script) for knowing when to complete file names
         # TODO: CREATE SOME KIND OF SEMANTIC EXIT CODES
         self.EXIT_STATUS_OK = 0
         self.EXIT_STATUS_FAIL = 1
         self.EXIT_STATUS_DEVELOPER_TODO = 2
 
-    def check_has_options(self): return len(self.options) != 0
+    def check_has_options(self): 
+        return len(self.options) != 0
 
     def check_flag_set(self, name):
         return self.flags.issuperset([name])

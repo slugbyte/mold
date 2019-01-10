@@ -20,7 +20,7 @@ def _complete_no_suggestions(ctx):
     print('')
 
 def _complete_magic_mold(ctx):
-    print(ctx.MAGIC_MOLD)
+    print('__MAGIC_MOLD__')
 
 def _complete_command_dirlist(ctx):
     content = []
@@ -35,7 +35,7 @@ _completion_handlers = {
     # main 
     "main": _create_handler_from_word_list(['fold', 'drop', 'conf', 'plug', 'exec', 'sync', 'help']),
     # commands
-    "help": _complete_magic_mold,
+    "help": _complete_no_suggestions,
     "conf": _create_handler_from_word_list(_completable_core_default_tasks),
     "exec": _create_handler_from_word_list(_completable_core_default_tasks),
     "plug": _create_handler_from_word_list(_completable_core_default_tasks),
@@ -91,5 +91,6 @@ def complete(ctx):
     try:
         _completion_handlers[ctx.task](ctx)
     except:
+        print('fiu')
         return _completion_handlers[ctx.command](ctx)
 
