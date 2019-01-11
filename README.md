@@ -15,7 +15,7 @@
 ### COMMANDS
 * `help` -- genearl help
 * `conf` -- manage dotfiles (CRUD + link to $HOME)
-* `plug` -- manage bash scripts aka. plugins (CRUD + load on new shell)
+* `plug` -- manage shell scripts aka. plugins  (CRUD + sourced every new shell)
 * `exec` -- manage executable files (CRUD + add them in a dir on $PATH)
 * `drop` -- manage file templates (CRUD + export to anywhere you want to use them)
 * `fold` -- manage project scaffolds (CRUD + export to anywhere you want to use them)
