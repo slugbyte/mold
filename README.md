@@ -3,14 +3,14 @@
 
 ## FEATURES
 
-` USAGE: mold [--flags] [command] [task] [options]` 
+` USAGE: mold [--flags] [command] [task] [options]`  
+
 ### ENV
 * `MOLD_ROOT` -- sets the directory that mold will use to install and manage everything DONE
 * `MOLD_DEBUG` -- allow errors to be thrown without being cought DONE
 * `MOLD_COLOR` -- force mold to print color even when piped into other programs
 
-### CORE -- MOLD\_ROOT file management 
-#### COMMANDS
+### COMMANDS
 * `help` -- genearl help
 * `conf` -- manage dotfiles (CRUD + link to $HOME)
 * `plug` -- manage bash scripts aka. plugins (CRUD + load on new shell)
@@ -18,7 +18,11 @@
 * `drop` -- manage file templates (CRUD + export to anywhere you want to use them)
 * `fold` -- manage project scaffolds (CRUD + export to anywhere you want to use them)
 * `sync` -- mangae the MOLD\_ROOT git repository
-#### CORE TASKS
+
+#### CORE -- MOLD\_ROOT file management 
+The core commands are `conf`, `plug`, `exec`, `drop`, and `fold`. 
+
+##### CORE TASKS
 These tasks are applied to commands, and have suddly different behaviors based on the 
 commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, or 
 `mold fold load` will load only directory instead of a file.
@@ -28,9 +32,10 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
 * `list` -- list the files or dirs DONE
 * `edit` -- edit files or dirs DONE
 * `nuke` -- Delete files or dirs DONE
+* `dump` -- (only for `fold` and `drop`) Export content into the current directory DONE
 
-### SYNC -- MOLD\_ROOT git management
-#### SYNC TASKS
+#### SYNC -- MOLD\_ROOT git management
+##### SYNC TASKS
 * `auto` -- pull add commit push (commit message from argv or text editor) DONE
 * git wrappers for mold root
     * `log` DONE
@@ -47,8 +52,10 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
     * `--checkout` DONE 
     * `--force-push` DONE 
     * `--merge` DONE 
-#### OTHER -- arbitryary tasks
-* `--install` -- interacive installer DONE
+    
+#### OTHER -- arbitrary tasks
+* `--install` -- interactive installer DONE
+   * `--remote-uri` automatically set the git remote origin with out prompting the user
 * `--clone` -- create mold root from existing repo
 * `--set-remote` -- set mold root's git origin remote
 * `-v | --verbose` -- make logging more verbose 
