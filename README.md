@@ -76,6 +76,7 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
 
 ## IDEAS?
 * make a tool to publish a new version to PyPi, brew, apt, and the arch-aur 
+* write a markdown parser/transformner for tui output so that the help logs can be written in markdown
 * (drop, plug, conf, exec) load -- suport for urls 
 * fold load -- suport for github repositorys ? -> submodule support? 
 * Build a start mold_root for beginners to using a shell (a oh-my-zsh/bash lite)
