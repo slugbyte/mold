@@ -75,6 +75,7 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
     * There is an option to Install from an existing mold_root on github, and I plan to make a *lite* oh-my-zsh like starter-kit mold_root repository at some point.
 
 ## IDEAS?
+* make a tool to publish a new version to PyPi, brew, apt, and the arch-aur 
 * (drop, plug, conf, exec) load -- suport for urls 
 * fold load -- suport for github repositorys ? -> submodule support? 
 * Build a start mold_root for beginners to using a shell (a oh-my-zsh/bash lite)
