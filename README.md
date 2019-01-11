@@ -3,7 +3,7 @@
 
 ## FEATURES
 
-` USAGE: mold [--flags] [command] [task] [options] 
+` USAGE: mold [--flags] [command] [task] [options]`
 ### CORE -- MOLD\_ROOT file management 
 #### COMMANDS
 * `help` -- genearl help
