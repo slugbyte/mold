@@ -18,7 +18,7 @@
 * `drop` -- manage file templates (CRUD + export to anywhere you want to use them)
 * `fold` -- manage project scaffolds (CRUD + export to anywhere you want to use them)
 * `sync` -- mangae the MOLD\_ROOT git repository
-#### TASK
+#### CORE TASKS
 These tasks are applied to commands, and have suddly different behaviors based on the 
 commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, or 
 `mold fold load` will load only directory instead of a file.
@@ -28,7 +28,9 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
 * `list` -- list the files or dirs DONE
 * `edit` -- edit files or dirs DONE
 * `nuke` -- Delete files or dirs DONE
+
 ### SYNC -- MOLD\_ROOT git management
+#### SYNC TASKS
 * `auto` -- pull add commit push (commit message from argv or text editor) DONE
 * git wrappers for mold root
     * `log` DONE
