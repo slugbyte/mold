@@ -79,3 +79,5 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
 * fold load -- suport for github repositorys ? -> submodule support? 
 * Build a start mold_root for beginners to using a shell (a oh-my-zsh/bash lite)
 * Detect [fish](https://github.com/fish-shell/fish-shell) and return a differnt plug loader from --install
+* Create a prety Documentation website
+  * Maby add a feature for hosing files that people can `mold [command] load URL`
