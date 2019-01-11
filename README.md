@@ -3,7 +3,12 @@
 
 ## FEATURES
 
-` USAGE: mold [--flags] [command] [task] [options]`
+` USAGE: mold [--flags] [command] [task] [options]` 
+### ENV
+* `MOLD_ROOT` -- sets the directory that mold will use to install and manage everything DONE
+* `MOLD_DEBUG` -- allow errors to be thrown without being cought DONE
+* `MOLD_COLOR` -- force mold to print color even when piped into other programs
+
 ### CORE -- MOLD\_ROOT file management 
 #### COMMANDS
 * `help` -- genearl help
@@ -44,19 +49,20 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
 * `--install` -- interacive installer DONE
 * `--clone` -- create mold root from existing repo
 * `--set-remote` -- set mold root's git origin remote
-* `-v ` -- make logging more verbose 
+* `-v | --verbose` -- make logging more verbose 
 * `--verson ` -- print mold version
-* `--color` -- force color
+* `--color | MOLD_COLOR=true` -- force color when piping
 
-# NON-GOALS 
+
+## NON-GOALS 
 * Adding support for os or hostname specic detection
     * My [old mold like tools](https://github.com/slugbyte/mold/wiki/mold-prequels-and-their-lessons) had this feature, and I felt it over complicated the maintnece of my system configuration. 
-    * Instead plugs, confs, and execs can implament their own condional logic TODO: add link to my bashrc[example]()
+    * Instead plugs, confs, and execs can implament their own condional logic TODO: add link to my bashrc [example](https://github.com/slugbyte/config/blob/master/config/.bashrc)
 * Having the base install add premade configurration files
     * I don't follow the belief that systyem configurations can't be shared, because systems like [oh-my-zsh](https://ohmyz.sh/) work great for many people. However, molds goal is to help myself and others maintain their **personal** system configurations.
     * There is an option to Install from an existing mold_root on github, and I plan to make a *lite* oh-my-zsh like starter-kit mold_root repository at some point.
 
-# IDEAS?
+## IDEAS?
 * (drop, plug, conf, exec) load -- suport for urls 
 * fold load -- suport for github repositorys ? -> submodule support? 
 * Build a start mold_root for beginners to using a shell (a oh-my-zsh/bash lite)
