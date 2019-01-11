@@ -1,16 +1,51 @@
 # MOLD  
 ![breakfast grool](https://assets.slugbyte.com/github/github-header-00011.png)  
 
-## Install
-# TODO: publish to pipy
-* To install run `pip3 install `moldmoldmold`
-* Then run `mold --install` to setup your configuration directory
+## FEATURES
 
-## Usage 
-* get help with append `help`, `--help`, or `-h` to your command of interes
-* `mold help`, `mold -h`, and `mold --help` will print the general docs
-* subcommands also have specialized docs 
-    * E.g. `mold temp --help` and `mold temp load --help`
+` USAGE: mold [--flags] [command] [task] [options] 
+### CORE -- MOLD\_ROOT file management 
+#### COMMANDS
+* `help` -- genearl help
+* `conf` -- manage dotfiles (CRUD + link to $HOME)
+* `plug` -- manage bash scripts aka. plugins (CRUD + load on new shell)
+* `exec` -- manage executable files (CRUD + add them in a dir on $PATH)
+* `drop` -- manage file templates (CRUD + export to anywhere you want to use them)
+* `fold` -- manage project scaffolds (CRUD + export to anywhere you want to use them)
+* `sync` -- mangae the MOLD\_ROOT git repository
+#### TASK
+These tasks are applied to commands, and have suddly different behaviors based on the 
+commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, or 
+`mold fold load` will load only directory instead of a file.
+* `help` -- general help, command help, task help 
+* `make` -- create a new file or dir DONE
+* `load` -- import a file or dir DONE
+* `list` -- list the files or dirs DONE
+* `edit` -- edit files or dirs DONE
+* `nuke` -- Delete files or dirs DONE
+### SYNC -- MOLD\_ROOT git management
+* `auto` -- pull add commit push (commit message from argv or text editor) DONE
+* git wrappers for mold root
+    * `log` DONE
+    * `add -A` DONE
+    * `commit` DONE
+    * `pull` DONE
+    * `push` DONE 
+    * `diff` DONE 
+    * `status` DONE 
+    * `branch` DONE 
+    * `--soft-reset` DONE 
+    * `--hard-reset` DONE 
+    * `--new-branch` DONE 
+    * `--checkout` DONE 
+    * `--merge` DONE 
+#### OTHER -- arbitryary tasks
+* `--install` -- interacive installer DONE
+* `--clone` -- create mold root from existing repo
+* `--set-remote` -- set mold root's git origin remote
+* `-v ` -- make logging more verbose 
+* `--verson ` -- print mold version
+* `--color` -- force color
 
 # NON-GOALS 
 * Adding support for os or hostname specic detection
@@ -19,16 +54,6 @@
 * Having the base install add premade configurration files
     * I don't follow the belief that systyem configurations can't be shared, because systems like [oh-my-zsh](https://ohmyz.sh/) work great for many people. However, molds goal is to help myself and others maintain their **personal** system configurations.
     * There is an option to Install from an existing mold_root on github, and I plan to make a *lite* oh-my-zsh like starter-kit mold_root repository at some point.
-
-## Development 
-* Requires [pipenv](https://github.com/pypa/pipenv)
-* Clone code `git clone https://github.com/slugbyte/mold.git`
-* Inside the repo run `pipenv shell` to start the virutal env 
-* Then run `source scripts/dev.sh`
-  * this will create an alias calld `mold` that runs `python3 -m mold`
-  * the mold allias will be bound to an `\_mold` bash completion function 
-  * edit the code in mold/ and run `mold [OPTIONS] [FILENAME]` as you will 
-* TODO: write integration tests
 
 # IDEAS?
 * (drop, plug, conf, exec) load -- suport for urls 
