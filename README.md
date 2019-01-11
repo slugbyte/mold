@@ -61,7 +61,7 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
 * `-v | --verbose` -- make logging more verbose 
 * `--verson ` -- print mold version
 * `--color | MOLD_COLOR=true` -- force color when piping
-* `--complete` -- generate smart tab completion for bash DONE
+* `--complete` -- generate smart tab completion for a posix shell like bash or zsh DONE
 
 
 ## NON-GOALS 
