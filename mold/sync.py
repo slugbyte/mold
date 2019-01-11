@@ -68,7 +68,7 @@ _task_handlers = {
     "--soft-reset": _make_one_arg_git_task('soft_reset'),
     "--hard-reset": _make_one_arg_git_task('hard_reset'),
     "--force-push": _make_one_arg_git_task('force_push'),
-}
+} 
 
 def handle_task(ctx):
     # TODO: consider not default to the long help for all the commands

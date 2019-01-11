@@ -38,6 +38,7 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
     * `--hard-reset` DONE 
     * `--new-branch` DONE 
     * `--checkout` DONE 
+    * `--force-push` DONE 
     * `--merge` DONE 
 #### OTHER -- arbitryary tasks
 * `--install` -- interacive installer DONE
