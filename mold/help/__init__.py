@@ -9,30 +9,35 @@ import mold.fs  as fs
 from mold.color import *
 
 def help_example():
-    conf_help = fs.dirname(__file__ ) + '/../../docs/conf_help.md'
+    conf_help = fs.dirname(__file__ ) + '/../../docs/README.md'
     with codecs.open(conf_help, mode='r', encoding='utf-8') as help_file:
         help_text = help_file.read()
         to_print = markdown.markdown(help_text)
 
-    to_print = re.sub('\s+', ' ', to_print).strip() # strip whitespace
+    # to_print = re.sub('\s+', ' ', to_print).strip() # strip whitespace
     to_print = to_print.replace('</h1>', reset + '</h1>\n')
     to_print = to_print.replace('</h2>', reset +'</h2>\n')
         # help_text=help_file.read().replace('\n', '')
     # to_print = markdown(help_text)
+    to_print = to_print.replace('<blockquote>', '').replace('</blockquote>',  '\n')
     to_print = to_print.replace('<blockquote> <p>', '').replace('</p> </blockquote>',  '\n')
     to_print = to_print.replace('<p>', '').replace('</p>',  '\n')
 
+    to_print = re.sub('<br />', '\n', to_print)
     to_print = to_print.replace('<em>', '').replace('</em>', '')
     to_print = to_print.replace('<strong>', blue + '').replace('</strong>', reset + '')
-    to_print = to_print.replace('<br /> ', '\n')
+    to_print = re.sub('<a.*?>', blue, to_print)
+    to_print = to_print.replace('</a>', reset)
     to_print = to_print.replace('<code>',  green + '').replace('</code>', reset + '') # green must appear before '    ' because of strip below
     to_print = to_print.replace('<ul>', '').replace('</ul>', '')
     to_print = to_print.replace('<li>', '').replace('</li>','' )
 
+    to_print = to_print.replace('&lt;', '<')
+
     # trim to 70with 
     lines = to_print.split('\n')
     to_print = ''
-    max_width = 65
+    max_width = 80
     for line in lines:
         if len(line) < max_width:
             to_print += line + '\n'
@@ -50,15 +55,16 @@ def help_example():
         line = re.sub('\s+', ' ', line).strip()  + '\n' # strip whitespace
         if len(line.strip()) == 0:
             continue
-        if line.startswith('<h'):
+        if line.startswith('<'):
             to_print += line 
         else: 
             to_print += '    ' + line 
 
     # add color to headers
     to_print = to_print.replace('<h1>', yellow).replace('<h2>', yellow)
-    to_print = to_print.replace('</h1>', reset)
-    to_print = to_print.replace('</h2>', reset)
+    to_print = to_print.replace('<h3>', red).replace('<h4>', '    ')
+
+    to_print = re.sub('</h.*>', reset, to_print)
     to_print = to_print.replace('<span/>', '    ')
 
     to_print = to_print.strip()
