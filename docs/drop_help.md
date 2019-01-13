@@ -12,11 +12,11 @@ or load a file template, and later when you want a copy of
 your drop back.
 
 ## EXAMPLES
-Load and rename two licenses as drops.
-<span />`$ mold drop load ./LICENSE.md mit.md`  
-<span />`$ mold drop load ./LICENSE.md cc-share-alike.md`  
-copy a drop into the current directory.  
-<span />`$ mold drop dump mit.md ./LICENSE.md`  
+Load and rename two licenses as drops.  
+<span />`$ mold drop load ./LICENSE.md mit.md`    
+<span />`$ mold drop load ./LICENSE.md cc-share-alike.md`    
+copy a drop into the current directory.   
+<span />`$ mold drop dump mit.md ./LICENSE.md`   
 
 ## TASKS
 * [list](drop_list_help.md) -- will print a list of your drops
