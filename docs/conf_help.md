@@ -9,7 +9,7 @@ mold conf
 ## SYNOPSIS  
 A mold conf is a dotfile. When you create or load a conf it will be hard linked to your home directory. Hard links are filesystem references to the same file. Editing the file in your home directory will also edit the file in your config repository, and vice versa.  
 
-## NOTE  
+### NOTE  
 If you run the nuke task it will only delete the file from
 your config repository. It will NOT remove it from your
 home directory.  

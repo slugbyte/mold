@@ -3,7 +3,6 @@ sync defines the logic for maintaining a MOLD_ROOT using git
 '''
 
 import mold.git as git 
-import mold.help as help
 from mold.util import query
 
 def _auto(ctx):
@@ -22,7 +21,6 @@ def _make_no_arg_git_task(name):
     methods = {
         "add": git.add,
         "log": git.log,
-        "help": help.sync,
         "branch": git.branch,
         "status": git.status,
     }
@@ -52,7 +50,6 @@ _task_handlers = {
     # custom 
     "auto": _auto,
     # curry no arg
-    'help': _make_no_arg_git_task('help'),
     "add": _make_no_arg_git_task('add'),
     "log": _make_no_arg_git_task('log'),
     "status": _make_no_arg_git_task('status'),
@@ -75,7 +72,7 @@ def handle_task(ctx):
     # Instad there could be a shor USAGE: comand [task] [options] for
     # each command? **FUTURE**
     try:
-        _task_handlers[ctx.task or 'help'](ctx)
+        _task_handlers[ctx.task](ctx)
     except:
         print(f'mold sync can\'t {ctx.task} yet.')
 

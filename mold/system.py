@@ -3,9 +3,10 @@ system defines an sane api for running executbales.
 '''
 
 import os 
+import sys 
 import shlex
+import shutil
 import subprocess
-from shutil import which 
 
 # PRIVATE
 class _ExecResult:
@@ -34,7 +35,7 @@ def cd(path):
 def exec(cmd):
     '''shell runs executables that DONT need a TUI'''
     parsed = shlex.split(cmd)
-    parsed[0] = which(parsed[0])
+    parsed[0] = shutil.which(parsed[0])
     if not parsed[0]:
        return _ExecResult(fail=True) 
     p = subprocess.Popen(parsed, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -45,9 +46,14 @@ def exec(cmd):
 def shell(cmd):
     '''shell runs executables that need a TUI'''
     parsed = shlex.split(cmd)
-    parsed[0] = which(parsed[0])
+    parsed[0] = shutil.which(parsed[0])
     if not parsed[0]:
        return _ExecResult(fail=True) 
     status = subprocess.Popen(parsed).wait()
     return _ExecResult(status, None, None)
 
+def check_is_tty():
+    return sys.stdout.isatty()
+
+def which(*args):
+    return shutil.which(*args)
