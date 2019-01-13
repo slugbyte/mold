@@ -9,7 +9,7 @@ import mold.fs  as fs
 from mold.color import *
 
 def help_example():
-    conf_help = fs.dirname(__file__ ) + '/../../docs/README.md'
+    conf_help = fs.dirname(__file__ ) + '/../../docs/conf_help.md'
     with codecs.open(conf_help, mode='r', encoding='utf-8') as help_file:
         help_text = help_file.read()
         to_print = markdown.markdown(help_text)
@@ -55,7 +55,7 @@ def help_example():
         line = re.sub('\s+', ' ', line).strip()  + '\n' # strip whitespace
         if len(line.strip()) == 0:
             continue
-        if line.startswith('<'):
+        if line.startswith('<') and not line.startswith('<span'):
             to_print += line 
         else: 
             to_print += '    ' + line 
@@ -66,6 +66,7 @@ def help_example():
 
     to_print = re.sub('</h.*>', reset, to_print)
     to_print = to_print.replace('<span/>', '    ')
+    to_print = to_print.replace('<span />', '    ')
     to_print = to_print.replace("<span classname='newline'/>", '')
 
     to_print = to_print.strip()
