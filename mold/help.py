@@ -8,70 +8,73 @@ import codecs
 import mold.fs  as fs
 from mold.color import *
 
-def print_help(ctx, help_file):
-    help_file = ctx.MOLD_DOCS + '/' + help_file
-    # help_file = fs.dirname(__file__ ) + '/../../docs/plug_help.md'
+def read_help_file(help_file):
     with codecs.open(help_file, mode='r', encoding='utf-8') as help_file:
         help_text = help_file.read()
-        to_print = markdown.markdown(help_text)
+        return markdown.markdown(help_text)
 
-    # to_print = re.sub('\s+', ' ', to_print).strip() # strip whitespace
-    to_print = to_print.replace('</h1>', reset + '</h1>\n')
-    to_print = to_print.replace('</h2>', reset +'</h2>\n')
-        # help_text=help_file.read().replace('\n', '')
-    # to_print = markdown(help_text)
-    to_print = to_print.replace('<blockquote>', '').replace('</blockquote>',  '\n')
-    to_print = to_print.replace('<blockquote> <p>', '').replace('</p> </blockquote>',  '\n')
-    to_print = to_print.replace('<p>', '').replace('</p>',  '\n')
+def replace_non_header_tags(html):
+    html = html.replace('</h1>', reset + '</h1>\n')
+    html = html.replace('</h2>', reset +'</h2>\n')
+    html = html.replace('<blockquote>', '').replace('</blockquote>',  '\n')
+    html = html.replace('<blockquote> <p>', '').replace('</p> </blockquote>',  '\n')
+    html = html.replace('<p>', '').replace('</p>',  '\n')
 
-    to_print = re.sub('<br />', '\n', to_print)
-    to_print = to_print.replace('<em>', '').replace('</em>', '')
-    to_print = to_print.replace('<strong>', blue + '').replace('</strong>', reset + '')
-    to_print = re.sub('<a.*?>', blue, to_print)
-    to_print = to_print.replace('</a>', reset)
-    to_print = to_print.replace('<code>',  green + '').replace('</code>', reset + '') # green must appear before '    ' because of strip below
-    to_print = to_print.replace('<ul>', '').replace('</ul>', '')
-    to_print = to_print.replace('<li>', '').replace('</li>','' )
+    html = re.sub('<br />', '\n', html)
+    html = html.replace('<em>', '').replace('</em>', '')
+    html = html.replace('<strong>', blue + '').replace('</strong>', reset + '')
+    html = re.sub('<a.*?>', blue, html)
+    html = html.replace('</a>', reset)
+    html = html.replace('<code>',  green + '').replace('</code>', reset + '') # green must appear before '    ' because of strip below
+    html = html.replace('<ul>', '').replace('</ul>', '')
+    html = html.replace('<li>', '').replace('</li>','' )
+    return html.strip()
 
-    to_print = to_print.replace('&lt;', '<')
-
-    # trim to 70with 
-    lines = to_print.split('\n')
-    to_print = ''
+def force_text_wrap(text, max_width=80):
+    lines = text.split('\n')
+    text = ''
     max_width = 80
     for line in lines:
         if len(line) < max_width:
-            to_print += line + '\n'
+            text += line + '\n'
         else:
             while len(line) > max_width:
                 space_index = line.find(' ', max_width)
-                to_print +=  line[:space_index] + '\n'
+                text +=  line[:space_index] + '\n'
                 line = line[space_index:]
-            to_print += line + '\n'
+            text += line + '\n'
+    return text.strip()
 
-    # make nice indentation 
-    lines = to_print.split('\n')
-    to_print = ''
+def indent_non_headers(text):
+    lines = text.split('\n')
+    text = ''
     for line in lines:
         line = re.sub('\s+', ' ', line).strip()  + '\n' # strip whitespace
         if len(line.strip()) == 0:
             continue
         if line.startswith('<') and not line.startswith('<span'):
-            to_print += line 
+            text += line 
         else: 
-            to_print += '    ' + line 
+            text += '    ' + line 
+    return text.strip()
 
-    # add color to headers
-    to_print = to_print.replace('<h1>', yellow).replace('<h2>', yellow)
-    to_print = to_print.replace('<h3>', red).replace('<h4>', '    ')
+def replace_header_tags(text):
+    text = text.replace('<h1>', yellow).replace('<h2>', yellow)
+    text = text.replace('<h3>', red).replace('<h4>', '    ')
+    text = re.sub('</h.*>', reset, text)
+    text = text.replace('<span/>', '    ')
+    text = text.replace('<span />', '    ')
+    text = text.replace("<span classname='newline'/>", '')
+    return text.strip()
 
-    to_print = re.sub('</h.*>', reset, to_print)
-    to_print = to_print.replace('<span/>', '    ')
-    to_print = to_print.replace('<span />', '    ')
-    to_print = to_print.replace("<span classname='newline'/>", '')
-
-    to_print = to_print.strip()
-    print(to_print)
+def print_help(ctx, help_file):
+    help_file = ctx.MOLD_DOCS + '/' + help_file
+    help_text = read_help_file(help_file)
+    help_text = replace_non_header_tags(help_text)
+    help_text = force_text_wrap(help_text, 80)
+    help_text = indent_non_headers(help_text)
+    help_text = replace_header_tags(help_text)
+    print(help_text)
 
 # # TODO NOW: 1) get the rest of the help text in this file into own files
 # # 2) make help text files for sync tasks
@@ -80,7 +83,6 @@ def print_help(ctx, help_file):
 # # TODO: refacter each help to be a string
 # # then create a comple fiunction that will choose to colorify base on ctx
 # # then make a create_help_handler to generate help defs (functions)
-
 # def print_help(ctx, help_file):
     # print('gnna print ', ctx.MOLD_DOCS + '/' + help_file)
 
@@ -93,4 +95,4 @@ def handle_help(ctx):
         print_help(ctx, help_file)
     else:
         print_help(ctx, 'README.md')
-    print(f'hit handle help cmd:{ctx.command}, task:{ctx.task}')
+    # print(f'hit handle help cmd:{ctx.command}, task:{ctx.task}')
