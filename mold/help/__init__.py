@@ -9,7 +9,7 @@ import mold.fs  as fs
 from mold.color import *
 
 def help_example():
-    conf_help = fs.dirname(__file__ ) + '/../../docs/drop_help.md'
+    conf_help = fs.dirname(__file__ ) + '/../../docs/plug_help.md'
     with codecs.open(conf_help, mode='r', encoding='utf-8') as help_file:
         help_text = help_file.read()
         to_print = markdown.markdown(help_text)

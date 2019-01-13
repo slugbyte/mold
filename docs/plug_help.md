@@ -1,28 +1,29 @@
-text = '''
-USAGE: mold plug [task] [file] 
+mold plug
+====
 
-mold plugs are shell scripts that will be loaded each time 
-you create a new shell. Its great place to add ENV var 
-config, aliases, functions, or startup scripts. 
+> plug is a mold command for managing shell script plugins
 
-NOTE: Anything you load as a plug will be sourced by your shell 
-on load, so be carful to only load files your shell can source. 
+## USAGE
+`$ mold plug [task] [file]`
 
-TASKS:
-    list: -- will color_print a list all of your plug files. 
+## SYNOPSIS  
+mold plugs are shell scripts that will be loaded each time
+you create a new shell. Its great place to add ENV var
+plugig, aliases, functions, or startup scripts.
 
-    make: -- will create a new plug file and open it in your 
-            text editor.
+### WARNING  
+Anything you load as a plug will be sourced by your shell
+on load, so be carful to only load files your shell can source.
 
-    load: -- will a file into your config repository as a plug.
+## EXAMPLES   
+create some shell plugins
+<span/>`$ mold plug make my-aliases.sh`
+<span/>`$ mold plug make git-shortcuts.sh`         
+<span/>`$ mold plug load ./git-aware-prompt.sh`
 
-    edit: -- will open an existing plug with your text editor.
-
-    nuke: -- will remove an plug file from your config repository. 
-
-e.g. 
-    CREATE PLUGS:   mold plug make my-aliases.sh 
-                    mold plug make git-shortcuts.sh         
-                    mold plug load ./git-aware-prompt.sh
-'''.strip()
-
+## TASK REFERENCE
+* [list](plug_list_help.md) -- will print a list all of your plug files.  
+* [make](plug_make_help.md) -- will create a plug using $EDITOR
+* [load](plug_load_help.md) -- will copy a plug into $MOLD_ROOT
+* [edit](plug_edit_help.md) -- will open a plug using $EDITOR  
+* [nuke](plug_nuke_help.md) -- will delete a plug
