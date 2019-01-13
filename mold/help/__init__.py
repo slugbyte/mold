@@ -66,6 +66,7 @@ def help_example():
 
     to_print = re.sub('</h.*>', reset, to_print)
     to_print = to_print.replace('<span/>', '    ')
+    to_print = to_print.replace("<span classname='newline'/>", '')
 
     to_print = to_print.strip()
     print(to_print)

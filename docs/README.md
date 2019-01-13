@@ -1,6 +1,5 @@
 # mold
-> A CLI for managing dotfiles, shell scripts, executables, project scaffolds, and file templates
-
+> A CLI for managing dotfiles, shell scripts, executables, project scaffolds, and file templates  
 
 ## USAGE
 `$ mold [--flags] [command] [...options]`
@@ -8,11 +7,11 @@
 ## SYNOPSIS
  mold uses a git repository called a mold root to store and track system configuration files. The mold root is configured using the environment variable $MOLD\_ROOT and unless you have a custom install it will be set to $HOME/.mold
 
-<br /><span/>
+<span classname='newline'/>
 
  mold splits the files it tracks into the following classifications conf, plug, exec, drop, and fold. Each of theses classifications is has different behaviors and gets its own subdirectory in $MOLD\_ROOT for storing content. Below are descriptions of the unique behaviors of each mold classification.
 
-<br /><span/>
+<span classname='newline'/>
 
 [conf](./conf_help.md) files are dotfiles that are hard linked to the $HOME directory.
 
@@ -24,11 +23,12 @@
 
 [fold](./fold_help.md) templates are project directory scaffolds, they are drops but for whole directories.  
 
-<br /><span/>
+<span classname='newline'/>
+
 Each of mold's file classifications has a "command" that and "tasks" that allow you to create, read, update, and destroy classification specific content. The mold commands are the name of the classification. The following example demonstrates using the **conf** command with **make** task to create a .bashrc file   
 e.g. `$ mold conf make .bashrc`
 
-<br /><span/>
+<span classname='newline'/>
 
 The mold commands [conf](./conf_help.md), [plug](./plug_help.md), [exec]('./exec_help.md), [drop](./drop_help.md), and [fold](./fold_help.md) each the following tasks for managing content.  
 
@@ -37,6 +37,8 @@ The mold commands [conf](./conf_help.md), [plug](./plug_help.md), [exec]('./exec
 * **edit** - will open content using $EDITOR  
 * **nuke** - will remove content  
 * **list** - will list the classification's content  
+
+<span classname='newline'/>
 
 [drop](./drop_help.md) and [fold](./fold_help.md) also have a **dump** task for exorting content into the current directory.
 
@@ -47,6 +49,8 @@ To install a $MOLD\_ROOT for the first time run
 For custom installations see the mold github repository  
 https://github.com/slugbyte/mold
 
+<span classname='newline'/>
+
 #### SETUP FROM AN EXISTING MOLD\_ROOT REPOSITORY
 To install an existing MOLD\_ROOT run   
 `$ mold --clone [GIT_URI]`
@@ -55,6 +59,8 @@ To install an existing MOLD\_ROOT run
 #### GIT REMOTE
 To change your $MOLD\_ROOT's git remote origin run   
 <span/>`$ mold --set-remote [GIT_URI]`
+
+<span classname='newline'/>
 
 #### TEXT EDITOR
 To change the text editor mold uses for editing file and git commits set the $EDITOR in your shell configuration.  
