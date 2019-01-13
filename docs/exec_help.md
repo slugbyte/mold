@@ -20,7 +20,7 @@ if you need to.
 ## EXAMPLES
 To create an exec   
 <span />`$ mold exec make troll.py`  
-To load an exec . 
+To load an exec   
 <span />`$ mold load ./a.out fetch-metadata`  
 
 ## TASKS
