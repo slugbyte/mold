@@ -6,7 +6,6 @@ It also defines the abilty for drop and fold to export content.
 import os 
 import mold.fs as fs
 import mold.system as system
-import mold.help as help
 from mold.util import query
 
 # TODO: have each task handler return an exit code from the ctx
@@ -27,8 +26,6 @@ def _link_conf(ctx):
 
 def _make(ctx):
     filename = ctx.get_option(0)
-    if filename == 'help' or not filename:
-        return help.make(ctx)
     filepath = ctx.get_command_dir() + '/' + filename
     if ctx.command == 'fold':
         fs.mkdir(filepath)
@@ -44,8 +41,6 @@ def _make(ctx):
 
 def _load(ctx):
     filepath = ctx.get_option(0)
-    if filepath == 'help' or not filepath:
-        return help.load(ctx)
     filename = ctx.get_option(1) or fs.basename(filepath)
     if fs.exists(filepath):
         # first load conten
@@ -66,16 +61,10 @@ def _load(ctx):
 
 # LIST
 def _list(ctx):
-    if ctx.get_option(0) == 'help':
-        return help.list(ctx)
-    else:
-        #TODO: consider -v flag for adding things like timestamp or byte size
         print('\n'.join(ctx.get_command_dirlist()))
 
 def _edit(ctx):
     filename = ctx.get_option(0)
-    if filename == 'help' or not filename:
-        return help.edit(ctx)
     filepath = ctx.get_command_dir() + '/' + filename
     if fs.exists(filepath):
         if ctx.command == 'fold': # IF you dont cd when using TUI editors its edit a dir structure
@@ -87,8 +76,6 @@ def _edit(ctx):
 
 def _nuke(ctx):
     filename = ctx.get_option(0)
-    if filename == 'help' or not filename:
-        return help.nuke(ctx)
     filepath = ctx.get_command_dir() + '/' + filename
     if fs.exists(filepath):
         if ctx.command == 'fold':
@@ -105,8 +92,6 @@ def _dump(ctx):
         print(f'Error: {ctx.command} does not support the drop task')
         return 
     filename = ctx.get_option(0)
-    if filename == 'help' or not filename:
-        return help.dump(ctx.command)
     filepath = ctx.get_command_dir() + '/' + filename
     output  = ctx.get_option(1) or filename
     if fs.exists(filepath):
@@ -118,20 +103,6 @@ def _dump(ctx):
             return 
     print(f'ERROR: no "{filename}" {ctx.command} file found')
 
-def _help(ctx):
-    _command_help_handlers = {
-        "conf": help.conf,
-        "plug": help.plug,
-        "exec": help.exec,
-        "fold": help.fold,
-        "drop": help.drop,
-    }
-    help_handler = query(_command_help_handlers, ctx.command)
-    if(help_handler):
-        return help_handler(ctx)
-    return print(f'TODO: FIX THIS ERROR IT SHOULD NEVER HAPPEN, Sorry, no help for {ctx.command}.')
-
-
 _task_handlers = {
     "make": _make,
     "load": _load,
@@ -139,12 +110,11 @@ _task_handlers = {
     "edit": _edit,
     "nuke": _nuke,
     "dump": _dump,
-    "help": _help,
 }
 
 
 def handle_task(ctx):
     try: 
-        _task_handlers[ctx.task or 'help'](ctx)
+        _task_handlers[ctx.task](ctx)
     except: 
         print(f'wut whoe, {ctx.task} is not known to mold {ctx.command}.')

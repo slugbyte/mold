@@ -14,18 +14,14 @@ from mold.install import install
 from mold.color import red, reset
 
 # PRIVATE
-def _check_usage(ctx):
+def _check_help(ctx):
+    if ctx.check_help_set():
+        help.handle_help(ctx)
+        return False 
     if ctx.command == None:
         print('''USAGE: mold [SUBCOMMAND] [OPTIONS] 
     run "mold help" for more info''')
         return False
-    return True
-
-def _check_help(ctx):
-    command = ctx.command 
-    if(command == 'help' or command == '-h' or command == '--help'):
-        help.main(ctx)
-        return False 
     return True
 
 def _check_mold_root(ctx):
@@ -36,9 +32,15 @@ def _check_mold_root(ctx):
         return False
     return True
 
-def _check_install(ctx):
-    if ctx.command == '--install':
+def _check_main_tasks(ctx):
+    if ctx.check_install_set():
         install(ctx)
+        return False
+    if ctx.check_clone_set():
+        print('TODO: implament --clone')
+        return False
+    if ctx.check_set_remote_set():
+        print('TODO: implament --set-remote')
         return False
     return True
 
@@ -65,25 +67,22 @@ def _check_sync(ctx):
 def main(ctx):
     # the order of the check invocations can not change
     if not _check_complete(ctx):
-        return ctx.EXIT_STATUS_OK
+        return ctx.OK
 
-    if not _check_usage(ctx):
-        return ctx.EXIT_STATUS_OK
+    if not _check_main_tasks(ctx):
+        return ctx.OK
 
     if not _check_help(ctx):
-        return ctx.EXIT_STATUS_OK
-
-    if not _check_install(ctx):
-        return ctx.EXIT_STATUS_OK
+        return ctx.OK
 
     if not _check_mold_root(ctx):
-        return ctx.EXIT_STATUS_FAIL
+        return ctx.FAIL
 
     if not _check_core(ctx):
-        return ctx.EXIT_STATUS_OK
+        return ctx.OK
 
     if not _check_sync(ctx):
-        return ctx.EXIT_STATUS_OK
+        return ctx.OK
     print(f'{red}doh!{reset} mold {ctx.command} isn\'t a feature yet.')
-    return ctx.EXIT_STATUS_DEVELOPER_TODO
+    return ctx.DEV_TODO
 

@@ -65,7 +65,6 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
 * `--color | MOLD_COLOR=true` -- force color when piping
 * `--complete` -- generate smart tab completion for a posix shell like bash or zsh DONE
 
-
 ## NON-GOALS 
 * Adding support for os or hostname specic detection
     * My [old mold like tools](https://github.com/slugbyte/mold/wiki/mold-prequels-and-their-lessons) had this feature, and I felt it over complicated the maintnece of my system configuration. 
