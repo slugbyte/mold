@@ -8,26 +8,68 @@ import codecs
 import mold.fs  as fs
 from mold.color import *
 
-
-
 def help_example():
-    conf_help = fs.dirname(__file__ ) + '/core/conf_help.md'
+    conf_help = fs.dirname(__file__ ) + '/../../docs/conf_help.md'
     with codecs.open(conf_help, mode='r', encoding='utf-8') as help_file:
         help_text = help_file.read()
         to_print = markdown.markdown(help_text)
-    to_print = re.sub('\s+', ' ', to_print).strip() # strip whitespace
 
+    to_print = re.sub('\s+', ' ', to_print).strip() # strip whitespace
+    to_print = to_print.replace('</h1>', reset + '</h1>\n')
+    to_print = to_print.replace('</h2>', reset +'</h2>\n')
         # help_text=help_file.read().replace('\n', '')
     # to_print = markdown(help_text)
-    to_print = to_print.replace('<h1>', yellow).replace('</h1> ', reset + '\n')
-    to_print = to_print.replace('<h2>', yellow).replace('</h2> ', reset + '\n')
-    to_print = to_print.replace('<blockquote> <p>', '').replace('</p> </blockquote> ', reset + '\n')
-    to_print = to_print.replace('<p>', '').replace('</p> ', reset + '\n')
-    to_print = to_print.replace('<em>', magenta).replace('</em>', reset)
-    to_print = to_print.replace('<strong>', blue).replace('</strong>', reset)
+    to_print = to_print.replace('<blockquote> <p>', '').replace('</p> </blockquote>',  '\n')
+    to_print = to_print.replace('<p>', '').replace('</p>',  '\n')
+
+    to_print = to_print.replace('<em>', '').replace('</em>', '')
+    to_print = to_print.replace('<strong>', blue + '').replace('</strong>', reset + '')
     to_print = to_print.replace('<br /> ', '\n')
-    to_print = to_print.replace('<code>', green).replace('</code> ', reset)
+    to_print = to_print.replace('<code>',  green + '').replace('</code>', reset + '') # green must appear before '    ' because of strip below
+    to_print = to_print.replace('<ul>', '').replace('</ul>', '')
+    to_print = to_print.replace('<li>', '').replace('</li>','' )
+
+    # trim to 70with 
+    lines = to_print.split('\n')
+    to_print = ''
+    max_width = 65
+    for line in lines:
+        if len(line) < max_width:
+            to_print += line + '\n'
+        else:
+            while len(line) > max_width:
+                space_index = line.find(' ', max_width)
+                to_print +=  line[:space_index] + '\n'
+                line = line[space_index:]
+            to_print += line + '\n'
+
+    # make nice indentation 
+    lines = to_print.split('\n')
+    to_print = ''
+    for line in lines:
+        line = re.sub('\s+', ' ', line).strip()  + '\n' # strip whitespace
+        if len(line.strip()) == 0:
+            continue
+        if line.startswith('<h'):
+            to_print += line 
+        else: 
+            to_print += '    ' + line 
+
+    # add color to headers
+    to_print = to_print.replace('<h1>', yellow).replace('<h2>', yellow)
+    to_print = to_print.replace('</h1>', reset)
+    to_print = to_print.replace('</h2>', reset)
+    to_print = to_print.replace('<span/>', '    ')
+
+    to_print = to_print.strip()
     print(to_print)
+
+    
+    # to_print = to_print.split('\n')
+    # to_print = to_print.split(' ')
+    # to_print = to_print.replace('<h1>', yellow).replace('</h1> ', reset + '\n')
+    # to_print = to_print.replace('<h2>', yellow).replace('</h2> ', reset + '\n')
+    # print(to_print)
     # to_print = to_print.replace('<p>', '').replace('</p>', reset + '\n')
     # to_print = to_print.replace('\n<code>', green).replace('</code>', reset + '')
     # to_print = to_print.replace('<ul>\n', '').replace('\n</ul>', '')
