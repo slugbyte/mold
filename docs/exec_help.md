@@ -18,10 +18,10 @@ you will not be able to run it. so remember to chmod 775 it
 if you need to.
 
 ## EXAMPLES
-To create an exec  
-<span />`$ mold exec make troll.py`
-To load an exec
-<span />`$ mold load ./a.out fetch-metadata`
+To create an exec   
+<span />`$ mold exec make troll.py`  
+To load an exec . 
+<span />`$ mold load ./a.out fetch-metadata`  
 
 ## TASKS
 * [list](exec_list_help.md) -- will print a list all of your exec files.  
