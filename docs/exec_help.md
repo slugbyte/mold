@@ -1,28 +1,31 @@
-text = '''
-USAGE: mold exec [task] [file] 
+mold exec
+====
 
-mold execs are executbale files that will be stored in
-a directory on your $PATH. 
+> exec is a mold command for managing executables
 
-NOTE: If your file does not have executable permsions 
+## USAGE
+`$ mold exec [--flags] [task] [options]`
+
+## SYNOPSIS
+mold execs are executable files that will be stored in
+a directory on your $PATH.
+
+<span />
+
+#### NOTE
+If your file does not have executable permissions
 you will not be able to run it. so remember to chmod 775 it
 if you need to.
 
-TASKS:
-    list: -- will color_print a list all of your exec files. 
+## EXAMPLES
+To create an exec  
+<span />`$ mold exec make troll.py`
+To load an exec
+<span />`$ mold load ./a.out fetch-metadata`
 
-    make: -- will create a new exec file and open it in your 
-            text editor. It will automaticly have executable 
-            permissions (755).
-
-    load: -- will a file into your config repository as a exec.
-            You can rename execs that you are loading
-
-    edit: -- will open an existing exec with your text editor.
-
-    nuke: -- will remove an exec file from your config repository. 
-
-e.g. 
-    CREATE EXECS:   mold exec make troll.py
-    LOAD EXECS:     mold load ./a.out fetch-metadata
-'''.strip()
+## TASKS
+* [list](exec_list_help.md) -- will print a list all of your exec files.  
+* [make](exec_list_help.md) -- will create a exec using $EDITOR
+* [load](exec_list_help.md) -- will copy a exec into $MOLD_ROOT
+* [edit](exec_list_help.md) -- will open a exec using $EDITOR  
+* [nuke](exec_list_help.md) -- will delete a exec
