@@ -4,7 +4,7 @@ mold conf
 > conf is a mold command for managing dotfiles  
 
 ## USAGE  
-`mold conf [task] [filepath] [rename]`  
+`$ mold conf [task] [filepath] [rename]`  
 
 ## SYNOPSIS  
 A mold conf is a dotfile. When you create or load a conf it
