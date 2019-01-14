@@ -3,13 +3,38 @@
 
 ![breakfast grool](https://assets.slugbyte.com/github/github-header-00011.png)  
 
+
+## WARNING UNSTABLE
+mold is under active development and not ready for production use.
+### INSTALL
+First you need to install the mold CLI and then use the mold cli to create a MOLD\_ROOT. A MOLD\_ROOT is 
+a git repository that mold uses for storing all of your system configuration, shell scripts, and templates.
+By default the installers will install your mold root to **~/.mold**. 
+
+##### INTERACTIVE INSTALLER
+1. `pip3 install mold`
+1. run `mold --install` and follow the instructions
+    * you can optional add `--set-remote git://github.com/example/example.git` to initialize a git remote
+
+##### QUICK INSTALL
+The quick install does the same thing as the interactive installer without any prompting  
+**WARNING** The quick install will overwrite the $MOLD\_ROOT if it all ready exists.  
+1. `pip3 install mold`
+1. run `mold --quick-install` and follow the output instructions
+    * you can optional add `--set-remote git://github.com/example/example.git` to initialize a git remote
+
+#### CREADING CUSTOM MOLD\_ROOT DIRECTORY
+To change the MOLD\_ROOT from ~/.mold set the environment variable $MOLD\_ROOT before you run the installer
+1. `export MOLD_ROOT=$HOME/path/to/your/mold_root`
+2. `mold --quick-install --set-remote git:
+
+#### CLONE A MOLD ROOT
+To clone an existing mold root  run 
+* run `mold --clone git://github.com/user/mold-root.git` and follow the output instructions
+    * if you want to overwrite $MOLD_ROOT if it exists add `--force`
+
 ## FEATURES
 ` USAGE: mold [--flags] [command] [task] [options]`  
-
-### ENV
-* `MOLD_ROOT` -- sets the directory that mold will use to install and manage everything 
-* `MOLD_DEBUG` -- allow errors to be thrown without being cought 
-* `MOLD_COLOR` -- force mold to print color even when piped into other programs
 
 ## SMART HELP 
 `-h`, `--help`, and `help` can be applied to anything in mold and their order does not matter
@@ -66,6 +91,11 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
 * `--verson ` -- print mold version 
 * `--color | MOLD_COLOR=true` -- force color when piping 
 * `--complete` -- generate smart tab completion for a posix shell like bash or zsh  
+
+### ENV
+* `MOLD_ROOT` -- sets the directory that mold will use to install and manage everything 
+* `MOLD_DEBUG` -- allow errors to be thrown without being cought 
+* `MOLD_COLOR` -- force mold to print color even when piped into other programs
 
 ## NON-GOALS 
 * Adding support for os or hostname specic detection
