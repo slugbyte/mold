@@ -1,27 +1,27 @@
-mold drop
+mold file
 ====
 
-> drop is a mold command for managing file templates
+> file is a mold command for managing file templates
 
 ## USAGE
-`$ mold drop task [options] [--flags]`
+`$ mold file task [options] [--flags]`
 
 ## SYNOPSIS  
-mold drops are file templates. You can use mold drop to create
+mold files are file templates. You can use mold file to create
 or load a file template, and later when you want a copy of
-your drop back.
+your file back.
 
 ## EXAMPLES
-Load and rename two licenses as drops.  
-<span />`$ mold drop load ./LICENSE.md mit.md`    
-<span />`$ mold drop load ./LICENSE.md cc-share-alike.md`    
-copy a drop into the current directory.   
-<span />`$ mold drop dump mit.md ./LICENSE.md`   
+Load and rename two licenses as files.  
+<span />`$ mold file load ./LICENSE.md mit.md`    
+<span />`$ mold file load ./LICENSE.md cc-share-alike.md`    
+copy a file into the current directory.   
+<span />`$ mold file dump mit.md ./LICENSE.md`   
 
 ## TASKS
-* [list](drop_list_help.md) -- will print a list of your drops
-* [make](drop_make_help.md) -- will create a drop using $EDITOR
-* [load](drop_load_help.md) -- will copy an a drop into $MOLD_ROOT
-* [edit](drop_edit_help.md) -- will edit a drop with $EDITOR
-* [nuke](drop_nuke_help.md) -- will delete a drop
-* [dump](drop_dump_help.md) -- copy a drop into your current directory
+* [list](file_list_help.md) -- will print a list of your files
+* [make](file_make_help.md) -- will create a file using $EDITOR
+* [load](file_load_help.md) -- will copy an a file into $MOLD_ROOT
+* [edit](file_edit_help.md) -- will edit a file with $EDITOR
+* [nuke](file_nuke_help.md) -- will delete a file
+* [dump](file_dump_help.md) -- copy a file into your current directory

@@ -1,6 +1,6 @@
 '''
 core defines the logic for the sub commands make load list edit nuke.
-It also defines the abilty for drop and fold to export content.
+It also defines the abilty for file and fold to export content.
 '''
 
 import os 
@@ -45,7 +45,7 @@ def _load(ctx):
         # first load conten
         if ctx.command == 'fold':
             if not fs.is_dir(filepath):
-                return print(f'USAGE ERROR: {filepath} is not a directory, use mold drop instead.')
+                return print(f'USAGE ERROR: {filepath} is not a directory, use mold file instead.')
             fs.copy_dir(filepath, ctx.get_command_dir() + '/' + filename)
         else:
             if fs.is_dir(filepath):
@@ -87,14 +87,14 @@ def _nuke(ctx):
 
 # EXPORT and LINK
 def _dump(ctx):
-    if not (ctx.command == 'fold' or ctx.command == 'drop'):
-        print(f'Error: {ctx.command} does not support the drop task')
+    if not (ctx.command == 'fold' or ctx.command == 'file'):
+        print(f'Error: {ctx.command} does not support the file task')
         return 
     filename = ctx.get_option(0)
     filepath = ctx.get_command_dir() + '/' + filename
     output  = ctx.get_option(1) or filename
     if fs.exists(filepath):
-        if ctx.command == 'drop':
+        if ctx.command == 'file':
             fs.copy(filepath, './' + output) 
             return 
         if ctx.command == 'fold':
