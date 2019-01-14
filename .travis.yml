@@ -1,0 +1,11 @@
+nguage: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+install:
+	- pip install pipenv 
+	- pipenv install -d 
+# command to run tests
+script: pytest

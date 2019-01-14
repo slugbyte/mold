@@ -88,5 +88,3 @@ class TestFS:
         assert fs.exists(path + '/1.txt')
         assert fs.exists(path + '/2.txt')
         assert fs.exists(path + '/3.txt')
-
-
