@@ -37,7 +37,7 @@ class MoldContext:
         self.HOME = query(os_environ, 'HOME')
         self.EDITOR = query(os_environ, 'EDITOR') or which('atom') or which('vim') or which('nano')
         self.MOLD_ROOT = query(os_environ, 'MOLD_ROOT') or (HOME +'/.mold')
-        self.MOLD_DOCS = __file__.replace('context.py', '../docs')
+        self.MOLD_DOCS = __file__.replace('context.py', 'docs')
         self.MOLD_DEBUG = bool(query(os_environ, 'MOLD_DEBUG'))
         self.MOLD_COLOR = check_is_tty() or bool(query(os_environ, 'MOLD_COLOR'))
         self.OK = 0
