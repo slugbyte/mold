@@ -8,7 +8,7 @@ verify_ssl = true
 [packages]
 mold = {path = "."}
 markdown = "*"
-requests = "*"
+twine = "*"
 
 [requires]
 python_version = "3.7"
