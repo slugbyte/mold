@@ -70,9 +70,6 @@ _task_handlers = {
 } 
 
 def handle_task(ctx):
-    # TODO: consider not default to the long help for all the commands
-    # Instad there could be a shor USAGE: comand [task] [options] for
-    # each command? **FUTURE**
     try:
         _task_handlers[ctx.task](ctx)
     except:

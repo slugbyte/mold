@@ -5,6 +5,7 @@ for SUB_COMMANDs and OPTIONS.
 
 import sys
 
+import mold
 import mold.core as core
 import mold.sync as sync
 import mold.help as help
@@ -31,6 +32,9 @@ def _check_mold_root(ctx):
     return True
 
 def _check_main_tasks(ctx):
+    if ctx.check_flag_set('--version'):
+        print('v' + mold.__version__)
+        return False
     if ctx.check_install_set() or ctx.check_clone_set() or ctx.check_set_remote_set():
         mold_root.handle_flag(ctx)
         return False

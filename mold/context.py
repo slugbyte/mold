@@ -7,7 +7,7 @@ import mold.fs as fs
 from mold.util import query 
 from mold.system import which, check_is_tty
 
-_flags = set(['--complete', '--color', '-v', 'help', '-h', '--help', '--install', '--clone', '--set-remote', '--yes'])
+_flags = set(['--complete', '--color', '-v', 'help', '-h', '--help', '--quick-install', '--install', '--clone', '--set-remote', '--force', '--version'])
 
 # STORES ARGS AND ENV VARS
 class MoldContext:
@@ -23,8 +23,8 @@ class MoldContext:
 
         # PARGS ARGV AND COMPLETE ARGV
         self.sys_argv  = sys_argv
-        # mold_argv is offset by one when the completion is running
-        if flags.issuperset(['complete']):
+        # mold_argv is offset by one when the completion is set
+        if flags.issuperset(['--complete']):
             self.mold_argv = mold_argv[1:]
         else: 
             self.mold_argv = mold_argv
@@ -69,7 +69,7 @@ class MoldContext:
         return self.check_flag_set('--clone')
 
     def check_install_set(self):
-        return self.check_flag_set('--install')
+        return self.check_flag_set('--install') or self.check_flag_set('--quick-install')
 
     def get_command_dir(self):
         if not self.command:

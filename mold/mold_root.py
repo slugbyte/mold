@@ -46,11 +46,12 @@ def _clone(ctx):
         print('USAGE ERROR: mising git-uri\n    e.g. mold --set-remote [git-uri]')
         return ctx.FAIL
     if fs.exists(ctx.MOLD_ROOT):
-        print(f'WARNING: {ctx.MOLD_ROOT} allready exists do you want to remove it? leave empty to continue')
-        abort = input(f'type anything to abort cloning: ')
-        if (abort):
-            print('clone aborted')
-            return ctx.OK
+        if not ctx.check_flag_set('--force'):
+            print(f'WARNING: {ctx.MOLD_ROOT} allready exists do you want to remove it? leave empty to continue')
+            abort = input(f'type anything to abort cloning: ')
+            if (abort):
+                print('clone aborted')
+                return ctx.OK
         fs.rimraf(ctx.MOLD_ROOT) 
     git.clone(ctx, ctx.command)
     return ctx.OK
@@ -71,7 +72,6 @@ def handle_flag(ctx):
         return False
     if ctx.check_set_remote_set():
         _set_remote(ctx)
-        # print('TODO: implament --set-remote', ctx.command)
         return False
     print('hit handle_flag')
 

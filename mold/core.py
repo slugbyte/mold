@@ -16,13 +16,12 @@ from mold.util import query
 
 # TODO: have _make and _load only link the single conf that is being added to 
 # the MOLD_ROOT
-def _link_conf(ctx):
+def _link_conf(ctx, filename):
     if ctx.command != 'conf':
         return 
-    for current in ctx.get_command_dirlist():
-        src = ctx.MOLD_ROOT + '/conf/' + current
-        dest = ctx.HOME + '/' + current
-        fs.force_link(src, dest)
+    src = ctx.MOLD_ROOT + '/conf/' + filename
+    dest = ctx.HOME + '/' + filename
+    fs.force_link(src, dest)
 
 def _make(ctx):
     filename = ctx.get_option(0)
@@ -30,11 +29,11 @@ def _make(ctx):
     if ctx.command == 'fold':
         fs.mkdir(filepath)
         system.cd(filepath)
-    # TODO: LOG ERROR IF EDIT WASNT POSSIBLE
-    system.shell(ctx.EDITOR + ' ' + filepath)
+    if not system.shell(ctx.EDITOR + ' ' + filepath).check_ok():
+        return print(f'ERROR: {ctx.EDITOR} could not open {filepath}')
     if fs.exists(filepath):
         if ctx.command == 'conf':
-            _link_conf(ctx)
+            _link_conf(ctx, filename)
         print(f'MADE {ctx.command.upper()}:', filename)
     else:
         print(f'MAKE {ctx.command.upper()} ABORTED: {filename} not created')
@@ -54,14 +53,14 @@ def _load(ctx):
             fs.copy(filepath, ctx.get_command_dir() + '/' + filename)
         # then if its a conf link it 
         if ctx.command == 'conf':
-            _link_conf(ctx)
+            _link_conf(ctx, filename)
         print(f'LOADED {ctx.command.upper()}: {filename}')
         return 
-    print(f'ERROR: no "{filename}" {ctx.command} found')
+    print(f'ERROR: could not find "{filepath}"')
 
 # LIST
 def _list(ctx):
-        print('\n'.join(ctx.get_command_dirlist()))
+        print('\n'.join(ctx.get_command_dirlist()).strip() or f'No {ctx.command}s')
 
 def _edit(ctx):
     filename = ctx.get_option(0)
@@ -103,6 +102,10 @@ def _dump(ctx):
             return 
     print(f'ERROR: no "{filename}" {ctx.command} file found')
 
+def _usage(ctx):
+        print(f'''USAGE: mold {ctx.command} [task] [...options]
+    run "mold {ctx.command} help" for more info''')
+
 _task_handlers = {
     "make": _make,
     "load": _load,
@@ -110,11 +113,12 @@ _task_handlers = {
     "edit": _edit,
     "nuke": _nuke,
     "dump": _dump,
+    "usage": _usage,
 }
 
 
 def handle_task(ctx):
     try: 
-        _task_handlers[ctx.task](ctx)
+        _task_handlers[ctx.task or 'usage'](ctx)
     except: 
         print(f'wut whoe, {ctx.task} is not known to mold {ctx.command}.')

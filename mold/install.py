@@ -21,6 +21,7 @@ def _log_success(ctx, extra='.'):
     green = get_color(ctx, _green)
     yellow = get_color(ctx, _yellow)
     reset = get_color(ctx, _reset)
+    magenta = get_color(ctx, _magenta)
     print(f'''
 {green}SUCCESS{reset}
 A MOLD_ROOT has installed to {ctx.MOLD_ROOT}{extra}
@@ -69,8 +70,9 @@ def install(ctx):
     magenta = get_color(ctx, _magenta)
     yellow = get_color(ctx, _yellow)
     reset = get_color(ctx, _reset)
+    quick = ctx.check_flag_set('--quick-install')
     print(f'{green}Installing{reset} a MOLD_ROOT in {ctx.MOLD_ROOT}')
-    if fs.exists(ctx.MOLD_ROOT):
+    if fs.exists(ctx.MOLD_ROOT) and not quick:
         print(f'\n{red}Hmm,{reset} {ctx.MOLD_ROOT} {red}allready exits.{reset}\nDo you want to remove it and continue? {magenta}[Leave blank to continue]{reset}')
         cancel = input(f'{cyan}Type anything to cancel:{reset} ')
         if cancel: 
@@ -79,10 +81,10 @@ def install(ctx):
         return _cleanup_and_fail(ctx)
     if not git.init(ctx):
         return _cleanup_and_fail(ctx)
+    remote = ''
     if ctx.check_set_remote_set():
         remote = ctx.command
-    else:
-        # TODO: check ctx for flag --remote-uri 
+    elif not quick:
         print(f'\nDo you want to setup a git remote? {magenta}[Leave blank to skip]{reset}')
         remote = input(f'{cyan}Enter a git uri:{reset} ')
     if not remote:

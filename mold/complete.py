@@ -12,9 +12,6 @@ _completable_core_default_tasks = ['help', 'make', 'load', 'list', 'edit', 'nuke
 _completable_sync_tasks = ['auto', 'log', 'add', 'commit', 'push', 'pull', 'diff', 'status', 'branch']
         # '--new-branch', '--checkout', '--merge', '--soft-reset', '--hard-reset'
 
-# TODO: implament --clone, --set-remote 
-# _main_comands = ['--install']
-
 def _complete_no_suggestions(ctx):
     print('')
 

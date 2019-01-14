@@ -34,7 +34,6 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
 * `list` -- list the contents 
 * `edit` -- edit contents 
 * `nuke` -- Delete contents 
-* `name` -- rename content TODO 
 * `dump` -- (only for `fold` and `drop`) Export content into the current directory 
 
 #### SYNC -- MOLD\_ROOT git management
@@ -59,25 +58,27 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
     
 #### OTHER -- arbitrary tasks
 * `--install` -- interactive installer 
-   * `--remote-uri` automatically set the git remote origin with out prompting the user TODO
-* `--quick-install` install without prompting TODO
+   * `--remote-uri` automatically set the git remote origin with out prompting the user 
+* `--quick-install` install without prompting 
 * `--clone` -- create mold root from existing repo 
-* `--yes | -y` -- stop interactive mode TODO
+  * `--force` will delete a moldroot without prompting
 * `--set-remote` -- set mold root's git origin remote 
-* `-v | --verbose` -- make logging more verbose  TODO
-* `--verson ` -- print mold version TODO
-* `--color | MOLD_COLOR=true` -- force color when piping TODO
+* `--verson ` -- print mold version 
+* `--color | MOLD_COLOR=true` -- force color when piping 
 * `--complete` -- generate smart tab completion for a posix shell like bash or zsh  
 
 ## NON-GOALS 
 * Adding support for os or hostname specic detection
     * My [old mold like tools](https://github.com/slugbyte/mold/wiki/mold-prequels-and-their-lessons) had this feature, and I felt it over complicated the maintnece of my system configuration. 
-    * Instead plugs, confs, and execs can implament their own condional logic TODO: add link to my bashrc [example](https://github.com/slugbyte/config/blob/master/config/.bashrc)
+    * Instead plugs, confs, and execs can implament their own condional logic [example](https://github.com/slugbyte/config/blob/master/config/.bashrc) or you can have more than one MOLD\_ROOT repository
+    * Instead plugs, confs, and execs can implament their own condional logic [example](https://github.com/slugbyte/config/blob/master/config/.bashrc)
 * Having the base install add premade configurration files
     * I don't follow the belief that systyem configurations can't be shared, because systems like [oh-my-zsh](https://ohmyz.sh/) work great for many people. However, molds goal is to help myself and others maintain their **personal** system configurations.
     * There is an option to Install from an existing mold_root on github, and I plan to make a *lite* oh-my-zsh like starter-kit mold_root repository at some point.
 
 ## IDEAS?
+* create a `name` task to rename content 
+* `-v | --verbose` -- make logging more verbose
 * create a mold --shell-activate that will return a shell script for loading plugins (could be smart about which shell to use)
 * make a tool to publish a new version to PyPi, brew, apt, and the arch-aur 
 * write a markdown parser/transformner for tui output so that the help logs can be written in markdown
