@@ -24,15 +24,15 @@ The quick install does the same thing as the interactive installer without any p
 1. run `mold --quick-install` and follow the output instructions
     * you can optional add `--set-remote git://github.com:user/example.git` to initialize a git remote
 
-#### CREADING CUSTOM MOLD\_ROOT DIRECTORY
+##### CREADING CUSTOM MOLD\_ROOT DIRECTORY
 To change the MOLD\_ROOT from ~/.mold set the environment variable $MOLD\_ROOT before you run the installer
 1. `export MOLD_ROOT=$HOME/path/to/your/mold_root`
 2. `mold --quick-install --set-remote git://github.com:user/example.git`
 
-#### CLONE A MOLD ROOT
-To clone an existing mold root  run 
+##### CLONE AN EXISTING MOLD ROOT 
+If you want to install an existing mold-root on another computer you can use `--clone`
 * run `mold --clone git://github.com/user/mold-root.git` and follow the output instructions
-    * if you want to overwrite $MOLD\_ROOT if it exists add `--force`
+    * if you want to overwrite the $MOLD\_ROOT if it exists add `--force`
 
 ## FEATURES
 ` USAGE: mold [--flags] [command] [task] [options]`  
