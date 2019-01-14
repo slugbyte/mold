@@ -34,7 +34,7 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
 * `list` -- list the contents 
 * `edit` -- edit contents 
 * `nuke` -- Delete contents 
-* `dump` -- (only for `fold` and `drop`) Export content into the current directory 
+* `take` -- (only for `fold` and `drop`) Export content into the current directory 
 
 #### SYNC -- MOLD\_ROOT git management
 ##### SYNC TASKS

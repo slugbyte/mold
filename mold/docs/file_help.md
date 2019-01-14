@@ -16,7 +16,7 @@ Load and rename two licenses as files.
 <span />`$ mold file load ./LICENSE.md mit.md`    
 <span />`$ mold file load ./LICENSE.md cc-share-alike.md`    
 copy a file into the current directory.   
-<span />`$ mold file dump mit.md ./LICENSE.md`   
+<span />`$ mold file take mit.md ./LICENSE.md`   
 
 ## TASKS
 * [list](file_list_help.md) -- will print a list of your files
@@ -24,4 +24,4 @@ copy a file into the current directory.
 * [load](file_load_help.md) -- will copy an a file into $MOLD_ROOT
 * [edit](file_edit_help.md) -- will edit a file with $EDITOR
 * [nuke](file_nuke_help.md) -- will delete a file
-* [dump](file_dump_help.md) -- copy a file into your current directory
+* [take](file_take_help.md) -- copy a file into your current directory

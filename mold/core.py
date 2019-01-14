@@ -86,7 +86,7 @@ def _nuke(ctx):
     print(f'ERROR: no "{filename}" {ctx.command} file found')
 
 # EXPORT and LINK
-def _dump(ctx):
+def _take(ctx):
     if not (ctx.command == 'fold' or ctx.command == 'file'):
         print(f'Error: {ctx.command} does not support the file task')
         return 
@@ -112,7 +112,7 @@ _task_handlers = {
     "list": _list,
     "edit": _edit,
     "nuke": _nuke,
-    "dump": _dump,
+    "take": _take,
     "usage": _usage,
 }
 

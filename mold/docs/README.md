@@ -40,7 +40,7 @@ The mold commands [conf](./conf_help.md), [plug](./plug_help.md), [exec]('./exec
 
 <span classname='newline'/>
 
-[file](./file_help.md) and [fold](./fold_help.md) also have a **dump** task for exorting content into the current directory.
+[file](./file_help.md) and [fold](./fold_help.md) also have a **take** task for exorting content into the current directory.
 
 ## INSTALL
 To install a $MOLD\_ROOT for the first time run  

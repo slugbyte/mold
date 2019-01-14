@@ -12,7 +12,7 @@ nuke_conf_text = _one_arg_help('Delete a {ctx.command} from your config repo.\nI
 
 # two arg 
 load_text = _two_arg_help('Load a {ctx.command} into your config repo.')
-dump_text = _two_arg_help( 'load', 'Copy a {ctx.command} from your config repo into your current directory.')
+take_text = _two_arg_help( 'load', 'Copy a {ctx.command} from your config repo into your current directory.')
 
 # no args
 list_text = 'USAGE: mold {ctx.command} list\nList the {ctx.command} in your config repo.'
