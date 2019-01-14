@@ -8,7 +8,7 @@
 * Mold conf, plug, exec, drop and fold have working tasks
 * Mold Readme is flushed out.
 
-##  v0.0.0 1/5/2019
+##  v0.0.0 DATE
 * Hello changelog
 * Added MIT License
 * Added Code of Conduct

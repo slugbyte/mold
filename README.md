@@ -18,7 +18,7 @@
 * `conf` -- manage dotfiles (CRUD + link to $HOME)
 * `plug` -- manage shell scripts aka. plugins  (CRUD + sourced every new shell)
 * `exec` -- manage executable files (CRUD + add them in a dir on $PATH)
-* `drop` -- manage file templates (CRUD + export to anywhere you want to use them)
+* `file` -- manage file templates (CRUD + export to anywhere you want to use them)
 * `fold` -- manage project scaffolds (CRUD + export to anywhere you want to use them)
 * `sync` -- mangae the MOLD\_ROOT git repository
 
