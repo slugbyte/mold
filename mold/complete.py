@@ -75,6 +75,10 @@ _completion_handlers = {
 def complete(ctx):
     # if MOLD_ROOT is not setup no completion 4 you
     # if no command show main until command 
+    if ctx.check_help_set():
+        # TODO refactor context so that helps' argv is pared so that you can 
+        # complete mold as usual when a help flag is set
+        return _completion_handlers['help'](ctx)
     if ctx.command == None or ctx.command == 'mold': 
         return _completion_handlers['main'](ctx)
     try:
