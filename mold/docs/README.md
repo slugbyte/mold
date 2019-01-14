@@ -35,7 +35,7 @@ The mold commands [conf](./conf_help.md), [plug](./plug_help.md), [exec]('./exec
 * **make** - will create content  
 * **load** - will copy or download content into the $MOLD\_ROOT  
 * **edit** - will open content using $EDITOR  
-* **nuke** - will remove content  
+* **drop** - will remove content  
 * **list** - will list the classification's content  
 
 <span classname='newline'/>

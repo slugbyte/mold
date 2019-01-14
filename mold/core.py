@@ -1,5 +1,5 @@
 '''
-core defines the logic for the sub commands make load list edit nuke.
+core defines the logic for the sub commands make load list edit drop.
 It also defines the abilty for file and fold to export content.
 '''
 
@@ -73,7 +73,7 @@ def _edit(ctx):
         return 
     print(f'ERROR: no "{filename}" {ctx.command} file found')
 
-def _nuke(ctx):
+def _drop(ctx):
     filename = ctx.get_option(0)
     filepath = ctx.get_command_dir() + '/' + filename
     if fs.exists(filepath):
@@ -111,7 +111,7 @@ _task_handlers = {
     "load": _load,
     "list": _list,
     "edit": _edit,
-    "nuke": _nuke,
+    "drop": _drop,
     "take": _take,
     "usage": _usage,
 }

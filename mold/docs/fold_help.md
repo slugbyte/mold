@@ -20,5 +20,5 @@ To export a fold run
 * [make](fold_make_help.md) -- will create a fold using $EDITOR
 * [load](fold_load_help.md) -- will copy an a dir into $MOLD_ROOT
 * [edit](fold_edit_help.md) -- will edit a fold with $EDITOR
-* [nuke](fold_nuke_help.md) -- will delete a fold
+* [drop](fold_drop_help.md) -- will delete a fold
 * [take](fold_take_help.md) -- copy a fold into your current directory

@@ -10,7 +10,7 @@ mold conf
 A mold conf is a dotfile. When you create or load a conf it will be hard linked to your home directory. Hard links are filesystem references to the same file. Editing the file in your home directory will also edit the file in your config repository, and vice versa.  
 
 ### NOTE  
-If you run the nuke task it will only delete the file from
+If you run the drop task it will only delete the file from
 your config repository. It will NOT remove it from your
 home directory.  
 
@@ -29,4 +29,4 @@ To download a conf into MOLD_ROOT/conf and rename it .tmux.conf
 * [make](conf_make_help.md) -- will create a conf using $EDITOR
 * [load](conf_load_help.md) -- will copy a conf into $MOLD_ROOT
 * [edit](conf_edit_help.md) -- will open a conf using $EDITOR  
-* [nuke](conf_nuke_help.md) -- will delete a conf
+* [drop](conf_drop_help.md) -- will delete a conf

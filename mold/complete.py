@@ -8,7 +8,7 @@ import mold.util as util
 # PRIVATE 
 # --install, --clone, --set-remote, and any other --* commands do not tab complete
 _completable_commands = ['conf', 'plug', 'exec', 'temp', 'file', 'sync']
-_completable_core_default_tasks = ['help', 'make', 'load', 'list', 'edit', 'nuke']
+_completable_core_default_tasks = ['help', 'make', 'load', 'list', 'edit', 'drop']
 _completable_sync_tasks = ['auto', 'log', 'add', 'commit', 'push', 'pull', 'diff', 'status', 'branch']
         # '--new-branch', '--checkout', '--merge', '--soft-reset', '--hard-reset'
 
@@ -45,7 +45,7 @@ _completion_handlers = {
     "make": _complete_no_suggestions,
     "list": _complete_no_suggestions,
     "edit": _complete_command_dirlist,
-    "nuke": _complete_command_dirlist, 
+    "drop": _complete_command_dirlist, 
     "take": _complete_command_dirlist, 
     # sync tasks
     "auto": _complete_no_suggestions,

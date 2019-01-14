@@ -28,4 +28,4 @@ To load an exec
 * [make](exec_list_help.md) -- will create a exec using $EDITOR
 * [load](exec_list_help.md) -- will copy a exec into $MOLD_ROOT
 * [edit](exec_list_help.md) -- will open a exec using $EDITOR  
-* [nuke](exec_list_help.md) -- will delete a exec
+* [drop](exec_list_help.md) -- will delete a exec

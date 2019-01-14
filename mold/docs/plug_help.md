@@ -26,4 +26,4 @@ create some shell plugins
 * [make](plug_make_help.md) -- will create a plug using $EDITOR
 * [load](plug_load_help.md) -- will copy a plug into $MOLD_ROOT
 * [edit](plug_edit_help.md) -- will open a plug using $EDITOR  
-* [nuke](plug_nuke_help.md) -- will delete a plug
+* [drop](plug_drop_help.md) -- will delete a plug

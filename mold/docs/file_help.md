@@ -23,5 +23,5 @@ copy a file into the current directory.
 * [make](file_make_help.md) -- will create a file using $EDITOR
 * [load](file_load_help.md) -- will copy an a file into $MOLD_ROOT
 * [edit](file_edit_help.md) -- will edit a file with $EDITOR
-* [nuke](file_nuke_help.md) -- will delete a file
+* [drop](file_drop_help.md) -- will delete a file
 * [take](file_take_help.md) -- copy a file into your current directory
