@@ -7,34 +7,37 @@
 ## WARNING UNSTABLE
 mold is under active development and not ready for production use.
 ### INSTALL
-First you need to install the mold CLI and then use the mold cli to create a MOLD\_ROOT. A MOLD\_ROOT is 
+First you need to install the mold CLI and then use the mold cli to create a mold-root. A mold-root is 
 a git repository that mold uses for storing all of your system configuration, shell scripts, and templates.
-By default the installers will install your mold root to **~/.mold**. 
+By default the installers will install your mold-root to **~/.mold**. mold uses the environment vairable 
+$MOLD\_ROOT to determine where your mold-root has been installed.
 
 ##### INTERACTIVE INSTALLER
 1. `pip3 install mold`
 1. run `mold --install` and follow the instructions
-    * you can optional add `--set-remote git://github.com/example/example.git` to initialize a git remote
+    * you can optional add `--set-remote git://github.com:user/example.git` to initialize a git remote
 
 ##### QUICK INSTALL
 The quick install does the same thing as the interactive installer without any prompting  
 **WARNING** The quick install will overwrite the $MOLD\_ROOT if it all ready exists.  
 1. `pip3 install mold`
 1. run `mold --quick-install` and follow the output instructions
-    * you can optional add `--set-remote git://github.com/example/example.git` to initialize a git remote
+    * you can optional add `--set-remote git://github.com:user/example.git` to initialize a git remote
 
 #### CREADING CUSTOM MOLD\_ROOT DIRECTORY
 To change the MOLD\_ROOT from ~/.mold set the environment variable $MOLD\_ROOT before you run the installer
 1. `export MOLD_ROOT=$HOME/path/to/your/mold_root`
-2. `mold --quick-install --set-remote git:
+2. `mold --quick-install --set-remote git://github.com:user/example.git`
 
 #### CLONE A MOLD ROOT
 To clone an existing mold root  run 
 * run `mold --clone git://github.com/user/mold-root.git` and follow the output instructions
-    * if you want to overwrite $MOLD_ROOT if it exists add `--force`
+    * if you want to overwrite $MOLD\_ROOT if it exists add `--force`
 
 ## FEATURES
 ` USAGE: mold [--flags] [command] [task] [options]`  
+
+TODO: write a nice about mold here.
 
 ## SMART HELP 
 `-h`, `--help`, and `help` can be applied to anything in mold and their order does not matter
