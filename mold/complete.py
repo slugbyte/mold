@@ -3,7 +3,6 @@ complete defines the routing routing logic for arguments to  mold --complete.
 '''
 
 import mold.core as core
-import mold.ensure as ensure
 import mold.util as util
 
 # PRIVATE 
@@ -75,9 +74,6 @@ _completion_handlers = {
 # complete gets passed $COMPLINE and needs to reparse argv[2] and 
 def complete(ctx):
     # if MOLD_ROOT is not setup no completion 4 you
-    if  ensure.check(ctx) != ensure.OK:
-        return _complete_no_suggestions(ctx)
-
     # if no command show main until command 
     if ctx.command == None or ctx.command == 'mold': 
         return _completion_handlers['main'](ctx)

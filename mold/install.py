@@ -5,12 +5,22 @@ install defines an api for installing a MOLD_ROOT.
 import mold.git as git 
 import mold.fs as fs
 import mold.system as system
-from mold.color import red, green, cyan , reset, yellow, magenta
+from mold.color import get_color
+
+_red = 'red'
+_cyan = 'cyan'
+_reset = 'reset'
+_green = 'green'
+_yellow = 'yellow'
+_magenta = 'magenta'
 
 # PRIVATE
 BUILD_DIR = __file__.replace('install.py', 'assets')
 
 def _log_success(ctx, extra='.'):
+    green = get_color(ctx, _green)
+    yellow = get_color(ctx, _yellow)
+    reset = get_color(ctx, _reset)
     print(f'''
 {green}SUCCESS{reset}
 A MOLD_ROOT has installed to {ctx.MOLD_ROOT}{extra}
@@ -23,8 +33,10 @@ Then then you will be good to go, {green}Enjoy mold!{reset} :)''')
 
 
 def _log_failure(ctx):
-    print(f'''Sorry, something went wrong, a MOLD_ROOT was not installed.
-Create an issue at https://github.com/slugbyte/mold/issues for support.''')
+    red = get_color(ctx, _red)
+    reset= get_color(ctx, _reset)
+    print(f'''{red}Sorry, something went wrong, a MOLD_ROOT was not installed.{reset}
+You can create an issue at https://github.com/slugbyte/mold/issues for support.''')
 
 def _cleanup_and_fail(ctx):
     if fs.exists(ctx.MOLD_ROOT):
@@ -51,6 +63,12 @@ def _setup_git(ctx, remote):
 
 # INTERFACE
 def install(ctx):
+    green = get_color(ctx, _green)
+    red = get_color(ctx, _red)
+    cyan = get_color(ctx, _cyan)
+    magenta = get_color(ctx, _magenta)
+    yellow = get_color(ctx, _yellow)
+    reset = get_color(ctx, _reset)
     print(f'{green}Installing{reset} a MOLD_ROOT in {ctx.MOLD_ROOT}')
     if fs.exists(ctx.MOLD_ROOT):
         print(f'\n{red}Hmm,{reset} {ctx.MOLD_ROOT} {red}allready exits.{reset}\nDo you want to remove it and continue? {magenta}[Leave blank to continue]{reset}')
@@ -61,9 +79,12 @@ def install(ctx):
         return _cleanup_and_fail(ctx)
     if not git.init(ctx):
         return _cleanup_and_fail(ctx)
-    # TODO: check ctx for flag --remote-uri 
-    print(f'\nDo you want to setup a git remote? {magenta}[Leave blank to skip]{reset}')
-    remote = input(f'{cyan}Enter a git uri:{reset} ')
+    if ctx.check_set_remote_set():
+        remote = ctx.command
+    else:
+        # TODO: check ctx for flag --remote-uri 
+        print(f'\nDo you want to setup a git remote? {magenta}[Leave blank to skip]{reset}')
+        remote = input(f'{cyan}Enter a git uri:{reset} ')
     if not remote:
         return _log_success(ctx, ' with out a remote remote repository.')
     if not git.set_remote(ctx, remote):

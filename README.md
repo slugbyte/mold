@@ -4,16 +4,17 @@
 ![breakfast grool](https://assets.slugbyte.com/github/github-header-00011.png)  
 
 ## FEATURES
-
 ` USAGE: mold [--flags] [command] [task] [options]`  
 
 ### ENV
-* `MOLD_ROOT` -- sets the directory that mold will use to install and manage everything DONE
-* `MOLD_DEBUG` -- allow errors to be thrown without being cought DONE
+* `MOLD_ROOT` -- sets the directory that mold will use to install and manage everything 
+* `MOLD_DEBUG` -- allow errors to be thrown without being cought 
 * `MOLD_COLOR` -- force mold to print color even when piped into other programs
 
+## SMART HELP 
+`-h`, `--help`, and `help` can be applied to anything in mold and their order does not matter
+
 ### COMMANDS
-* `help` -- genearl help
 * `conf` -- manage dotfiles (CRUD + link to $HOME)
 * `plug` -- manage shell scripts aka. plugins  (CRUD + sourced every new shell)
 * `exec` -- manage executable files (CRUD + add them in a dir on $PATH)
@@ -28,42 +29,45 @@ The core commands are `conf`, `plug`, `exec`, `drop`, and `fold`.
 These tasks are applied to commands, and have suddly different behaviors based on the 
 commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, or 
 `mold fold load` will load only directory instead of a file.
-* `help` -- general help, command help, task help 
-* `make` -- create a new file or dir DONE
-* `load` -- import a file or dir DONE
-* `list` -- list the files or dirs DONE
-* `edit` -- edit files or dirs DONE
-* `nuke` -- Delete files or dirs DONE
-* `dump` -- (only for `fold` and `drop`) Export content into the current directory DONE
+* `make` -- create new content 
+* `load` -- import  content 
+* `list` -- list the contents 
+* `edit` -- edit contents 
+* `nuke` -- Delete contents 
+* `name` -- rename content TODO 
+* `dump` -- (only for `fold` and `drop`) Export content into the current directory 
 
 #### SYNC -- MOLD\_ROOT git management
 ##### SYNC TASKS
-* `auto` -- pull add commit push (commit message from argv or text editor) DONE
+* `auto` -- pull add commit push (commit message from argv or text editor) 
 * git wrappers for mold root
-    * `log` DONE
-    * `add -A` DONE
-    * `commit` DONE
-    * `pull` DONE
-    * `push` DONE 
-    * `diff` DONE 
-    * `status` DONE 
-    * `branch` DONE 
-    * `--soft-reset` DONE 
-    * `--hard-reset` DONE 
-    * `--new-branch` DONE 
-    * `--checkout` DONE 
-    * `--force-push` DONE 
-    * `--merge` DONE 
+    * `log` 
+    * `add -A` 
+    * `commit` 
+    * `pull` 
+    * `push`  
+    * `diff`  
+    * `status`  
+    * `branch`  
+    * `remote`  
+    * `--soft-reset`  
+    * `--hard-reset`  
+    * `--new-branch`  
+    * `--checkout`  
+    * `--force-push`  
+    * `--merge`  
     
 #### OTHER -- arbitrary tasks
-* `--install` -- interactive installer DONE
-   * `--remote-uri` automatically set the git remote origin with out prompting the user
-* `--clone` -- create mold root from existing repo
-* `--set-remote` -- set mold root's git origin remote
-* `-v | --verbose` -- make logging more verbose 
-* `--verson ` -- print mold version
-* `--color | MOLD_COLOR=true` -- force color when piping
-* `--complete` -- generate smart tab completion for a posix shell like bash or zsh DONE
+* `--install` -- interactive installer 
+   * `--remote-uri` automatically set the git remote origin with out prompting the user TODO
+* `--quick-install` install without prompting TODO
+* `--clone` -- create mold root from existing repo 
+* `--yes | -y` -- stop interactive mode TODO
+* `--set-remote` -- set mold root's git origin remote 
+* `-v | --verbose` -- make logging more verbose  TODO
+* `--verson ` -- print mold version TODO
+* `--color | MOLD_COLOR=true` -- force color when piping TODO
+* `--complete` -- generate smart tab completion for a posix shell like bash or zsh  
 
 ## NON-GOALS 
 * Adding support for os or hostname specic detection
@@ -74,6 +78,7 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
     * There is an option to Install from an existing mold_root on github, and I plan to make a *lite* oh-my-zsh like starter-kit mold_root repository at some point.
 
 ## IDEAS?
+* create a mold --shell-activate that will return a shell script for loading plugins (could be smart about which shell to use)
 * make a tool to publish a new version to PyPi, brew, apt, and the arch-aur 
 * write a markdown parser/transformner for tui output so that the help logs can be written in markdown
 * (drop, plug, conf, exec) load -- suport for urls 

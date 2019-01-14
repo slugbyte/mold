@@ -23,6 +23,7 @@ def _make_no_arg_git_task(name):
         "log": git.log,
         "branch": git.branch,
         "status": git.status,
+        "remote": git.remote,
     }
     def handler(ctx):
         methods[name](ctx)
@@ -54,6 +55,7 @@ _task_handlers = {
     "log": _make_no_arg_git_task('log'),
     "status": _make_no_arg_git_task('status'),
     "branch": _make_no_arg_git_task('branch'),
+    "remote": _make_no_arg_git_task('remote'),
     # curry one arg
     "diff": _make_one_arg_git_task('diff'),
     "push": _make_one_arg_git_task('push'),

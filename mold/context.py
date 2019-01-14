@@ -7,7 +7,7 @@ import mold.fs as fs
 from mold.util import query 
 from mold.system import which, check_is_tty
 
-_flags = set(['complete', '--color', '-v', 'help', '-h', '--help', '--install', '--clone', '--set-remote'])
+_flags = set(['--complete', '--color', '-v', 'help', '-h', '--help', '--install', '--clone', '--set-remote', '--yes'])
 
 # STORES ARGS AND ENV VARS
 class MoldContext:

@@ -18,14 +18,14 @@ def _git_shell(ctx, args):
 def _check_remote_uri(ctx, uri):
     '''checks that a git remote uri is valid'''
     print(f'Checking {uri}: ', end='')
-    if not _git_shell(ctx, 'ls-remote ' + uri).check_ok():
+    if not _git_exec(ctx, 'ls-remote ' + uri).check_ok():
         print(f'Sorry, that a not valid remote uri, make sure it exists.') 
         return False
     print('OK')
     return True
 
 def _get_remote_name(ctx):
-    r = _git_shell(ctx, 'remote -v')
+    r = _git_exec(ctx, 'remote -v')
     if not r.check_ok() or not r.out:
         return None
     try:
@@ -49,12 +49,17 @@ def set_remote(ctx, uri):
         return False 
     if not _check_remote_uri(ctx, uri):
         return False
+    # TODO: consider refactoring out all the {name} and force for mold to use origin ?
     name = _get_remote_name(ctx)
     if name:
         if not _git_shell(ctx, 'remote remove ' + name):
             return False
-    if not _git_shell(ctx, 'remote add origin ' + uri):
+    name = name or 'origin'
+    if not _git_shell(ctx, f'remote add {name} {uri}'):
         return False
+    if not _git_shell(ctx, f'fetch {name}'):
+        print(f'WARNING: failed to git fetch {name}')
+    print('MOLD_ROOT\'s git remote origin is now:', uri)
     return True
 
 def add(ctx):
@@ -64,6 +69,11 @@ def add(ctx):
 
 def status(ctx):
     if not _git_shell(ctx, 'status').check_ok():
+        return False
+    return True
+
+def remote(ctx):
+    if not _git_shell(ctx, 'remote -v').check_ok():
         return False
     return True
 
@@ -146,6 +156,20 @@ def force_push(ctx, branch='HEAD'):
     if not branch:
         branch = 'HEAD'
     if not _git_shell(ctx, f'push origin {branch} --force').check_ok():
+        return False
+    return True
+
+def clone(ctx, uri):
+    # clone uses system.exec and shell because there is not MOLD_ROOT to cd into
+    if not uri:
+        print('ERROR: git clone requires a git-uri')
+        return False
+    print(f'Checking {uri}: ', end='')
+    if not system.exec('git ls-remote ' + uri).check_ok():
+        print(f'Sorry, that a not valid remote uri, make sure it exists.') 
+        return False
+    print('OK')
+    if not system.shell(f'git clone {uri} {ctx.MOLD_ROOT}' ):
         return False
     return True
 

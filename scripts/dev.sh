@@ -7,7 +7,7 @@ alias less='less -r'
 alias clean_mold='rm -rf build mold.egg-info mold/__pycache__ dev-root'
 
 _mold(){
-  MOLD_COMPLETE=$(mold complete $COMP_LINE) 
+  MOLD_COMPLETE=$(mold --complete $COMP_LINE) 
   if [[ $MOLD_COMPLETE == '__MAGIC_MOLD__' ]]; then 
       # MAGIC_MOLD turns off COMPREPLY so the shell will allow 
       # normal file path completeion

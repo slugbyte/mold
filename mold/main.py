@@ -7,11 +7,10 @@ import sys
 
 import mold.core as core
 import mold.sync as sync
-import mold.ensure as ensure
 import mold.help as help
+import mold.mold_root as mold_root
 from mold.complete import complete
-from mold.install import install
-from mold.color import red, reset
+from mold.color import get_color
 
 # PRIVATE
 def _check_help(ctx):
@@ -19,33 +18,26 @@ def _check_help(ctx):
         help.handle_help(ctx)
         return False 
     if ctx.command == None:
-        print('''USAGE: mold [SUBCOMMAND] [OPTIONS] 
+        print('''USAGE: mold [--flags] [command] [task] [...options]
     run "mold help" for more info''')
         return False
     return True
 
 def _check_mold_root(ctx):
-    # TODO: refactor ensure so that it returns a bool 
-    # make check use waringing internally 
-    if ensure.check(ctx) != ensure.OK:
-        print(ensure.warning(ctx), file=sys.stderr)
+    # TODO: make this less janky by removing _result and _setresult from mold_root
+    if mold_root.check(ctx) != mold_root.OK:
+        print(mold_root.warning(ctx), file=sys.stderr)
         return False
     return True
 
 def _check_main_tasks(ctx):
-    if ctx.check_install_set():
-        install(ctx)
-        return False
-    if ctx.check_clone_set():
-        print('TODO: implament --clone')
-        return False
-    if ctx.check_set_remote_set():
-        print('TODO: implament --set-remote')
+    if ctx.check_install_set() or ctx.check_clone_set() or ctx.check_set_remote_set():
+        mold_root.handle_flag(ctx)
         return False
     return True
 
 def _check_complete(ctx):
-    if ctx.check_flag_set('complete'):
+    if ctx.check_flag_set('--complete'):
         complete(ctx)
         return False
     return True
@@ -65,6 +57,8 @@ def _check_sync(ctx):
 
 # INTERFACE
 def main(ctx):
+    red = get_color(ctx, 'red')
+    reset = get_color(ctx, 'reset')
     # the order of the check invocations can not change
     if not _check_complete(ctx):
         return ctx.OK

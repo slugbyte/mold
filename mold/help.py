@@ -3,17 +3,27 @@ help defines an api for printing mold help messages.
 '''
 
 import re
-import markdown
 import codecs 
+import markdown
 import mold.fs  as fs
-from mold.color import *
+from mold.color import get_color
 
-def read_help_file(help_file):
+_reset = 'reset'
+_error_color = 'red'
+_code_color = 'green'
+_bold_color = 'blue'
+_header_color = 'yellow'
+
+def read_help_file(ctx, help_file):
+    help_file = ctx.MOLD_DOCS + '/' + help_file
     with codecs.open(help_file, mode='r', encoding='utf-8') as help_file:
         help_text = help_file.read()
         return markdown.markdown(help_text)
 
-def replace_non_header_tags(html):
+def replace_non_header_tags(ctx, html):
+    reset = get_color(ctx, _reset)
+    code_color = get_color(ctx, _code_color)
+    bold_color = get_color(ctx, _bold_color)
     html = html.replace('</h1>', reset + '</h1>\n')
     html = html.replace('</h2>', reset +'</h2>\n')
     html = html.replace('<blockquote>', '').replace('</blockquote>',  '\n')
@@ -22,15 +32,15 @@ def replace_non_header_tags(html):
 
     html = re.sub('<br />', '\n', html)
     html = html.replace('<em>', '').replace('</em>', '')
-    html = html.replace('<strong>', blue + '').replace('</strong>', reset + '')
-    html = re.sub('<a.*?>', blue, html)
+    html = html.replace('<strong>', bold_color + '').replace('</strong>', reset + '')
+    html = re.sub('<a.*?>', bold_color, html)
     html = html.replace('</a>', reset)
-    html = html.replace('<code>',  green + '').replace('</code>', reset + '') # green must appear before '    ' because of strip below
+    html = html.replace('<code>',  code_color + '').replace('</code>', reset + '') # green must appear before '    ' because of strip below
     html = html.replace('<ul>', '').replace('</ul>', '')
     html = html.replace('<li>', '').replace('</li>','' )
     return html.strip()
 
-def force_text_wrap(text, max_width=80):
+def force_text_wrap(ctx, text, max_width=80):
     lines = text.split('\n')
     text = ''
     max_width = 80
@@ -45,7 +55,7 @@ def force_text_wrap(text, max_width=80):
             text += line + '\n'
     return text.strip()
 
-def indent_non_headers(text):
+def indent_non_headers(ctx, text):
     lines = text.split('\n')
     text = ''
     for line in lines:
@@ -58,9 +68,12 @@ def indent_non_headers(text):
             text += '    ' + line 
     return text.strip()
 
-def replace_header_tags(text):
-    text = text.replace('<h1>', yellow).replace('<h2>', yellow)
-    text = text.replace('<h3>', red).replace('<h4>', '    ')
+def replace_header_tags(ctx, text):
+    reset = get_color(ctx, _reset)
+    error_color = get_color(ctx, _error_color)
+    header_color = get_color(ctx, _header_color)
+    text = text.replace('<h1>', header_color).replace('<h2>', header_color)
+    text = text.replace('<h3>', error_color).replace('<h4>', '    ')
     text = re.sub('</h.*>', reset, text)
     text = text.replace('<span/>', '    ')
     text = text.replace('<span />', '    ')
@@ -68,31 +81,26 @@ def replace_header_tags(text):
     return text.strip()
 
 def print_help(ctx, help_file):
-    help_file = ctx.MOLD_DOCS + '/' + help_file
-    help_text = read_help_file(help_file)
-    help_text = replace_non_header_tags(help_text)
-    help_text = force_text_wrap(help_text, 80)
-    help_text = indent_non_headers(help_text)
-    help_text = replace_header_tags(help_text)
+    help_text = read_help_file(ctx, help_file)
+    help_text = replace_non_header_tags(ctx, help_text)
+    help_text = force_text_wrap(ctx, help_text, 80)
+    help_text = indent_non_headers(ctx, help_text)
+    help_text = replace_header_tags(ctx, help_text)
     print(help_text)
 
-# # TODO NOW: 1) get the rest of the help text in this file into own files
-# # 2) make help text files for sync tasks
-# # 3) figure out how you want to really go about compile and color <3
-
-# # TODO: refacter each help to be a string
-# # then create a comple fiunction that will choose to colorify base on ctx
-# # then make a create_help_handler to generate help defs (functions)
-# def print_help(ctx, help_file):
-    # print('gnna print ', ctx.MOLD_DOCS + '/' + help_file)
-
 def handle_help(ctx):
+    reset = get_color(ctx, _reset)
+    error_color = get_color(ctx, _error_color)
     if ctx.command:
-        help_file = ctx.command 
-        if ctx.task:
-            help_file += '_' + ctx.task
-        help_file += '_help.md'
-        print_help(ctx, help_file)
+        try:
+            help_file = ctx.command 
+            if ctx.task:
+                help_file += '_' + ctx.task
+            help_file += '_help.md'
+            print_help(ctx, help_file)
+        except:
+            if not ctx.task:
+                return print(f'{error_color}Sorry, mold can not help with:{reset} mold {ctx.command}')
+            print(f'{error_color}Sorry, mold can not help with:{reset} mold {ctx.command} {ctx.task}')
     else:
         print_help(ctx, 'README.md')
-    # print(f'hit handle help cmd:{ctx.command}, task:{ctx.task}')
