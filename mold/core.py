@@ -1,6 +1,6 @@
 '''
-core defines the logic for the sub commands make load list edit nuke.
-It also defines the abilty for drop and fold to export content.
+core defines the logic for the sub commands make load list edit drop.
+It also defines the abilty for file and fold to export content.
 '''
 
 import os 
@@ -45,7 +45,7 @@ def _load(ctx):
         # first load conten
         if ctx.command == 'fold':
             if not fs.is_dir(filepath):
-                return print(f'USAGE ERROR: {filepath} is not a directory, use mold drop instead.')
+                return print(f'USAGE ERROR: {filepath} is not a directory, use mold file instead.')
             fs.copy_dir(filepath, ctx.get_command_dir() + '/' + filename)
         else:
             if fs.is_dir(filepath):
@@ -73,7 +73,7 @@ def _edit(ctx):
         return 
     print(f'ERROR: no "{filename}" {ctx.command} file found')
 
-def _nuke(ctx):
+def _drop(ctx):
     filename = ctx.get_option(0)
     filepath = ctx.get_command_dir() + '/' + filename
     if fs.exists(filepath):
@@ -86,15 +86,15 @@ def _nuke(ctx):
     print(f'ERROR: no "{filename}" {ctx.command} file found')
 
 # EXPORT and LINK
-def _dump(ctx):
-    if not (ctx.command == 'fold' or ctx.command == 'drop'):
-        print(f'Error: {ctx.command} does not support the drop task')
+def _take(ctx):
+    if not (ctx.command == 'fold' or ctx.command == 'file'):
+        print(f'Error: {ctx.command} does not support the file task')
         return 
     filename = ctx.get_option(0)
     filepath = ctx.get_command_dir() + '/' + filename
     output  = ctx.get_option(1) or filename
     if fs.exists(filepath):
-        if ctx.command == 'drop':
+        if ctx.command == 'file':
             fs.copy(filepath, './' + output) 
             return 
         if ctx.command == 'fold':
@@ -111,8 +111,8 @@ _task_handlers = {
     "load": _load,
     "list": _list,
     "edit": _edit,
-    "nuke": _nuke,
-    "dump": _dump,
+    "drop": _drop,
+    "take": _take,
     "usage": _usage,
 }
 

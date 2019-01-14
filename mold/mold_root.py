@@ -36,7 +36,7 @@ def check(ctx):
         return _result
     if (not ctx.MOLD_ROOT) or (not fs.exists(ctx.MOLD_ROOT)) or (not fs.is_dir(ctx.MOLD_ROOT)):
         return _set_result(ROOT_ERROR)
-    for d in ['conf', 'plug', 'fold', 'drop', 'exec']:
+    for d in ['conf', 'plug', 'fold', 'file', 'exec']:
         if not fs.exists(ctx.MOLD_ROOT + '/' + d):
             return _set_result(DIR_ERROR)
     return OK

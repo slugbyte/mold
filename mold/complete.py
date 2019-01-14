@@ -7,8 +7,8 @@ import mold.util as util
 
 # PRIVATE 
 # --install, --clone, --set-remote, and any other --* commands do not tab complete
-_completable_commands = ['conf', 'plug', 'exec', 'temp', 'drop', 'sync']
-_completable_core_default_tasks = ['help', 'make', 'load', 'list', 'edit', 'nuke']
+_completable_commands = ['conf', 'plug', 'exec', 'temp', 'file', 'sync']
+_completable_core_default_tasks = ['help', 'make', 'load', 'list', 'edit', 'drop']
 _completable_sync_tasks = ['auto', 'log', 'add', 'commit', 'push', 'pull', 'diff', 'status', 'branch']
         # '--new-branch', '--checkout', '--merge', '--soft-reset', '--hard-reset'
 
@@ -29,14 +29,14 @@ def _create_handler_from_word_list(words):
 
 _completion_handlers = {
     # main 
-    "main": _create_handler_from_word_list(['fold', 'drop', 'conf', 'plug', 'exec', 'sync', 'help']),
+    "main": _create_handler_from_word_list(['fold', 'file', 'conf', 'plug', 'exec', 'sync', 'help']),
     # commands
     "help": _complete_no_suggestions,
     "conf": _create_handler_from_word_list(_completable_core_default_tasks),
     "exec": _create_handler_from_word_list(_completable_core_default_tasks),
     "plug": _create_handler_from_word_list(_completable_core_default_tasks),
-    "fold": _create_handler_from_word_list(_completable_core_default_tasks + ['dump']),
-    "drop": _create_handler_from_word_list(_completable_core_default_tasks + ['dump']),
+    "fold": _create_handler_from_word_list(_completable_core_default_tasks + ['take']),
+    "file": _create_handler_from_word_list(_completable_core_default_tasks + ['take']),
     "sync": _create_handler_from_word_list(_completable_sync_tasks),
     "--install": _complete_no_suggestions,
     "--set-remote": _complete_no_suggestions,
@@ -45,8 +45,8 @@ _completion_handlers = {
     "make": _complete_no_suggestions,
     "list": _complete_no_suggestions,
     "edit": _complete_command_dirlist,
-    "nuke": _complete_command_dirlist, 
-    "dump": _complete_command_dirlist, 
+    "drop": _complete_command_dirlist, 
+    "take": _complete_command_dirlist, 
     # sync tasks
     "auto": _complete_no_suggestions,
     "log": _complete_no_suggestions,

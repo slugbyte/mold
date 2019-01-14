@@ -9,7 +9,7 @@
 
 <span classname='newline'/>
 
- mold splits the files it tracks into the following classifications conf, plug, exec, drop, and fold. Each of theses classifications is has different behaviors and gets its own subdirectory in $MOLD\_ROOT for storing content. Below are descriptions of the unique behaviors of each mold classification.
+ mold splits the files it tracks into the following classifications conf, plug, exec, file, and fold. Each of theses classifications is has different behaviors and gets its own subdirectory in $MOLD\_ROOT for storing content. Below are descriptions of the unique behaviors of each mold classification.
 
 <span classname='newline'/>
 
@@ -19,9 +19,9 @@
 
 [exec]('./exec_help.md) files will be added to a directory on $PATH.  
 
-[drop](./drop_help.md) files are file asset templates that you can want to future projects.   
+[file](./file_help.md) files are file asset templates that you can want to future projects.   
 
-[fold](./fold_help.md) templates are project directory scaffolds, they are drops but for whole directories.  
+[fold](./fold_help.md) templates are project directory scaffolds, they are files but for whole directories.  
 
 <span classname='newline'/>
 
@@ -30,17 +30,17 @@ e.g. `$ mold conf make .bashrc`
 
 <span classname='newline'/>
 
-The mold commands [conf](./conf_help.md), [plug](./plug_help.md), [exec]('./exec_help.md), [drop](./drop_help.md), and [fold](./fold_help.md) each the following tasks for managing content.  
+The mold commands [conf](./conf_help.md), [plug](./plug_help.md), [exec]('./exec_help.md), [file](./file_help.md), and [fold](./fold_help.md) each the following tasks for managing content.  
 
 * **make** - will create content  
 * **load** - will copy or download content into the $MOLD\_ROOT  
 * **edit** - will open content using $EDITOR  
-* **nuke** - will remove content  
+* **drop** - will remove content  
 * **list** - will list the classification's content  
 
 <span classname='newline'/>
 
-[drop](./drop_help.md) and [fold](./fold_help.md) also have a **dump** task for exorting content into the current directory.
+[file](./file_help.md) and [fold](./fold_help.md) also have a **take** task for exorting content into the current directory.
 
 ## INSTALL
 To install a $MOLD\_ROOT for the first time run  
@@ -84,7 +84,7 @@ Because help is treated as a flag the order of the help arguments do not matter.
 * [help](./README.md) -- show this help  
 * [sync](./sync_help.md) -- manage MOLD\_ROOT's git
 * [fold](./fold_help.md) -- manage project scaffolding templates
-* [drop](./drop_help.md) -- manage file asset templates
+* [file](./file_help.md) -- manage file asset templates
 * [plug](./plug_help.md) -- manage shell script plugins
 * [conf](./conf_help.md) -- manage configuration files
 * [exec](./exec_help.md) -- manage executables
