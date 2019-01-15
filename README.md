@@ -73,6 +73,8 @@ If you want to install an existing mold-root on another computer you can use `--
 `-h`, `--help`, and `help` can be applied to anything in mold and their order does not matter
 
 ### COMMANDS
+* `--verson ` -- print mold version 
+* `root` -- manage the MOLD\_ROOT directory
 * `conf` -- manage dotfiles (CRUD + link to $HOME)
 * `plug` -- manage shell scripts aka. plugins  (CRUD + sourced every new shell)
 * `exec` -- manage executable files (CRUD + add them in a dir on $PATH)
@@ -113,17 +115,23 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
     * `--checkout`  
     * `--force-push`  
     * `--merge`  
-    
-#### OTHER -- arbitrary tasks
+
+## ROOT -- MOLD\_ROOT management 
+##### ROOT TASKS
 * `--install` -- interactive installer 
-   * `--remote-uri` automatically set the git remote origin with out prompting the user 
+   * `--set-remote` automatically set the git remote origin with out prompting the user 
 * `--quick-install` install without prompting 
 * `--clone` -- create mold root from existing repo 
-  * `--force` will delete a moldroot without prompting
+   * `--force` will delete a moldroot without prompting
 * `--set-remote` -- set mold root's git origin remote 
-* `--verson ` -- print mold version 
+* `--check` -- check the MOLD\_ROOT directory stucture
+* `--fix` -- fix the MOLD\_ROOT directory stucture
+    
+#### FLAGS -- SUPLAMENTAL BEHAVIORS
 * `--color | MOLD_COLOR=true` -- force color when piping 
 * `--complete` -- generate smart tab completion for a posix shell like bash or zsh  
+* `--no-linking` -- stop a mold command from auto-maticly linking the conf files
+* `--help | -h` -- show help
 
 ### ENV
 * `MOLD_ROOT` -- sets the directory that mold will use to install and manage everything 
