@@ -44,11 +44,11 @@ class MoldContext:
         self.MOLD_DEBUG = bool(query(os_environ, 'MOLD_DEBUG'))
         self.MOLD_COLOR = check_is_tty() or bool(query(os_environ, 'MOLD_COLOR'))
         self.OK = 0
-        self.FAIL = 1
-        self.IO_ERROR = 2
-        self.MOLD_ROOT_ERROR = 3
-        self.MOLD_ROOT_DIRS_ERROR = 4
-        self.DEV_TODO = 99
+        self.FAIL = -1 # MUST BE NEGITIVE 1, POSIVITE 1 will break main beacuse 1 == True
+        self.IO_ERROR = -2
+        self.MOLD_ROOT_ERROR = -3
+        self.MOLD_ROOT_DIRS_ERROR = -4
+        self.DEV_TODO = -99
 
     def check_has_options(self): 
         return len(self.options) != 0

@@ -56,29 +56,22 @@ def _get_current_branch(ctx):
         return None
 
 # API INTERFACE
-def set_remote(ctx, uri=None):
+def set_remote(ctx, uri=None, remote_name='origin'):
     '''works as both git add and git set for the MOLD_ROOT'''
     if not uri:
         return system.fail()
     if not _check_remote_uri(ctx, uri):
         return system.fail()
-    # TODO: consider refactoring out all the {name} and force for mold to use origin ?
-    name = _get_remote_name(ctx)
-    if name:
-        result = _git_shell(ctx, 'remote remove ' + name) 
-        if not result.check_ok():
-            return result
-    name = name or 'origin'
-    result = _git_shell(ctx, f'remote add {name} {uri}')
+    _git_exec(ctx, 'remote remove ' + remote_name)  # remove and ignore failure (if no remote)
+    result = _git_shell(ctx, f'remote add {remote_name} {uri}')
     if not result.check_ok():
         return result
-    result = _git_shell(ctx, f'fetch {name}')
+    result = _git_shell(ctx, f'fetch {remote_name}')
     if not result.check_ok():
-        print(f'WARNING: failed to git fetch {name}')
+        print(f'WARNING: failed to git fetch {remote_name}')
         return result 
     print('MOLD_ROOT\'s git remote origin is now:', uri)
     return result 
-
 
 def add(ctx):
     return _git_shell(ctx, 'add -A')

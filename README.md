@@ -69,8 +69,6 @@ If you want to install an existing mold-root on another computer you can use `--
 ## FEATURES
 ` USAGE: mold [--flags] [command] [task] [options]`  
 
-TODO: write a nice about mold here.
-
 ## SMART HELP 
 `-h`, `--help`, and `help` can be applied to anything in mold and their order does not matter
 

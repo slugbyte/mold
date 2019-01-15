@@ -41,12 +41,12 @@ def _log_warning(ctx, extra='.'):
     print(f'''
 {red}!WARNING!{reset}
 {yellow}A MOLD_ROOT directory was installed to {ctx.MOLD_ROOT}{extra}{yellow}
-{yellow}Follow these IMPORTANT instructions to complete setting up mold.{reset}
-First add the follwing two lines to your shell config file (i.e. ~/.bashrc).
+{yellow}If you dont want to re-install, follow these IMPORTANT instructions to complete setting up mold.{reset}
+{yellow}First add the follwing two lines to your shell config file (i.e. ~/.bashrc).{reset}
     {magenta}export MOLD_ROOT='{ctx.MOLD_ROOT}'
     source $MOLD_ROOT/mold-loader.sh{reset}
-Next source your shell config (e.g. "source ~/.bashrc"). 
-Then then you will be good to go, {green}Enjoy mold!{reset} :)''')
+{yellow}Next source your shell config (e.g. "source ~/.bashrc").{reset} 
+{yellow}Then then you will be good to go, {green}Enjoy mold!{reset} :)''')
 
 def _log_failure(ctx):
     red = get_color(ctx, _red)
@@ -94,7 +94,7 @@ def _handle_mold_root_set_remote(ctx):
     reset = get_color(ctx, 'reset')
     remote = ''
     if ctx.check_set_remote_set():
-        remote = ctx.command
+        remote = ctx.task
     else:
         if not ctx.check_flag_set('--quick-install'):
             cancel = 'y' != input(f'{cyan}Do you want to setup a git remote? y/n:{reset} ').strip()

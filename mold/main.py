@@ -13,6 +13,8 @@ import mold.mold_root as mold_root
 from mold.complete import complete
 from mold.color import get_color
 
+# TODO: make mold --fix-dirs
+
 # PRIVATE
 def _check_help(ctx):
     if ctx.check_help_set():
@@ -26,17 +28,16 @@ def _check_help(ctx):
 
 def _check_mold_root(ctx):
     # TODO: make this less janky by removing _result and _setresult from mold_root
-    if mold_root.check(ctx) != mold_root.OK:
-        print(mold_root.warning(ctx), file=sys.stderr)
-        return False
+    if ctx.command == 'root':
+        return mold_root.handle_flag(ctx)
+    result = mold_root.check(ctx)
+    if result != ctx.OK:
+        return result
     return True
 
 def _check_main_tasks(ctx):
     if ctx.check_flag_set('--version'):
         print('v' + mold.__version__)
-        return False
-    if ctx.check_install_set() or ctx.check_clone_set() or ctx.check_set_remote_set():
-        mold_root.handle_flag(ctx)
         return False
     return True
 
@@ -73,8 +74,9 @@ def main(ctx):
     if not _check_help(ctx):
         return ctx.OK
 
-    if not _check_mold_root(ctx):
-        return ctx.FAIL
+    result = _check_mold_root(ctx)
+    if result != True:
+        return result
 
     if not _check_core(ctx):
         return ctx.OK
