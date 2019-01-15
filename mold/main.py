@@ -46,7 +46,7 @@ def _check_complete(ctx):
 
 
 def _check_core(ctx):
-    for current in ['file', 'fold', 'exec', 'conf', 'plug']:
+    for current in ['leaf', 'fold', 'exec', 'conf', 'plug']:
         if ctx.command == current:
             core.handle_task(ctx)
             return False 

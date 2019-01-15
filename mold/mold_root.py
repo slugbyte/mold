@@ -13,7 +13,7 @@ def check(ctx):
         print(f'''{red}ERROR:{reset} Looks like your MOLD_ROOT directory hasent been set up yet.
     {yellow}Try runing "mold root --install"{reset}''')
         return ctx.MOLD_ROOT_ERROR
-    for d in ['conf', 'plug', 'fold', 'file', 'exec']:
+    for d in ['conf', 'plug', 'fold', 'leaf', 'exec']:
         if not fs.exists(ctx.MOLD_ROOT + '/' + d):
             print(f'''{red}ERROR:{reset} Somthing is wrong with your MOLD_ROOT directory.
     {yellow}Try runing "mold root --fix"{reset}''')
@@ -38,7 +38,7 @@ def _fix(ctx):
     Try runing "mold root --install"''')
         return ctx.MOLD_ROOT_ERROR
     try:
-        for content_type in ['conf', 'plug', 'exec', 'fold', 'file']:
+        for content_type in ['conf', 'plug', 'exec', 'fold', 'leaf']:
             content_dir = ctx.MOLD_ROOT + '/' + content_type
             if not fs.exists(content_dir):
                 fs.mkdir(content_dir)

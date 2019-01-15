@@ -7,7 +7,7 @@ import mold.util as util
 import mold.git as git
 
 # PRIVATE 
-_completable_commands = ['conf', 'plug', 'exec', 'temp', 'file', 'sync']
+_completable_commands = ['conf', 'plug', 'exec', 'temp', 'leaf', 'sync']
 _completable_core_default_tasks = ['help', 'make', 'load', 'list', 'edit', 'drop']
 _completable_root_commands = ['--set-origin', '--fix', '--check']
 # sync "--" tasks do not show up in tab completion because they are dangerous
@@ -35,7 +35,7 @@ def _create_handler_from_word_list(words):
 
 _completion_handlers = {
     # main 
-    "main": _create_handler_from_word_list(['fold', 'file', 'conf', 'plug', 'exec', 'sync', 'help', 'root']),
+    "main": _create_handler_from_word_list(['fold', 'leaf', 'conf', 'plug', 'exec', 'sync', 'help', 'root']),
     # commands
     "help": _complete_no_suggestions,
     "root": _create_handler_from_word_list(_completable_root_commands),
@@ -43,7 +43,7 @@ _completion_handlers = {
     "exec": _create_handler_from_word_list(_completable_core_default_tasks),
     "plug": _create_handler_from_word_list(_completable_core_default_tasks),
     "fold": _create_handler_from_word_list(_completable_core_default_tasks + ['take']),
-    "file": _create_handler_from_word_list(_completable_core_default_tasks + ['take']),
+    "leaf": _create_handler_from_word_list(_completable_core_default_tasks + ['take']),
     "sync": _create_handler_from_word_list(_completable_sync_tasks),
     "--install": _complete_no_suggestions,
     "--set-remote": _complete_no_suggestions,

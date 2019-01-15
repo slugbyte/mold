@@ -30,9 +30,9 @@ mold execs are single-file executable scripts. Each time an exec is loaded or cr
 #### fold
 mold folds are directory scaffold templates. folds can be used to setup project boiler plate code so that the overhead of getting to work on a new project will be cut down. mold folds can be expored from the the mold-root into the current working directory. All of the mold folds are stored in $MOLD\_ROOT/fold .
 
-#### file
-mold files are single-file tempaltes. mold files can be used to store things like licenses, markdown-templates, .gitignores, and anything you find your self adding to projects regularly. mold files can be expored from the mold-root into the current working directory. all of mold "files"
-are store in $MOLD\_ROOT/file . 
+#### leaf 
+mold leafs are file tempaltes. mold leafs can be used to store things like licenses, markdown-templates, .gitignores, and anything you find your self adding to projects regularly. mold leafs can be expored from the mold-root into the current working directory. all of the mold leafs
+are store in $MOLD\_ROOT/leaf. 
 
 ## WARNING UNSTABLE
 mold is under active development and not ready for production use.
