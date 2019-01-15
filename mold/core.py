@@ -20,8 +20,11 @@ from mold.util import query
 # the MOLD_ROOT
 
 # TODO: make usage support TASKS TOO
-def _usage(ctx):
-        print(f'''USAGE: mold {ctx.command} [task] [...options]  [--flags]
+def _usage(ctx, options='[options]'):
+    if ctx.task:
+        return print(f'''USAGE: mold {ctx.command} {ctx.task} {options} [--flags]
+    run "mold {ctx.command} {ctx.task + ' '}help" for more info''')
+    print(f'''USAGE: mold {ctx.command} [task] [options] [--flags]
     run "mold {ctx.command} help" for more info''')
 
 def _link_conf(ctx, filename):
@@ -37,6 +40,8 @@ def _link_conf(ctx, filename):
     print('LINKED conf:', filename)
 
 def _make(ctx):
+    if not ctx.check_has_options():
+        return _usage(ctx, '(name)')
     filename = ctx.get_option(0)
     filepath = ctx.get_command_dir() + '/' + filename
     if fs.exists(filepath):
@@ -89,6 +94,8 @@ def _load_URI(ctx, uri):
     return ctx.OK
 
 def _load(ctx):
+    if not ctx.check_has_options():
+        return _usage(ctx, '(filepath or URL) [new name]')
     resource = ctx.get_option(0)
     # CHECK IF ITS A URL AND IF SO DOWNLOAD IT
     if re.match('https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', resource):
@@ -99,6 +106,8 @@ def _list(ctx):
     print('\n'.join(ctx.get_command_dirlist()).strip() or f'No {ctx.command}s')
 
 def _edit(ctx):
+    if not ctx.check_has_options():
+        return _usage(ctx, '(name)')
     if ctx.command == 'conf':
         if ctx.check_flag_set('--no-linking'):
             return print('ERROR: conf is allready link --no-linking can not be used with "mold conf edit".')
@@ -115,6 +124,8 @@ def _edit(ctx):
     print(f'ERROR: no "{filename}" {ctx.command} file found')
 
 def _drop(ctx):
+    if not ctx.check_has_options():
+        return _usage(ctx, '(name)')
     filename = ctx.get_option(0)
     filepath = ctx.get_command_dir() + '/' + filename
     if fs.exists(filepath):
@@ -128,6 +139,8 @@ def _drop(ctx):
 
 # EXPORT and LINK
 def _take(ctx):
+    if not ctx.check_has_options():
+        return _usage(ctx, '(name) [new name]')
     if not (ctx.command == 'fold' or ctx.command == 'file'):
         print(f'ERROR: {ctx.command} does not support the file task')
         return 
@@ -159,4 +172,4 @@ def handle_task(ctx):
     try: 
         _task_handlers[ctx.task or 'usage'](ctx)
     except: 
-        print(f'wut whoe, {ctx.task} is not known to mold {ctx.command}.')
+        print(f'USAGE ERROR: "mold {ctx.command}" has no task named "{ctx.task}"')
