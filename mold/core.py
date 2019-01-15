@@ -4,6 +4,8 @@ It also defines the abilty for file and fold to export content.
 '''
 
 import os 
+import re
+import requests 
 import mold.fs as fs
 import mold.system as system
 from mold.util import query
@@ -16,6 +18,12 @@ from mold.util import query
 
 # TODO: have _make and _load only link the single conf that is being added to 
 # the MOLD_ROOT
+
+# TODO: make usage support TASKS TOO
+def _usage(ctx):
+        print(f'''USAGE: mold {ctx.command} [task] [...options]  [--flags]
+    run "mold {ctx.command} help" for more info''')
+
 def _link_conf(ctx, filename):
     if ctx.command != 'conf':
         return 
@@ -38,15 +46,13 @@ def _make(ctx):
         system.cd(filepath)
     if not system.shell(ctx.EDITOR + ' ' + filepath).check_ok():
         return print(f'ERROR: {ctx.EDITOR} could not open {filepath}')
-    if fs.exists(filepath):
-        if ctx.command == 'conf':
-            _link_conf(ctx, filename)
-        print(f'MADE {ctx.command.upper()}:', filename)
-    else:
-        print(f'MAKE {ctx.command.upper()} ABORTED: {filename} not created')
+    if not fs.exists(filepath):
+        return print(f'MAKE {ctx.command} ABORTED: {filename} not created')
+    print(f'MADE {ctx.command}:', filename)
+    if ctx.command == 'conf':
+        _link_conf(ctx, filename)
 
-def _load(ctx):
-    filepath = ctx.get_option(0)
+def _load_file(ctx, filepath):
     filename = ctx.get_option(1) or fs.basename(filepath)
     if fs.exists(filepath):
         # first load content
@@ -64,6 +70,30 @@ def _load(ctx):
         print(f'LOADED {ctx.command.upper()}: {filename}')
         return 
     print(f'ERROR: could not find "{filepath}"')
+
+def _load_URI(ctx, uri):
+    if ctx.command == 'fold':
+        print(f'USAGE ERROR: "mold fold" load does not support URI downloads')
+        return ctx.FAIL
+    filename = ctx.get_option(1) or fs.basename(uri)
+    r = requests.get(uri)
+    if r.status_code != 200:
+        print(f'ERROR: unable to fetch {ctx.command} {uri}')
+        return ctx.FAIL
+    if not fs.write_file(ctx.get_command_dir() + '/' + filename, r.text.strip()):
+        print(f'ERROR: trouble saving {filename}')
+        return ctx.FAIL
+    print(f'LOADED {ctx.command}: {filename}')
+    if ctx.command == 'conf':
+        _link_conf(ctx, filename)
+    return ctx.OK
+
+def _load(ctx):
+    resource = ctx.get_option(0)
+    # CHECK IF ITS A URL AND IF SO DOWNLOAD IT
+    if re.match('https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', resource):
+        return _load_URI(ctx, resource)
+    return _load_file(ctx, resource)
 
 def _list(ctx):
     print('\n'.join(ctx.get_command_dirlist()).strip() or f'No {ctx.command}s')
@@ -113,9 +143,6 @@ def _take(ctx):
             return 
     print(f'ERROR: no "{filename}" {ctx.command} file found')
 
-def _usage(ctx):
-        print(f'''USAGE: mold {ctx.command} [task] [...options]  [--flags]
-    run "mold {ctx.command} help" for more info''')
 
 _task_handlers = {
     "make": _make,

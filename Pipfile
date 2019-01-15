@@ -10,6 +10,7 @@ pytest = "*"
 mold = {path = "."}
 markdown = "*"
 twine = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"

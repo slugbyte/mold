@@ -41,6 +41,14 @@ def mkdir(path):
 def mkfile(path):
     return Path(path).touch()
 
+def write_file(path, content):
+    try:
+        with open(path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        return True
+    except:
+        return False
+
 def listdir(path):
     return os.listdir(path) 
 
