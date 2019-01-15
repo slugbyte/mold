@@ -5,6 +5,7 @@ from mold.color import get_color
 
 # PRIVATE
 # Singleton state (HAHHHAH I hate singletons, me sooo lazy :p)
+
 def check(ctx):
     red = get_color(ctx, 'red')
     yellow = get_color(ctx, 'yellow')
@@ -23,6 +24,36 @@ def check(ctx):
     {yellow}Try runing "mold root --fix"{reset}''')
             return ctx.MOLD_ROOT_DIRS_ERROR
     return ctx.OK
+
+def _usage(ctx):
+    print(f'''USAGE: mold root [task] [options]  [--flags]
+    run "mold root help" for more info''')
+    return ctx.OK
+
+def _check(ctx):
+    result = check(ctx)
+    if result == ctx.OK:
+        print(f'MOLD_ROOT {ctx.MOLD_ROOT} is OK')
+    return result
+
+def _fix(ctx):
+    print("Fixing mold root")
+    if not fs.exists(ctx.MOLD_ROOT):
+        print('''ERROR: There is no MOLD_ROOT to fix.
+    Try runing "mold root --install"''')
+        return ctx.MOLD_ROOT_ERROR
+    try:
+        for content_type in ['conf', 'plug', 'exec', 'fold', 'file']:
+            content_dir = ctx.MOLD_ROOT + '/' + content_type
+            if not fs.exists(content_dir):
+                fs.mkdir(content_dir)
+        result = _check(ctx)
+        if result != ctx.OK:
+            print('''Sorry, Something went wrong.
+    You may want to open an issue at https://github.com/slugbyte/mold/issues''')
+        return result
+    except:
+        return ctx.FAIL
 
 def _clone(ctx):
     red = get_color(ctx, 'red')
@@ -55,6 +86,12 @@ def _set_remote(ctx):
     git.set_remote(ctx, ctx.command)
     return ctx.OK
 
+_task_handlers = {
+    "check": _check,
+    "usage": _usage,
+    "--fix": _fix,
+}
+
 def handle_flag(ctx):
     if ctx.check_install_set():
         return install(ctx)
@@ -62,6 +99,8 @@ def handle_flag(ctx):
         return _clone(ctx)
     if ctx.check_set_remote_set():
         return _set_remote(ctx)
-    print('hit handle_flag')
-    return ctx.FAIL
+    try:
+        _task_handlers[ctx.task or 'usage'](ctx)
+    except:
+        return ctx.FAIL
 
