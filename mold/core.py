@@ -19,6 +19,10 @@ from mold.util import query
 def _link_conf(ctx, filename):
     if ctx.command != 'conf':
         return 
+    if ctx.task == 'make' or ctx.task == 'load':
+        if ctx.check_flag_set('--no-linking'):
+            print(f'NOTICE: conf {filename} was NOT linked')
+            return 
     src = ctx.MOLD_ROOT + '/conf/' + filename
     dest = ctx.HOME + '/' + filename
     fs.force_link(src, dest)
@@ -27,6 +31,8 @@ def _link_conf(ctx, filename):
 def _make(ctx):
     filename = ctx.get_option(0)
     filepath = ctx.get_command_dir() + '/' + filename
+    if fs.exists(filepath):
+        return print(f'ERROR: {filepath} allready exits try "mold {ctx.command} edit" instead')
     if ctx.command == 'fold':
         fs.mkdir(filepath)
         system.cd(filepath)
@@ -63,6 +69,9 @@ def _list(ctx):
     print('\n'.join(ctx.get_command_dirlist()).strip() or f'No {ctx.command}s')
 
 def _edit(ctx):
+    if ctx.command == 'conf':
+        if ctx.check_flag_set('--no-linking'):
+            return print('ERROR: conf is allready link --no-linking can not be used with "mold conf edit".')
     filename = ctx.get_option(0)
     filepath = ctx.get_command_dir() + '/' + filename
     if fs.exists(filepath):

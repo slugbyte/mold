@@ -146,15 +146,19 @@ def force_push(ctx, branch=None):
         branch = 'HEAD'
     _git_shell(ctx, f'push origin {branch} --force')
 
-def clone(ctx, url=None):
+def clone(ctx, uri=None):
     # clone uses system.exec and shell because there is not MOLD_ROOT to cd into
     if not uri:
         print('ERROR: git clone requires a git-uri')
         return system.fail()
+    # DO NOT refactor to USE _check_remote_uri because it will try to cd to MOLD_ROOT 
+    # whitch does not exits 
     print(f'Checking {uri}: ', end='')
-    result = _check_remote_uri(ctx, uri)
+    result = system.exec('git ls-remote ' + uri)
     if not result.check_ok():
+        print(f'Sorry, that a not valid remote uri, make sure it exists.') 
         return result
+    print('OK')
     return system.shell(f'git clone {uri} {ctx.MOLD_ROOT}' )
 
 def init(ctx):

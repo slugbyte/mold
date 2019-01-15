@@ -7,7 +7,10 @@ import mold.fs as fs
 from mold.util import query 
 from mold.system import which, check_is_tty
 
-_flags = set(['--complete', '--color', '-v', 'help', '-h', '--help', '--quick-install', '--install', '--clone', '--set-remote', '--force', '--version'])
+_flags = set(['--complete', '--color', '-v', 
+    'help', '-h', '--help', '--quick-install', 
+    '--install', '--clone', '--set-remote', 
+    '--force', '--version', '--no-linking'])
 
 # STORES ARGS AND ENV VARS
 class MoldContext:
@@ -87,10 +90,12 @@ class MoldContext:
                 result.append(current)
         return result
     def link_conf(self):
+        if self.check_flag_set('--no-linking'):
+            print('NOTICE: conf was NOT linked')
+            return 
         for conf in self.get_command_dirlist('conf'):
             fs.force_link(self.MOLD_ROOT + '/conf/' + conf, self.HOME + '/' + conf)
             print(f'LINKING conf: {conf}')
-
 
     def get_option(self, index):
         return query(self.options, index)
