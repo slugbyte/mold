@@ -55,7 +55,6 @@ def _clone(ctx):
     red = get_color(ctx, 'red')
     cyan = get_color(ctx, 'cyan')
     reset = get_color(ctx, 'reset')
-    # TODO LINK ALL THE CONFS
     if not ctx.task:
         print('{red}USAGE ERROR:{reset} mising git-uri\n    e.g. mold root --set-origin [git-uri]')
         return ctx.FAIL
@@ -71,7 +70,6 @@ def _clone(ctx):
     result = check(ctx)
     if result != ctx.OK:
         return result
-    # TODO run mold root check to see if the dirs are OK
     ctx.link_conf()
     return ctx.OK
 

@@ -47,19 +47,19 @@ TODO: write better install docs
 ##### INTERACTIVE INSTALLER
 1. `pip3 install mold-cli`
 1. run `mold --install` and follow the instructions
-    * you can optional add `--set-remote git://github.com:user/example.git` to initialize a git remote
+    * you can optional add `--set-origin git://github.com:user/example.git` to initialize a git remote
 
 ##### QUICK INSTALL
 The quick install does the same thing as the interactive installer without any prompting  
 **WARNING** The quick install will overwrite the $MOLD\_ROOT if it all ready exists.  
 1. `pip3 install mold-cli`
 1. run `mold --quick-install` and follow the output instructions
-    * you can optional add `--set-remote git://github.com:user/example.git` to initialize a git remote
+    * you can optional add `--set-origin git://github.com:user/example.git` to initialize a git remote
 
 ##### CREADING CUSTOM MOLD\_ROOT DIRECTORY
 To change the MOLD\_ROOT from ~/.mold set the environment variable $MOLD\_ROOT before you run the installer
 1. `export MOLD_ROOT=$HOME/path/to/your/mold_root`
-2. `mold --quick-install --set-remote git://github.com:user/example.git`
+2. `mold --quick-install --set-origin git://github.com:user/example.git`
 
 ##### CLONE AN EXISTING MOLD ROOT 
 If you want to install an existing mold-root on another computer you can use `--clone`
@@ -119,11 +119,11 @@ commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, 
 ## ROOT -- MOLD\_ROOT management 
 ##### ROOT TASKS
 * `--install` -- interactive installer 
-   * `--set-remote` automatically set the git remote origin with out prompting the user 
+   * `--set-origin` automatically set the git remote origin with out prompting the user 
 * `--quick-install` install without prompting 
 * `--clone` -- create mold root from existing repo 
    * `--force` will delete a moldroot without prompting
-* `--set-remote` -- set mold root's git origin remote 
+* `--set-origin` -- set the mold-root's git remote origin 
 * `--check` -- check the MOLD\_ROOT directory stucture
 * `--fix` -- fix the MOLD\_ROOT directory stucture
     

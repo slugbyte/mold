@@ -13,8 +13,6 @@ import mold.mold_root as mold_root
 from mold.complete import complete
 from mold.color import get_color
 
-# TODO: make mold --fix-dirs
-
 # PRIVATE
 def _check_help(ctx):
     if ctx.check_help_set():
@@ -27,7 +25,6 @@ def _check_help(ctx):
     return True
 
 def _check_mold_root(ctx):
-    # TODO: make this less janky by removing _result and _setresult from mold_root
     if ctx.command == 'root':
         return mold_root.handle_flag(ctx)
     result = mold_root.check(ctx)
@@ -46,6 +43,7 @@ def _check_complete(ctx):
         complete(ctx)
         return False
     return True
+
 
 def _check_core(ctx):
     for current in ['file', 'fold', 'exec', 'conf', 'plug']:
@@ -84,5 +82,5 @@ def main(ctx):
     if not _check_sync(ctx):
         return ctx.OK
     print(f'{red}doh!{reset} mold {ctx.command} isn\'t a feature yet.')
-    return ctx.DEV_TODO
+    return ctx.FAIL
 

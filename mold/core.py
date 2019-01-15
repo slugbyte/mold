@@ -15,11 +15,6 @@ from mold.util import query
 # IDEA create two log functions for OK and FAIL , they can be used
 # They should return OK or FAIL exit codes they can be used 
 # to log a status and exit in one one :)
-
-# TODO: have _make and _load only link the single conf that is being added to 
-# the MOLD_ROOT
-
-# TODO: make usage support TASKS TOO
 def _usage(ctx, options='[options]'):
     if ctx.task:
         return print(f'''USAGE: mold {ctx.command} {ctx.task} {options} [--flags]
