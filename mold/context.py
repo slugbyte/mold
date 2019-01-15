@@ -71,20 +71,26 @@ class MoldContext:
     def check_install_set(self):
         return self.check_flag_set('--install') or self.check_flag_set('--quick-install')
 
-    def get_command_dir(self):
-        if not self.command:
+    def get_command_dir(self, command=None):
+        command = command or self.command
+        if not command:
             return None
-        return self.MOLD_ROOT + '/' + self.command
+        return self.MOLD_ROOT + '/' + command
 
-    def get_command_dirlist(self):
+    def get_command_dirlist(self, command=None):
         result = [] 
-        command_dir  = self.get_command_dir()
+        command_dir  = self.get_command_dir(command)
         if command_dir == None:
             return result
         for current in fs.listdir(command_dir):
             if current != '.mold':
                 result.append(current)
         return result
+    def link_conf(self):
+        for conf in self.get_command_dirlist('conf'):
+            fs.force_link(self.MOLD_ROOT + '/conf/' + conf, self.HOME + '/' + conf)
+            print(f'LINKING conf: {conf}')
+
 
     def get_option(self, index):
         return query(self.options, index)

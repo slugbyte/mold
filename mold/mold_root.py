@@ -55,6 +55,7 @@ def _clone(ctx):
                 return ctx.OK
         fs.rimraf(ctx.MOLD_ROOT) 
     git.clone(ctx, ctx.command)
+    ctx.link_conf()
     return ctx.OK
 
 def _set_remote(ctx):

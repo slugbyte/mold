@@ -52,6 +52,12 @@ def shell(cmd):
     status = subprocess.Popen(parsed).wait()
     return _ExecResult(status, None, None)
 
+def fail():
+    return exec('false')
+
+def success():
+    return exec('true')
+
 def check_is_tty():
     return sys.stdout.isatty()
 

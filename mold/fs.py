@@ -11,6 +11,14 @@ from pathlib import Path
 # wrappers for file functions because i wanted a single file api 
 # only created methods when they were needed
 
+# TODO: refactor fs to use _FSResult
+class _FSResult:
+    def __init__(self, status=None, data=None):
+        self.status = status
+        self.data = data
+    def check_ok():
+        return self.status
+
 # INTERFACE
 def mv(src, dest):
     return os.replace(src, dest)

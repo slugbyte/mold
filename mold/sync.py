@@ -4,18 +4,36 @@ sync defines the logic for maintaining a MOLD_ROOT using git
 
 import mold.git as git 
 from mold.util import query
+import mold.system as system
+
+def _usage(ctx, options='options'):
+    if ctx.task:
+        print(f'''USAGE: mold {ctx.command} {ctx.task} [{options}] [--flags]
+    run "mold {ctx.command} {ctx.task} help" for more info''')
+        return system.fail()
+    else:
+        print(f'''USAGE: mold {ctx.command} [task] [...options] [--flags]
+    run "mold {ctx.command} help" for more info''')
+        return system.fail()
 
 def _auto(ctx):
     message = ctx.get_option(0)
-    if not git.pull(ctx):
-        return False
-    if not git.add(ctx):
-        return False
-    if not git.commit(ctx, message):
-        return False
-    if not git.push(ctx):
-        return False
-    return True
+    result = git.pull(ctx)
+    if not result.check_ok():
+        print('ERROR: unable to git pull')
+        return result 
+    ctx.link_conf()
+    result = git.add(ctx)
+    if not result.check_ok():
+        print('ERROR: unable to git add -A')
+        return result
+    result = git.commit(ctx, message)
+    if not result.check_ok():
+        return result
+    result = git.push(ctx)
+    if not result.check_ok():
+        print('ERROR: unable to git push')
+    return result 
 
 def _make_no_arg_git_task(name):
     methods = {
@@ -26,7 +44,7 @@ def _make_no_arg_git_task(name):
         "remote": git.remote,
     }
     def handler(ctx):
-        methods[name](ctx)
+        return methods[name](ctx)
     return handler
 
 def _make_one_arg_git_task(name):
@@ -35,6 +53,14 @@ def _make_one_arg_git_task(name):
         "push": git.push,
         "pull": git.pull,
         "commit": git.commit,
+    }
+    def handler(ctx):
+        arg = ctx.get_option(0)
+        return methods[name](ctx, arg)
+    return handler
+
+def _make_one_arg_git_task_with_usage_warning(name, option_text=None):
+    methods = {
         "merge": git.merge,
         "checkout": git.checkout,
         "new_branch": git.new_branch,
@@ -43,13 +69,25 @@ def _make_one_arg_git_task(name):
         "force_push": git.force_push,
     }
     def handler(ctx):
+        if not ctx.check_has_options():
+            return _usage(ctx, option_text)
         arg = ctx.get_option(0)
-        methods[name](ctx, arg)
+        return methods[name](ctx, arg)
     return handler
+
+def _link_conf_after_git(handler):
+    def _handler(*args):
+        result = handler(*args)
+        if not result.check_ok():
+            return result
+        args[0].link_conf()
+        return result
+    return _handler
 
 _task_handlers = {
     # custom 
-    "auto": _auto,
+    "auto": _auto, # internaly handles linking conf
+    "usage": _usage,
     # curry no arg
     "add": _make_no_arg_git_task('add'),
     "log": _make_no_arg_git_task('log'),
@@ -59,20 +97,21 @@ _task_handlers = {
     # curry one arg
     "diff": _make_one_arg_git_task('diff'),
     "push": _make_one_arg_git_task('push'),
-    "pull": _make_one_arg_git_task('pull'),
+    "pull": _link_conf_after_git(_make_one_arg_git_task('pull')),
     "commit": _make_one_arg_git_task('commit'),
-    "--merge": _make_one_arg_git_task('merge'),
-    "--checkout": _make_one_arg_git_task('checkout'),
-    "--new-branch": _make_one_arg_git_task('new_branch'),
-    "--soft-reset": _make_one_arg_git_task('soft_reset'),
-    "--hard-reset": _make_one_arg_git_task('hard_reset'),
-    "--force-push": _make_one_arg_git_task('force_push'),
+
+    # curry one arg dangerous tasks with usage warning
+    "--merge": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('merge', 'branch')),
+    "--checkout": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('checkout', 'branch')),
+    "--new-branch": _make_one_arg_git_task_with_usage_warning('new_branch', 'branch'),
+    "--soft-reset": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('soft_reset', 'commit hash or branch')),
+    "--hard-reset": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('hard_reset', 'commit hash or branch')),
+    "--force-push": _make_one_arg_git_task_with_usage_warning('force_push', 'branch'),
 } 
 
 def handle_task(ctx):
     try:
-        _task_handlers[ctx.task](ctx)
-        # TODO LINK ALL THE CONFS
+        _task_handlers[ctx.task or 'usage'](ctx)
     except:
         print(f'mold sync can\'t {ctx.task} yet.')
 

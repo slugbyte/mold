@@ -15,14 +15,15 @@ def _git_shell(ctx, args):
     system.cd(ctx.MOLD_ROOT)
     return system.shell('git ' + args)
 
-def _check_remote_uri(ctx, uri):
+def _check_remote_uri(ctx, uri=None):
     '''checks that a git remote uri is valid'''
     print(f'Checking {uri}: ', end='')
-    if not _git_exec(ctx, 'ls-remote ' + uri).check_ok():
+    result = _git_exec(ctx, 'ls-remote ' + uri)
+    if not result.check_ok():
         print(f'Sorry, that a not valid remote uri, make sure it exists.') 
-        return False
+        return result
     print('OK')
-    return True
+    return result
 
 def _get_remote_name(ctx):
     r = _git_exec(ctx, 'remote -v')
@@ -33,8 +34,8 @@ def _get_remote_name(ctx):
     except: 
         return None
 
-def _get_remote_uri(ctx, ):
-    r = _git_shell(ctx, 'remote -v')
+def _get_remote_uri(ctx):
+    r = _git_exec(ctx, 'remote -v')
     if not r.check_ok() or not r.out:
         return None
     try:
@@ -42,145 +43,131 @@ def _get_remote_uri(ctx, ):
     except: 
         return None
 
+def _get_current_branch(ctx):
+    r = _git_exec(ctx, 'branch')
+    if not r.check_ok() or not r.out:
+        print('fooey', r.check_ok())
+        return None
+    try:
+        for branch in r.out.split('\n'):
+            if branch.strip().startswith('*'):
+                return branch.replace('*', '').strip()
+    except: 
+        return None
+
 # API INTERFACE
-def set_remote(ctx, uri):
+def set_remote(ctx, uri=None):
     '''works as both git add and git set for the MOLD_ROOT'''
     if not uri:
-        return False 
+        return system.fail()
     if not _check_remote_uri(ctx, uri):
-        return False
+        return system.fail()
     # TODO: consider refactoring out all the {name} and force for mold to use origin ?
     name = _get_remote_name(ctx)
     if name:
-        if not _git_shell(ctx, 'remote remove ' + name):
-            return False
+        result = _git_shell(ctx, 'remote remove ' + name) 
+        if not result.check_ok():
+            return result
     name = name or 'origin'
-    if not _git_shell(ctx, f'remote add {name} {uri}'):
-        return False
-    if not _git_shell(ctx, f'fetch {name}'):
+    result = _git_shell(ctx, f'remote add {name} {uri}')
+    if not result.check_ok():
+        return result
+    result = _git_shell(ctx, f'fetch {name}')
+    if not result.check_ok():
         print(f'WARNING: failed to git fetch {name}')
+        return result 
     print('MOLD_ROOT\'s git remote origin is now:', uri)
-    return True
+    return result 
+
 
 def add(ctx):
-    if not _git_shell(ctx, 'add -A').check_ok():
-        return False
-    return True
+    return _git_shell(ctx, 'add -A')
 
 def status(ctx):
-    if not _git_shell(ctx, 'status').check_ok():
-        return False
-    return True
+    return _git_shell(ctx, 'status')
 
 def remote(ctx):
-    if not _git_shell(ctx, 'remote -v').check_ok():
-        return False
-    return True
+    return _git_shell(ctx, 'remote -v')
 
-def diff(ctx, githash='HEAD'):
+def diff(ctx, githash=None):
     if not githash:
         githash= 'HEAD'
-    if not _git_shell(ctx, f'diff {githash}').check_ok():
-        return False
-    return True
+    return _git_shell(ctx, f'diff {githash}')
 
-def commit(ctx, message):
+def commit(ctx, message=None):
     if message:
-        if not _git_shell(ctx, f"commit -m '{message}'").check_ok():
-            return False
-        return True
-    if not _git_shell(ctx, 'commit').check_ok():
-        return False
-    return True
+        return _git_shell(ctx, f"commit -m '{message}'")
+    return _git_shell(ctx, 'commit')
 
-def hard_reset(ctx, githash):
+def hard_reset(ctx, githash=None):
     if not githash:
         githash = 'HEAD'
-    if not _git_shell(ctx, f"reset --hard {githash}").check_ok():
-        return False
-    return True
+    return _git_shell(ctx, f"reset --hard {githash}")
 
-def soft_reset(ctx, githash):
+def soft_reset(ctx, githash=None):
     if not githash:
         githash = 'HEAD'
-    if not _git_shell(ctx, f"reset --soft {githash}").check_ok():
-        return False
-    return True
+    return _git_shell(ctx, f"reset --soft {githash}")
 
 def log(ctx):
-    if not _git_shell(ctx, 'log').check_ok():
-        return False
-    return True
+    return _git_shell(ctx, 'log')
 
 def branch(ctx):
-    if not _git_shell(ctx, 'branch -av').check_ok():
-        return False
-    return True
+    return _git_shell(ctx, 'branch -av')
 
-def merge(ctx, branch='HEAD'):
+def merge(ctx, branch=None):
+    print('merging', branch)
     if not branch:
         branch = 'HEAD'
-    if not _git_shell(ctx, f'merge {branch}').check_ok():
-        return False
-    return True
+    return _git_shell(ctx, f'merge {branch}')
 
-def checkout(ctx, branch='HEAD'):
+def checkout(ctx, branch=None):
     if not branch:
         branch = 'HEAD'
-    if not _git_shell(ctx, f'checkout  {branch}').check_ok():
-        return False
-    return True
+    return _git_shell(ctx, f'checkout  {branch}')
 
 def new_branch(ctx, branch=None):
     if not branch:
-        return False
-    if not _git_shell(ctx, f'checkout -b {branch}').check_ok():
-        return False
-    return True
+        return system.fail()
+    return _git_shell(ctx, f'checkout -b {branch}')
 
-def pull(ctx, branch='HEAD'):
+def pull(ctx, branch=None):
+    if not branch:
+        branch = _get_current_branch(ctx)
+    return _git_shell(ctx, f'pull origin {branch}')
+
+def push(ctx, branch=None):
     if not branch:
         branch = 'HEAD'
-    if not _git_shell(ctx, f'pull origin {branch}').check_ok():
-        return False
-    return True
+    return _git_shell(ctx, f'push origin {branch}')
 
-def push(ctx, branch='HEAD'):
+def force_push(ctx, branch=None):
     if not branch:
         branch = 'HEAD'
-    if not _git_shell(ctx, f'push origin {branch}').check_ok():
-        return False
-    return True
+    _git_shell(ctx, f'push origin {branch} --force')
 
-def force_push(ctx, branch='HEAD'):
-    if not branch:
-        branch = 'HEAD'
-    if not _git_shell(ctx, f'push origin {branch} --force').check_ok():
-        return False
-    return True
-
-def clone(ctx, uri):
+def clone(ctx, url=None):
     # clone uses system.exec and shell because there is not MOLD_ROOT to cd into
     if not uri:
         print('ERROR: git clone requires a git-uri')
-        return False
+        return system.fail()
     print(f'Checking {uri}: ', end='')
-    if not system.exec('git ls-remote ' + uri).check_ok():
-        print(f'Sorry, that a not valid remote uri, make sure it exists.') 
-        return False
-    print('OK')
-    if not system.shell(f'git clone {uri} {ctx.MOLD_ROOT}' ):
-        return False
-    return True
+    result = _check_remote_uri(ctx, uri)
+    if not result.check_ok():
+        return result
+    return system.shell(f'git clone {uri} {ctx.MOLD_ROOT}' )
 
 def init(ctx):
-    if not _git_shell(ctx, 'init .').check_ok():
+    result = _git_shell(ctx, 'init .')
+    if not result.check_ok():
         print('Error: git init failed')
-        return False
-    if not _git_shell(ctx, 'add -A').check_ok():
+        return result
+    result = _git_shell(ctx, 'add -A')
+    if not result.check_ok():
         print('Error: git add -A failed')
-        return False
-    if not _git_shell(ctx, 'commit  -m "initial commit"').check_ok():
+        return result
+    result = _git_shell(ctx, 'commit  -m "initial commit"') 
+    if not result .check_ok():
         print('Error: inital git commit failed')
-        return False
-    return True
+    return result 
+

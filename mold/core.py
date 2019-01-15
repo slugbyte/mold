@@ -22,6 +22,7 @@ def _link_conf(ctx, filename):
     src = ctx.MOLD_ROOT + '/conf/' + filename
     dest = ctx.HOME + '/' + filename
     fs.force_link(src, dest)
+    print('LINKED conf:', filename)
 
 def _make(ctx):
     filename = ctx.get_option(0)
@@ -42,7 +43,7 @@ def _load(ctx):
     filepath = ctx.get_option(0)
     filename = ctx.get_option(1) or fs.basename(filepath)
     if fs.exists(filepath):
-        # first load conten
+        # first load content
         if ctx.command == 'fold':
             if not fs.is_dir(filepath):
                 return print(f'USAGE ERROR: {filepath} is not a directory, use mold file instead.')
@@ -58,9 +59,8 @@ def _load(ctx):
         return 
     print(f'ERROR: could not find "{filepath}"')
 
-# LIST
 def _list(ctx):
-        print('\n'.join(ctx.get_command_dirlist()).strip() or f'No {ctx.command}s')
+    print('\n'.join(ctx.get_command_dirlist()).strip() or f'No {ctx.command}s')
 
 def _edit(ctx):
     filename = ctx.get_option(0)
@@ -68,8 +68,10 @@ def _edit(ctx):
     if fs.exists(filepath):
         if ctx.command == 'fold': # IF you dont cd when using TUI editors its edit a dir structure
             system.cd(filepath) 
-        # TODO: LOG ERROR IF EDIT WASNT POSSIBLE
-        system.shell(ctx.EDITOR + ' ' + filepath)
+        if not system.shell(ctx.EDITOR + ' ' + filepath).check_ok():
+            return print(f'ERROR: unable to edit {filepath}')
+        if ctx.command == 'conf':
+            _link_conf(ctx, filename) # RELINK CONF ON SUCCES
         return 
     print(f'ERROR: no "{filename}" {ctx.command} file found')
 
@@ -81,14 +83,14 @@ def _drop(ctx):
             fs.rimraf(filepath)
         else:
             fs.rm(filepath)
-        print(f'REMOVED {filename}')
+        print(f'REMOVED {filename} FROM $MOLD_ROOT/{ctx.command}')
         return 
     print(f'ERROR: no "{filename}" {ctx.command} file found')
 
 # EXPORT and LINK
 def _take(ctx):
     if not (ctx.command == 'fold' or ctx.command == 'file'):
-        print(f'Error: {ctx.command} does not support the file task')
+        print(f'ERROR: {ctx.command} does not support the file task')
         return 
     filename = ctx.get_option(0)
     filepath = ctx.get_command_dir() + '/' + filename
@@ -103,7 +105,7 @@ def _take(ctx):
     print(f'ERROR: no "{filename}" {ctx.command} file found')
 
 def _usage(ctx):
-        print(f'''USAGE: mold {ctx.command} [task] [...options]
+        print(f'''USAGE: mold {ctx.command} [task] [...options]  [--flags]
     run "mold {ctx.command} help" for more info''')
 
 _task_handlers = {
