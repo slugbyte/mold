@@ -88,12 +88,12 @@ def _handle_mold_root_exists(ctx):
             return False
     return True
 
-def _handle_mold_root_set_remote(ctx):
+def _handle_mold_root_set_origin(ctx):
     red = get_color(ctx, 'red')
     cyan = get_color(ctx, 'cyan')
     reset = get_color(ctx, 'reset')
     remote = ''
-    if ctx.check_set_remote_set():
+    if ctx.check_set_origin_set():
         remote = ctx.task
     else:
         if not ctx.check_flag_set('--quick-install'):
@@ -136,6 +136,6 @@ def install(ctx):
         return _cleanup_and_fail(ctx)
     if not git.init(ctx).check_ok():
         return _cleanup_and_fail(ctx)
-    if not _handle_mold_root_set_remote(ctx):
+    if not _handle_mold_root_set_origin(ctx):
         return 
     _log_success(ctx, f' with the remote repository {remote}')

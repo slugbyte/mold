@@ -3,15 +3,10 @@ import mold.git as git
 from mold.install import install
 from mold.color import get_color
 
-# PRIVATE
-# Singleton state (HAHHHAH I hate singletons, me sooo lazy :p)
-
 def check(ctx):
     red = get_color(ctx, 'red')
     yellow = get_color(ctx, 'yellow')
     reset = get_color(ctx, 'reset')
-    # TODO: on refactor where check uses warning 
-    # dont long anythin if ctx.command == 'complete'
     if ctx.check_flag_set('--complete'):
         return ctx.OK
     if (not ctx.MOLD_ROOT) or (not fs.exists(ctx.MOLD_ROOT)) or (not fs.is_dir(ctx.MOLD_ROOT)):
@@ -47,6 +42,7 @@ def _fix(ctx):
             content_dir = ctx.MOLD_ROOT + '/' + content_type
             if not fs.exists(content_dir):
                 fs.mkdir(content_dir)
+                fs.write_file(content_dir + '/.mold', 'KEEP ME')
         result = _check(ctx)
         if result != ctx.OK:
             print('''Sorry, Something went wrong.
@@ -61,7 +57,7 @@ def _clone(ctx):
     reset = get_color(ctx, 'reset')
     # TODO LINK ALL THE CONFS
     if not ctx.task:
-        print('{red}USAGE ERROR:{reset} mising git-uri\n    e.g. mold root --set-remote [git-uri]')
+        print('{red}USAGE ERROR:{reset} mising git-uri\n    e.g. mold root --set-origin [git-uri]')
         return ctx.FAIL
     if fs.exists(ctx.MOLD_ROOT):
         if not ctx.check_flag_set('--force'):
@@ -79,11 +75,11 @@ def _clone(ctx):
     ctx.link_conf()
     return ctx.OK
 
-def _set_remote(ctx):
+def _set_origin(ctx):
     if not ctx.task:
-        print('USAGE ERROR: mising git-uri\n    e.g. mold root --set-remote [git-uri]')
-        return ctx.FAIL
-    git.set_remote(ctx, ctx.command)
+        print('USAGE: mold root --set-origin (git-uri)')
+        return ctx.OK
+    git.set_remote(ctx, ctx.task)
     return ctx.OK
 
 _task_handlers = {
@@ -97,8 +93,8 @@ def handle_flag(ctx):
         return install(ctx)
     if ctx.check_clone_set():
         return _clone(ctx)
-    if ctx.check_set_remote_set():
-        return _set_remote(ctx)
+    if ctx.check_set_origin_set():
+        return _set_origin(ctx)
     try:
         _task_handlers[ctx.task or 'usage'](ctx)
     except:

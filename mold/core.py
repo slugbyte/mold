@@ -141,14 +141,14 @@ def _drop(ctx):
 def _take(ctx):
     if not ctx.check_has_options():
         return _usage(ctx, '(name) [new name]')
-    if not (ctx.command == 'fold' or ctx.command == 'file'):
+    if not (ctx.command == 'fold' or ctx.command == 'file'): # TODO: make file data 
         print(f'ERROR: {ctx.command} does not support the file task')
         return 
     filename = ctx.get_option(0)
     filepath = ctx.get_command_dir() + '/' + filename
     output  = ctx.get_option(1) or filename
     if fs.exists(filepath):
-        if ctx.command == 'file':
+        if ctx.command == 'file': # TODO: make file data 
             fs.copy(filepath, './' + output) 
             return 
         if ctx.command == 'fold':

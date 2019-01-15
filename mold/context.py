@@ -9,7 +9,7 @@ from mold.system import which, check_is_tty
 
 _flags = set(['--complete', '--color', '-v', 
     'help', '-h', '--help', '--quick-install', 
-    '--install', '--clone', '--set-remote', 
+    '--install', '--clone', '--set-origin', 
     '--force', '--version', '--no-linking'])
 
 # STORES ARGS AND ENV VARS
@@ -65,8 +65,8 @@ class MoldContext:
     def check_help_set(self):
         return self.check_flag_set('help') or self.check_flag_set('-h') or self.check_flag_set('--help')
 
-    def check_set_remote_set(self):
-        return self.check_flag_set('--set-remote')
+    def check_set_origin_set(self):
+        return self.check_flag_set('--set-origin')
 
     def check_clone_set(self):
         return self.check_flag_set('--clone')
