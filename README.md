@@ -4,20 +4,17 @@
 ![breakfast grool](https://assets.slugbyte.com/github/github-header-00011.png)  
 
 ## ABOUT mold
-mold is is a cli for helping programmers mold thier shell environment to be more fun and productive to write
+`mold` is is a cli for helping programmers mold thier shell environment to be more fun and productive to write
 code in. Its goal is to enable users to bring all of the tools, scripts, and templates that make their programing 
-environment feel like home and take them anywhere. mold has a consistant interface for doing CRUD oprations to the 
-content it tracks, and a small but effective set of git helper tasks for syncing configurations.  
+environment feel like home and take them anywhere. mold has a consistant interface for doing [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) oprations to the content it tracks, and a small but effective set of git helper tasks for syncing configurations.  
 
-mold is not a really meant to be shell plugin manager, instead it aims to help users write and mangange their own configuration 
-files and scripts. However, mold also  believes that [dotfiles are ment to be forked](https://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/) and suports 
-dowloading content from urls. mold can be even used along side acutal shell plugin managers like
-[antegen](https://github.com/zsh-users/antigen) or [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh), without any hastel.. 
+mold is not a really meant to be shell plugin manager, instead it aims to help users write and mangange their own configuration files and scripts. However, mold also believes that [dotfiles are ment to be forked](https://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/) and supports cloning mold-roots as well as dowloading content from urls. mold can even be used along side acutal shell plugin managers like
+[antigen](https://github.com/zsh-users/antigen) or [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh), without any hastel.. 
 
 mold has a few opinionated limitations that aim to help programmers be more productive, by spending less time 
 configuring their enviroment and more time working on their projects. It does this by narrowing down system-configuration
-into five content classifcations which each have slightly differnet behaviors. mold stores its content in a git repoistory 
-called a mold-root, and uses the environment variable $MOLD\_ROOT to determine where it is located. mold content is split into the following 5 four letter classifications, that each have their own directory in the the mold-root. 
+into five content classifcations which each have slightly different behaviors. mold stores its content in a git repoistory 
+called a mold-root, and uses the environment variable $MOLD\_ROOT to determine where it is located. mold content is split into the following 5 classifications, that each have their own directory in the the mold-root. 
 
 ##### conf 
 mold confs are dotfiles. Each time a mold conf is loaded or created it is automaticly hard linked to the $HOME directory.
@@ -27,33 +24,35 @@ By using hard links no matter where you edit the file, changes are tracked by th
 mold plugs are single-file shell script that are treated as plugins. Each time a shell is created it will loop though the 
 mold-root plug directory and source each plug. All of the mold plug files are stored in $MOLD\_ROOT/plug.   
 
-#### execs
+#### exec
 mold execs are single-file executable scripts. Each time an exec is loaded or created it will be automaticly be given executable persions (755). All of the mold exec files are stored in $MOLD\_ROOT/exec, which is added to the begging of of $PATH .
 
 #### fold
 mold folds are directory scaffold templates. folds can be used to setup project boiler plate code so that the overhead of getting to work on a new project will be cut down. mold folds can be expored from the the mold-root into the current working directory. All of the mold folds are stored in $MOLD\_ROOT/fold .
 
-#### fold
-mold files are single-file tempaltes. mold files can be used to store things like licenses, markdown-templates, .gitignores, and anything you find your self adding to folders regularly. mold files can be expored from the mold-root into the current working directory. all of mold "files"
+#### file
+mold files are single-file tempaltes. mold files can be used to store things like licenses, markdown-templates, .gitignores, and anything you find your self adding to projects regularly. mold files can be expored from the mold-root into the current working directory. all of mold "files"
 are store in $MOLD\_ROOT/file . 
 
 ## WARNING UNSTABLE
 mold is under active development and not ready for production use.
+
 ### INSTALL
 First you need to install the mold CLI and then use the mold cli to create a mold-root. A mold-root is 
 a git repository that mold uses for storing all of your system configuration, shell scripts, and templates.
 By default the installers will install your mold-root to **~/.mold**. mold uses the environment vairable 
 $MOLD\_ROOT to determine where your mold-root has been installed.
 
+TODO: write better install docs 
 ##### INTERACTIVE INSTALLER
-1. `pip3 install mold`
+1. `pip3 install mold-cli`
 1. run `mold --install` and follow the instructions
     * you can optional add `--set-remote git://github.com:user/example.git` to initialize a git remote
 
 ##### QUICK INSTALL
 The quick install does the same thing as the interactive installer without any prompting  
 **WARNING** The quick install will overwrite the $MOLD\_ROOT if it all ready exists.  
-1. `pip3 install mold`
+1. `pip3 install mold-cli`
 1. run `mold --quick-install` and follow the output instructions
     * you can optional add `--set-remote git://github.com:user/example.git` to initialize a git remote
 

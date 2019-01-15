@@ -42,6 +42,7 @@ def check(ctx):
     return OK
 
 def _clone(ctx):
+    # TODO LINK ALL THE CONFS
     if not ctx.command:
         print('USAGE ERROR: mising git-uri\n    e.g. mold --set-remote [git-uri]')
         return ctx.FAIL

@@ -72,6 +72,7 @@ _task_handlers = {
 def handle_task(ctx):
     try:
         _task_handlers[ctx.task](ctx)
+        # TODO LINK ALL THE CONFS
     except:
         print(f'mold sync can\'t {ctx.task} yet.')
 
