@@ -121,8 +121,8 @@ mold leaf drop aliases.sh
 Mold's main objective is to help programers transport and track their system configurations, and it achieves this using git. 
 Instead of making users cd to their mold-root every time they want to manage git, mold's `sync` command is an interface for interacting with the mold-root's git repository from anywhere. Mold's `sync` tasks not only help manage git but also automate auto-linking conf files to the $HOME directory. However, if a merge conflict occurs mold will not auto-link the conf files until the next commit.
 
-##### WARNING 
-The mold sync tasks that start with `--` are consided to be dangerous. This is because they can both remove content in an unreversable manner, and because any changes they apply to the mold-root will automaticly change your system configuration. Meaning the conf files will automaticly be linked to your home directory, and any plugs that change will be loaded when a shell is created. The `--` tasks are great tools but should be used with caution. 
+##### WARNING About Sync's `--` Tasks
+The mold sync tasks that start with `--` are consided to be dangerous. This is because they can both remove content in an unreversable manner, and because any changes they apply to the mold-root will automaticly change your system configuration. Meaning the conf files will automaticly be linked to your home directory, and any plugs that change will be loaded when the next shell is created. The `--` tasks are great tools but should be used with caution. 
 
 Mold commands and their uses.
 * `auto` -- auto will try to pull the current branch from origin, link conf files, add all changes, make a git commit and then push to the current branch on origin.
