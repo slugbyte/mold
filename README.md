@@ -9,7 +9,7 @@ code in. Its goal is to enable users to bring all of the tools, scripts, and tem
 environment feel like home and take them anywhere. mold has a consistant interface for doing [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) oprations to the content it tracks, and a small but effective set of git helper tasks for syncing configurations.  
 
 mold is not a really meant to be shell plugin manager, instead it aims to help users write and mangange their own configuration files and scripts. However, mold also believes that [dotfiles are ment to be forked](https://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/) and supports cloning mold-roots as well as dowloading content from urls. mold can even be used along side acutal shell plugin managers like
-[antigen](https://github.com/zsh-users/antigen) or [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh), without any hastel.. 
+[antigen](https://github.com/zsh-users/antigen) or [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh), without any hastel. 
 
 mold has a few opinionated limitations that aim to help programmers be more productive, by spending less time 
 configuring their enviroment and more time working on their projects. It does this by narrowing down system-configuration
@@ -25,7 +25,7 @@ mold plugs are single-file shell script that are treated as plugins. Each time a
 mold-root plug directory and source each plug. All of the mold plug files are stored in $MOLD\_ROOT/plug.   
 
 #### exec
-mold execs are single-file executable scripts. Each time an exec is loaded or created it will be automaticly be given executable persions (755). All of the mold exec files are stored in $MOLD\_ROOT/exec, which is added to the begging of of $PATH .
+mold execs are single-file executable scripts. Each time an exec is loaded or created it will be automaticly be given executable persions (755). All of the mold exec files are stored in $MOLD\_ROOT/exec, which is added to the begging of $PATH .
 
 #### fold
 mold folds are directory scaffold templates. folds can be used to setup project boiler plate code so that the overhead of getting to work on a new project will be cut down. mold folds can be expored from the the mold-root into the current working directory. All of the mold folds are stored in $MOLD\_ROOT/fold .
@@ -67,34 +67,54 @@ If you want to install an existing mold-root on another computer you can use `--
     * if you want to overwrite the $MOLD\_ROOT if it exists add `--force`
 
 ## FEATURES
-` USAGE: mold [--flags] [command] [task] [options]`  
+* A consistant CRUD interface for content management 
+* A small but effective API for managing the mold-roots git
+* Color coded help 
+* Bash and Zsh tab completion
 
-## SMART HELP 
-`-h`, `--help`, and `help` can be applied to anything in mold and their order does not matter
+### USING MOLD
+` USAGE: mold  (command) (task) [...options] [--flags]`  
+mold's arguments are broken down in to the four categorys commands, tasks, options, and flags.
+mold allways requires a command, and with the exception of `--version` all commands require a task.
+Tasks very in the number of options they require, and flags they support. Flags are allways 
+boolean, and can placed in molds arguments in any order (begining, middle, end).  
 
-### COMMANDS
+Here are a list of mold commands and their uses.   
 * `--verson ` -- print mold version 
 * `root` -- manage the MOLD\_ROOT directory
 * `conf` -- manage dotfiles (CRUD + link to $HOME)
 * `plug` -- manage shell scripts aka. plugins  (CRUD + sourced every new shell)
 * `exec` -- manage executable files (CRUD + add them in a dir on $PATH)
-* `file` -- manage file templates (CRUD + export to anywhere you want to use them)
+* `leaf` -- manage file templates (CRUD + export to anywhere you want to use them)
 * `fold` -- manage project scaffolds (CRUD + export to anywhere you want to use them)
 * `sync` -- mangae the MOLD\_ROOT git repository
 
-#### CORE -- MOLD\_ROOT file management 
-The core commands are `conf`, `plug`, `exec`, `drop`, and `fold`. 
+####  GETTING  HELP
+When reading mold *help* and *usage* logs arguments wraped in parens are `(required)`, and 
+arguments wraped in square brackets are `[optional]`.  
+ 
+mold's `-h`, `--help`, and `help` argumments can be applied to all of molds features, 
+and can be placed anywhere after `mold` on argv. This means that the following statements
+all have identical behavior. `mold conf load help`  
+`mold conf load --help`  
+`mold conf load -h`  
+`mold -h conf load`  
+`mold conf help load`  
 
-##### CORE TASKS
-These tasks are applied to commands, and have suddly different behaviors based on the 
-commands. e.g. if `mold conf make` will crate a file and then link it to $HOME, or 
-`mold fold load` will load only directory instead of a file.
-* `make` -- create new content 
-* `load` -- import  content 
-* `list` -- list the contents 
-* `edit` -- edit contents 
-* `drop` -- Delete contents 
-* `take` -- (only for `fold` and `drop`) Export content into the current directory 
+#### Managing Content 
+molds content managing commands are `conf`, `plug`, `exec`, `leaf`, and `fold`. These comands have
+the following tasks for conent managment opperations.  
+* `make` -- Create new content 
+* `load` -- Import content 
+* `list` -- List content
+* `edit` -- Edit content 
+* `drop` -- Delete content 
+* `take` -- Export content into the current directory (only for `fold` and `leaf`)
+**NOTE:** 
+* When the `conf` command applys the `make` or `load` tasks it will automaticly hard-link the new conf
+you your $HOME directory, unless you use the `--no-linking` flag (documented below)
+* When the `exec` command applys the `make` or `load` tasks it will automaticly give the new content 
+executable permissions [(755)](https://thegeeksalive.com/linux-file-permissions-explained/)
 
 #### SYNC -- MOLD\_ROOT git management
 ##### SYNC TASKS
