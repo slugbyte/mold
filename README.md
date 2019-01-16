@@ -79,12 +79,12 @@ mold allways requires a command, and with the exception of `--version` all comma
 Tasks very in the number of options they require and flags they support. Flags are allways 
 boolean truthy values, and can be placed in mold's arguments in any order (begining, middle, end).  
 
-Here is list of mold commands and their uses.   
+Here is the list of mold commands and their uses.   
 * `--verson ` -- print mold's version 
 * `root` -- Manage your MOLD\_ROOT directory (install, clone, ect.)
 * `conf` -- Manage dotfiles (CRUD + link to $HOME)
 * `plug` -- Manage single-file shell scripts (CRUD + sourced every new shell)
-* `exec` -- Manage executable files (CRUD + add them to a dir on $PATH)
+* `exec` -- Manage executable files (CRUD + add them to a directory on $PATH)
 * `leaf` -- Manage file templates (CRUD + export to anywhere you need to use them)
 * `fold` -- Manage project directory scaffolds (CRUD + export to anywhere you need to use them)
 * `sync` -- Has git wraper tasks for the MOLD\_ROOT
@@ -104,13 +104,16 @@ Because mold help flags are truthy boolean flags they can be applied to mold arg
 #### Managing Content 
 molds content managing commands are `conf`, `plug`, `exec`, `leaf`, and `fold`. These comands have
 the following tasks for conent managment opperations.  
-* `make` -- Create new content 
-* `load` -- Import content 
-* `list` -- List content
-* `edit` -- Edit content 
-* `drop` -- Delete content 
-* `take` -- Export content into the current directory (only for `fold` and `leaf`)
-**NOTE:** 
+* `make` -- Create new a new file  
+* `load` -- Import a file from a path or a URL
+* `list` -- List files
+* `edit` -- Edit an existing file
+* `drop` -- Delete a file
+* `take` -- Export a file into the current directory (only for `fold` and `leaf`)
+
+##### Important notes
+* When the `fold` command applys tasks it will create, list, update, delete, and export directorys instead of 
+files.
 * When the `conf` command applys the `make` or `load` tasks it will automaticly hard-link the new conf
 you your $HOME directory, unless you use the `--no-linking` flag (documented below)
 * When the `exec` command applys the `make` or `load` tasks it will automaticly give the new content 
