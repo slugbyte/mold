@@ -14,7 +14,7 @@ mold is not a really meant to be shell plugin manager, instead it aims to help u
 mold has a few opinionated limitations that aim to help programmers be more productive, by spending less time 
 configuring their enviroment and more time working on their projects. It does this by narrowing down system-configuration
 into five content classifcations which each have slightly different behaviors. mold stores its content in a git repoistory 
-called a mold-root, and uses the environment variable $MOLD\_ROOT to determine where it is located. mold content is split into the following 5 classifications, that each have their own directory in the the mold-root. 
+called a mold-root, and uses the environment variable $MOLD\_ROOT to determine it's located. mold content is split into the following classifications, that each have their own directory in the the mold-root. 
 
 ##### conf 
 mold confs are dotfiles. Each time a mold conf is loaded or created it is automaticly hard linked to the $HOME directory.
