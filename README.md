@@ -77,7 +77,7 @@ If you want to install an existing mold-root on another computer you can use `--
 mold's arguments are broken down in to the four categorys commands, tasks, options, and flags.
 mold allways requires a command, and with the exception of `--version` all commands require a task.
 Tasks very in the number of options they require and flags they support. Flags are allways 
-boolean truthy values, and can placed in mold's arguments in any order (begining, middle, end).  
+boolean truthy values, and can be placed in mold's arguments in any order (begining, middle, end).  
 
 Here is list of mold commands and their uses.   
 * `--verson ` -- print mold's version 
