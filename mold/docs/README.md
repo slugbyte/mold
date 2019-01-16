@@ -81,8 +81,8 @@ Because help is treated as a flag the order of the help arguments do not matter.
 `mold help conf make` and `mold conf make --help` are identical.
 
 ## MOLD COMMANDS
-* [help](./README.md) -- Show this help  
 * [--version](./--version) -- Print mold's version
+* [help](./README.md) -- show this help 
 * [root](./root) -- Setup and manage the MOLD\_ROOT
 * [sync](./sync) -- Manage MOLD\_ROOT's git
 * [fold](./fold) -- Manage project scaffolding templates
