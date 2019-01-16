@@ -48,7 +48,7 @@ $MOLD\_ROOT to determine where your mold-root has been installed.
     * Including tasks for managing origin and upstream remotes
 * Ability to download add content from a URL
 * A color coded help logger
-* Bash and Zsh tab completion
+* Bash and Zsh tab completion for arguments and mold-root content
 
 ## TODO: Install Mold
 ### Download the CLI
@@ -79,15 +79,13 @@ Mold treats `-h`, `--help`, and `help` as mold flags that trigger help logs. All
 help logs. Also, If a you try to run a mold command or task with out the proper arguments mold will automaticly log a short `Usage:` summary. When reading mold *help* and *usage* logs arguments wraped in parens are `(required)`, and arguments wraped in square brackets are `[optional]`.   
 
 Because mold help flags are truthy boolean flags they can be applied to mold arguments in any order. This means that the following statements have identical behavior.   
-`mold conf load help`    
-`mold conf load --help`  
-`mold conf load -h`  
-`mold -h conf load`  
-`mold conf help load`  
-ect.  
+* `mold conf load help`    
+* `mold conf --help load`  
+* `mold -h conf load`  
+  
 
 #### Managing Content
-Mold's main utility is to manage configuration files. It does this though providing an interface to create, load, edit, destroy, export, and list files in the mold-root. Molds content managing commands are `conf`, `plug`, `exec`, `leaf`, and `fold`. These comands have the following tasks for content managment opperations.  
+Mold's main utility is to manage configuration files. It does this though providing an interface to create, load, edit, delete, export, and list files in the mold-root. Molds content managing commands are `conf`, `plug`, `exec`, `leaf`, and `fold`. These comands have the following tasks for content managment opperations.  
 * `make` -- Create new a new file in the mold-root
 * `load` -- Import a file from a path or a URL into the mold-root
 * `list` -- List files in the mold-root
@@ -96,12 +94,12 @@ Mold's main utility is to manage configuration files. It does this though provid
 * `take` -- Export a file from the mold-root into the current directory (take is only supported by `fold` and `leaf`)
 
 ##### Important notes
-* When the `fold` command applys tasks it will create, list, update, delete, and export directorys instead of 
+* When the `fold` command applys tasks it will create, update, delete, export, and list directorys instead of 
 files.
 * When the `conf` command applys the `make` or `load` tasks it will automaticly hard-link the new conf
-to your $HOME directory, unless you use the `--no-linking` flag (Documented below)
+to your $HOME directory, unless you use the `--no-linking` flag (Documented below).
 * When the `exec` command applys the `make` or `load` tasks it will automaticly give the new content 
-executable permissions [(755)](https://thegeeksalive.com/linux-file-permissions-explained/)
+executable permissions [(755)](https://thegeeksalive.com/linux-file-permissions-explained/).
 
 ###### Content Managment Examples 
 ``` bash
@@ -114,7 +112,7 @@ mold plug make aliases.sh
 # Edit the aliases.sh plug
 mold plug edit aliases.sh 
 
-# Create a leaf by Downloading a url and naming its content node.gitignore 
+# Create a leaf by downloading a url and naming its content node.gitignore 
 mold leaf load https://www.gitignore.io/api/vim,osx,node,linux,windows node.gitignore 
 
 # Export the node.gitignore leaf to the current directory and rename it .gitignore
@@ -123,6 +121,35 @@ mold leaf take node.gitignore .gitignore
 # Delete the aliases.sh plug
 mold leaf drop aliases.sh 
 ```
+
+#### Managing the Mold-Root's Git Repository 
+Mold's main objective is to help programers transport and track their system configurations, and it achieves this using git. 
+Instead of making users cd to their mold-root every time they want to manage git, mold's `sync` command is an interface for interacting with the mold-root's git repository from anywhere. Mold's `sync` tasks not only help manage git but also automate auto-linking conf files to the $HOME directory. However, if a merge conflict occurs mold will not auto-link the conf files until the next commit.
+
+##### WARNING 
+The mold sync tasks that start with `--` are consided to be dangerous. This is because they can both remove content in an unreversable manner, and because any changes they apply to the mold-root will automaticly change your system configuration. Meaning the conf files will automaticly be linked to your home directory, and any plugs that change will be loaded when a shell is created. The `--` tasks are great tools but should be used with caution. 
+
+Mold commands and their uses.
+* `auto` -- auto will try to pull the current branch from origin, link conf files, add all changes, make a git commit and then push to the current branch on origin.
+    * If there is a merge conflict auto will abort, and not link your conf files untill the next commmit. 
+* `log` -- will run git log in the mold root
+* `add` -- will run `git add -A` in the mold root
+* `commit [message]` 
+    * If you provide a message argument it will run `git commit -m [message]`
+    * If you dont provide a mesage it will run `git commit` and git will open your editor to craft a message
+* `pull [branch]`
+    * If you provide a branch argument it will run `git pull origin [branch]`
+    * If you do not provide a branch argument it will `git pull origin [what ever the current branch name is]`
+* `push [branch]`
+    * If you provide a branch argument it will run `git push origin [branch]`
+    * If you do not provide a branch argument it will `git push origin HEAD`
+* 
+
+
+
+
+
+
 
 #### SYNC -- MOLD\_ROOT git management
 ##### SYNC TASKS
