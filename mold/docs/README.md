@@ -19,7 +19,7 @@
 
 [exec]('./exec) files will be added to a directory on $PATH.  
 
-[file](./file) files are file asset templates that you can want to future projects.   
+[leaf](./leaf) files are file asset templates that you can want to future projects.   
 
 [fold](./fold) templates are project directory scaffolds, they are files but for whole directories.  
 
@@ -30,7 +30,7 @@ e.g. `$ mold conf make .bashrc`
 
 <span classname='newline'/>
 
-The mold commands [conf](./conf_help.md), [plug](./plug_help.md), [exec]('./exec_help.md), [file](./file_help.md), and [fold](./fold_help.md) each the following tasks for managing content.  
+The mold commands [conf](./conf), [plug](./plug), [exec]('./exec), [leaf](./leaf), and [fold](./fold) each the following tasks for managing content.  
 
 * **make** - will create content  
 * **load** - will copy or download content into the $MOLD\_ROOT  
@@ -81,13 +81,14 @@ Because help is treated as a flag the order of the help arguments do not matter.
 `mold help conf make` and `mold conf make --help` are identical.
 
 ## MOLD COMMANDS
-* [help](./README.md) -- show this help  
-* [root](./root) -- setup and manage the MOLD\_ROOT
-* [sync](./sync) -- manage MOLD\_ROOT's git
-* [fold](./fold) -- manage project scaffolding templates
-* [file](./file) -- manage file asset templates
-* [plug](./plug) -- manage shell script plugins
-* [conf](./conf) -- manage configuration files
-* [exec](./exec) -- manage executables
+* [help](./README.md) -- Show this help  
+* [--version](./--version) -- Print mold's version
+* [root](./root) -- Setup and manage the MOLD\_ROOT
+* [sync](./sync) -- Manage MOLD\_ROOT's git
+* [fold](./fold) -- Manage project scaffolding templates
+* [leaf](./leaf) -- Manage file asset templates
+* [plug](./plug) -- Manage shell script plugins
+* [conf](./conf) -- Manage configuration files
+* [exec](./exec) -- Manage executables
 
 <3 Bug reports are much appreciated https://github.com/slugbyte/mold/issues
