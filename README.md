@@ -60,19 +60,19 @@ $MOLD\_ROOT to determine where your mold-root has been installed.
 ## USING MOLD
 `USAGE: mold  (command) (task) [...options] [--flags]`  
 Mold's arguments are broken down in to the four categorys commands, tasks, options, and flags.
-mold allways requires a command, and with the exception of `--version` all commands require a task.
+Mold allways requires a command, and with the exception of `--version` all commands require a task.
 Tasks very in the number of options they require and flags they support. Flags are allways 
 boolean truthy values, and can be written in mold's arguments in any order (begining, middle, end).  
 
 Mold commands and their uses.
 * `--verson ` -- Print mold's version 
 * `root` -- Setup and manage the mold-root directory (install, clone, ect.)
+* `sync` -- Git helper tasks for interacting with the mold-root's git repository
 * `conf` -- Manage dotfiles (CRUD + hard link to $HOME)
 * `plug` -- Manage single-file shell scripts (CRUD + sorced by new shells)
 * `exec` -- Manage executable files (CRUD + add them to a directory on $PATH)
 * `leaf` -- Manage file templates (CRUD + export to anywhere you need to use them)
 * `fold` -- Manage project directory scaffolds (CRUD + export to anywhere you need to use them)
-* `sync` -- Git helper tasks for interacting with the mold-root's git repository
 
 ####  GETTING  HELP
 Mold treats `-h`, `--help`, and `help` as mold flags that trigger help logs. All of mold's commands and tasks have color coded 
