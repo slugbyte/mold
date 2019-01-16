@@ -24,7 +24,7 @@ By using hard links no matter where you edit the file, changes are tracked by th
 Mold plugs are single-file shell scripts that act as shell plugins. Each time a shell is created it will loop though the mold-root plug directory and source each plug. All of the mold plug files are stored in $MOLD\_ROOT/plug.   
 
 #### exec
-Mold execs are single-file executable scripts. Each time an exec is loaded or created it will be automaticly be given executable persions (755). All of the mold exec files are stored in $MOLD\_ROOT/exec, which is added to the begging of $PATH .
+Mold execs are single-file executable scripts. Each time an exec is loaded or created it will be automaticly be given executable persions. All of the mold exec files are stored in $MOLD\_ROOT/exec, which is added to the begging of $PATH .
 
 #### fold
 Mold folds are directory scaffold templates. Folds can be used to setup project boiler plate code so that the overhead of getting to work on a new project will be cut down. Mold folds can be expored from the the mold-root into the current working directory. All of the mold folds are stored in $MOLD\_ROOT/fold .
