@@ -93,8 +93,8 @@ Mold's main utility is to manage configuration files. It does this though provid
 files.
 * When the `conf` command applys the `make` or `load` tasks it will automaticly hard-link the new conf
 to your $HOME directory, unless you use the `--no-linking` flag (Documented below).
-* When the `exec` command applys the `make` or `load` tasks it will automaticly give the new content 
-executable permissions [(755)](https://thegeeksalive.com/linux-file-permissions-explained/).
+* When the `exec` command applys the `make` or `load` tasks it will automaticly give the new content [755](https://thegeeksalive.com/linux-file-permissions-explained/)
+executable permissions.
 
 ###### Content Managment Examples 
 ``` bash
