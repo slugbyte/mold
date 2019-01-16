@@ -3,7 +3,7 @@
 
 ![breakfast grool](https://assets.slugbyte.com/github/github-header-00011.png)  
 
-## ABOUT mold
+## About mold
 `mold` is is a cli for helping programmers mold thier shell environment to be more fun and productive to write
 code in. Its goal is to enable users to bring all of the tools, scripts, and templates that make their programing 
 environment feel like home and take them anywhere. Mold has a consistant interface for doing [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) oprations to the content it tracks, and a small but effective set of git helper tasks for syncing configurations.  
@@ -33,65 +33,50 @@ Mold folds are directory scaffold templates. Folds can be used to setup project 
 Mold leafs are file tempaltes. Leafs can be used to store things like licenses, markdown-templates, .gitignores, and anything you find your self adding to projects regularly. Mold leafs can be expored from the mold-root into the current working directory. all of the mold leafs
 are store in $MOLD\_ROOT/leaf. 
 
-## WARNING UNSTABLE
+## Warning Unstable
 Mold is under active development and not ready for production use.
 
-### INSTALL
+### Install
 First you need to install the mold CLI and then use the mold cli to create a mold-root. A mold-root is 
 a git repository that mold uses for storing all of your system configuration, shell scripts, and templates.
 By default the installers will install your mold-root to **~/.mold**. mold uses the environment vairable 
 $MOLD\_ROOT to determine where your mold-root has been installed.
 
-TODO: write better install docs 
-##### INTERACTIVE INSTALLER
-1. `pip3 install mold-cli`
-1. run `mold --install` and follow the instructions
-    * you can optional add `--set-origin git://github.com:user/example.git` to initialize a git remote
-
-##### QUICK INSTALL
-The quick install does the same thing as the interactive installer without any prompting  
-**WARNING** The quick install will overwrite the $MOLD\_ROOT if it all ready exists.  
-1. `pip3 install mold-cli`
-1. run `mold --quick-install` and follow the output instructions
-    * you can optional add `--set-origin git://github.com:user/example.git` to initialize a git remote
-
-##### CREADING CUSTOM MOLD\_ROOT DIRECTORY
-To change the MOLD\_ROOT from ~/.mold set the environment variable $MOLD\_ROOT before you run the installer
-1. `export MOLD_ROOT=$HOME/path/to/your/mold_root`
-2. `mold --quick-install --set-origin git://github.com:user/example.git`
-
-##### CLONE AN EXISTING MOLD ROOT 
-If you want to install an existing mold-root on another computer you can use `--clone`
-* run `mold --clone git://github.com/user/mold-root.git` and follow the output instructions
-    * if you want to overwrite the $MOLD\_ROOT if it exists add `--force`
-
-## FEATURES
+## Features
 * A consistant CRUD interface for content management 
-* A small but effective API for managing the mold-roots git
-* Color coded help 
+* A small but effective interface for managing the mold-root's git repository
+    * Including tasks for managing origin and upstream remotes
+* Ability to download add content from a URL
+* A color coded help logger
 * Bash and Zsh tab completion
 
-### USING MOLD
-` USAGE: mold  (command) (task) [...options] [--flags]`  
-mold's arguments are broken down in to the four categorys commands, tasks, options, and flags.
+## TODO: Install Mold
+### Download the CLI
+### Setup a Mold-Root
+##### Mold-Root Interative Installer
+##### Mold-Root Quick Install
+##### Cloning a Mold-Root 
+
+## USING MOLD
+`USAGE: mold  (command) (task) [...options] [--flags]`  
+Mold's arguments are broken down in to the four categorys commands, tasks, options, and flags.
 mold allways requires a command, and with the exception of `--version` all commands require a task.
 Tasks very in the number of options they require and flags they support. Flags are allways 
-boolean truthy values, and can be placed in mold's arguments in any order (begining, middle, end).  
+boolean truthy values, and can be written in mold's arguments in any order (begining, middle, end).  
 
-Here is the list of mold commands and their uses.   
-* `--verson ` -- print mold's version 
-* `root` -- Manage your MOLD\_ROOT directory (install, clone, ect.)
-* `conf` -- Manage dotfiles (CRUD + link to $HOME)
-* `plug` -- Manage single-file shell scripts (CRUD + sourced every new shell)
+Mold commands and their uses.
+* `--verson ` -- Print mold's version 
+* `root` -- Setup and manage the mold-root directory (install, clone, ect.)
+* `conf` -- Manage dotfiles (CRUD + hard link to $HOME)
+* `plug` -- Manage single-file shell scripts (CRUD + sorced by new shells)
 * `exec` -- Manage executable files (CRUD + add them to a directory on $PATH)
 * `leaf` -- Manage file templates (CRUD + export to anywhere you need to use them)
 * `fold` -- Manage project directory scaffolds (CRUD + export to anywhere you need to use them)
-* `sync` -- Has git wraper tasks for the MOLD\_ROOT
+* `sync` -- Git helper tasks for interacting with the mold-root's git repository
 
 ####  GETTING  HELP
-mold treats `-h`, `--help`, and `help` as mold flags. help flags can be applied to any of mold's arguments. 
-If a you try to run a mold command or task with out the proper arguments mold will automaticly log a short `Usage:` summary.
-When reading mold *help* and *usage* logs arguments wraped in parens are `(required)`, and arguments wraped in square brackets are `[optional]`.   
+Mold treats `-h`, `--help`, and `help` as mold flags that trigger help logs. All of mold's commands and tasks have color coded 
+help logs. Also, If a you try to run a mold command or task with out the proper arguments mold will automaticly log a short `Usage:` summary. When reading mold *help* and *usage* logs arguments wraped in parens are `(required)`, and arguments wraped in square brackets are `[optional]`.   
 
 Because mold help flags are truthy boolean flags they can be applied to mold arguments in any order. This means that the following statements have identical behavior.   
 `mold conf load help`    
@@ -99,24 +84,45 @@ Because mold help flags are truthy boolean flags they can be applied to mold arg
 `mold conf load -h`  
 `mold -h conf load`  
 `mold conf help load`  
+ect.  
 
-#### Managing Content 
-molds content managing commands are `conf`, `plug`, `exec`, `leaf`, and `fold`. These comands have
-the following tasks for conent managment opperations.  
-* `make` -- Create new a new file  
-* `load` -- Import a file from a path or a URL
-* `list` -- List files
-* `edit` -- Edit an existing file
-* `drop` -- Delete a file
-* `take` -- Export a file into the current directory (only for `fold` and `leaf`)
+#### Managing Content
+Mold's main utility is to manage configuration files. It does this though providing an interface to create, load, edit, destroy, export, and list files in the mold-root. Molds content managing commands are `conf`, `plug`, `exec`, `leaf`, and `fold`. These comands have the following tasks for content managment opperations.  
+* `make` -- Create new a new file in the mold-root
+* `load` -- Import a file from a path or a URL into the mold-root
+* `list` -- List files in the mold-root
+* `edit` -- Edit a file in the mold-root
+* `drop` -- Delete a file in the mold-root
+* `take` -- Export a file from the mold-root into the current directory (take is only supported by `fold` and `leaf`)
 
 ##### Important notes
 * When the `fold` command applys tasks it will create, list, update, delete, and export directorys instead of 
 files.
 * When the `conf` command applys the `make` or `load` tasks it will automaticly hard-link the new conf
-you your $HOME directory, unless you use the `--no-linking` flag (documented below)
+to your $HOME directory, unless you use the `--no-linking` flag (Documented below)
 * When the `exec` command applys the `make` or `load` tasks it will automaticly give the new content 
 executable permissions [(755)](https://thegeeksalive.com/linux-file-permissions-explained/)
+
+###### Content Managment Examples 
+``` bash
+# Import an existing .bashrc 
+mold conf load ~/.bashrc 
+
+# Create a shell plugin for managing your aliases
+mold plug make aliases.sh 
+
+# Edit the aliases.sh plug
+mold plug edit aliases.sh 
+
+# Create a leaf by Downloading a url and naming its content node.gitignore 
+mold leaf load https://www.gitignore.io/api/vim,osx,node,linux,windows node.gitignore 
+
+# Export the node.gitignore leaf to the current directory and rename it .gitignore
+mold leaf take node.gitignore .gitignore
+
+# Delete the aliases.sh plug
+mold leaf drop aliases.sh 
+```
 
 #### SYNC -- MOLD\_ROOT git management
 ##### SYNC TASKS
