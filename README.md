@@ -125,8 +125,14 @@ Instead of making users cd to their mold-root every time they want to manage git
 The mold sync tasks that start with `--` are consided to be dangerous. This is because they can both remove content in an unreversable manner, and because any changes they apply to the mold-root will automaticly change your system configuration. Meaning the conf files will automaticly be linked to your home directory, and any plugs that change will be loaded when the next shell is created. The `--` tasks are great tools but should be used with caution. 
 
 Mold commands and their uses.
-* `auto` -- auto will try to pull the current branch from origin, link conf files, add all changes, make a git commit and then push to the current branch on origin.
-    * If there is a merge conflict auto will abort, and not link your conf files untill the next commmit. 
+* `auto` -- will execute teh following steps 
+    1) Pull the current mold-root branch from origin
+        * If there is a merge conflict auto will abort and not link your conf files untill the next commmit. 
+    2) Link conf files
+    3) Add all changes
+    4) Make a git commit 
+    5) Push to the current branch on origin.
+    
 * `log` -- will run git log in the mold root
 * `add` -- will run `git add -A` in the mold root
 * `commit [message]` 
