@@ -1,4 +1,4 @@
-mold conf make 
+mold conf load
 ===
 
 ## Usage 
