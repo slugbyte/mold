@@ -122,9 +122,16 @@ Mold's main objective is to help programers transport and track their system con
 Instead of making users cd to their mold-root every time they want to manage git, mold's `sync` command is an interface for interacting with the mold-root's git repository from anywhere. Mold's `sync` tasks not only help manage git but also automate auto-linking conf files to the $HOME directory. However, if a merge conflict occurs mold will not auto-link the conf files until the next commit.
 
 ##### WARNING About Sync's `--` Tasks
-The mold sync tasks that start with `--` are consided to be dangerous. This is because they can both remove content in an unreversable manner, and because any changes they apply to the mold-root will automaticly change your system configuration. Meaning the conf files will automaticly be linked to your home directory, and any plugs that change will be loaded when the next shell is created. The `--` tasks are great tools but should be used with caution. 
+Except for `--set-origin` and `--set-upstream`, The mold sync tasks that start with `--` are consided to be dangerous. This is because they can both remove content in an unreversable manner, and because any changes they apply to the mold-root will automaticly change your system configuration. Meaning the conf files will automaticly be linked to your home directory, and any plugs that change will be loaded when the next shell is created. The `--` tasks are great tools but should be used with caution. 
 
 Mold commands and their uses.
+* `link` -- will manualy link the conf files to the $HOME directory
+* `log` -- will run git log
+* `add` -- will run `git add -A` 
+* `status` -- will run `git status` 
+* `fetch` -- will run `git fetch` TODO
+* `branch` -- will run `git branch -av` 
+* `remove` -- will run `git remote -v` 
 * `auto` -- will execute teh following steps 
     1) Pull the current mold-root branch from origin
         * If there is a merge conflict auto will abort and not link your conf files untill the next commmit. 
@@ -132,9 +139,6 @@ Mold commands and their uses.
     3) Add all changes
     4) Make a git commit 
     5) Push to the current branch on origin.
-    
-* `log` -- will run git log in the mold root
-* `add` -- will run `git add -A` in the mold root
 * `commit [message]` 
     * If you provide a message argument it will run `git commit -m [message]`
     * If you dont provide a mesage it will run `git commit` and git will open your editor to craft a message
@@ -144,55 +148,59 @@ Mold commands and their uses.
 * `push [branch]`
     * If you provide a branch argument it will run `git push origin [branch]`
     * If you do not provide a branch argument it will `git push origin HEAD`
-* 
+* `diff [hash|branch]`
+    * If you provide a hash argument it will run `git diff [hash|branch]`
+* `--soft-reset (hash|branch)` -- will run `git reset --soft (hash)`
+* `--hard-reset (hash|branch)` -- will run `git reset --hard (hash)`
+* `--new-branch (name)` -- will run `git checkout -b (name)`
+* `--checkout (name)` -- will run `git checkout (name)`  
+* `--force-push (branch)` -- will run `git push origin (branch)`  
+* `--merge (branch)` -- will run `git merge (branch)`
+* `--set-origin (git uri)` -- will remove the remote orgin if exists and then set origin to the git uri
+* `--set-upstream (git uri)` -- will remove the remote upstream if exists and then set upstream to the git uri TODO
 
+###### Mold Sync Usage Examples
+``` bash
+# use mold auto to pull, link conf, add -A, commit with a message, and push 
+mold sync auto 'added ll alias to aliases.sh plug'
 
+# manualy add changes, commit using a text editor, and push
+mold sync add
+mold sync commit # if commit is not given an argument it git will open your editor 
+mold sync push
 
+# diff the changes that have not been commited
+mold diff 
 
+# diff upstream's master branch 
+mold diff upstream/master
 
+# merge upstream master
+mold fetch
+mold --merge upstream/master
+```
 
-
-#### SYNC -- MOLD\_ROOT git management
-##### SYNC TASKS
-* `auto` -- pull add commit push (commit message from argv or text editor) 
-* git wrappers for mold root
-    * `log` 
-    * `add -A` 
-    * `commit` 
-    * `pull` 
-    * `push`  
-    * `diff`  
-    * `status`  
-    * `branch`  
-    * `remote`  
-    * `--soft-reset`  
-    * `--hard-reset`  
-    * `--new-branch`  
-    * `--checkout`  
-    * `--force-push`  
-    * `--merge`  
-
-## ROOT -- MOLD\_ROOT management 
-##### ROOT TASKS
-* `--install` -- interactive installer 
-   * `--set-origin` automatically set the git remote origin with out prompting the user 
-* `--quick-install` install without prompting 
-* `--clone` -- create mold root from existing repo 
-   * `--force` will delete a moldroot without prompting
-* `--set-origin` -- set the mold-root's git remote origin 
-* `--check` -- check the MOLD\_ROOT directory stucture
-* `--fix` -- fix the MOLD\_ROOT directory stucture
+#### ROOT TASKS
+* `--install` -- Run the interactive mold root installer
+   * `--set-origin` Automatically set the git remote origin with out prompting the user 
+* `--quick-install` Install a mold root without prompting 
+   * Can be used with the `--force` flag to overwrite an existing file or directory TODO
+* `--clone` -- Clone a repo as a mold root
+   * Can be used with the `--force` flag to overwrite an existing file or directory
+* `--check` -- Check the MOLD\_ROOT directory stucture is ok
+* `--fix` -- Fix the MOLD\_ROOT directory stucture
     
 #### FLAGS -- SUPLAMENTAL BEHAVIORS
-* `--color | MOLD_COLOR=true` -- force color when piping 
-* `--complete` -- generate smart tab completion for a posix shell like bash or zsh  
-* `--no-linking` -- stop a mold command from auto-maticly linking the conf files
-* `--help | -h` -- show help
+* `--help | -h | help` -- Print help
+* `--color` -- Force color when piping 
+* `--force` -- allow a mold root installer to overwrite an existing file or directory
+* `--no-linking` -- Stop a mold command from auto-maticly linking the conf files untill the next commit 
+* `--complete` -- Generate smart tab completion for a posix shell like bash or zsh  
 
 ### ENV
-* `MOLD_ROOT` -- sets the directory that mold will use to install and manage everything 
-* `MOLD_DEBUG` -- allow errors to be thrown without being cought 
-* `MOLD_COLOR` -- force mold to print color even when piped into other programs
+* `(MOLD_ROOT)` -- sets the directory that mold will use to install and manage everything 
+* `[MOLD_DEBUG]` -- allow errors to be thrown without being cought 
+* `[MOLD_COLOR]` -- force mold to print color even when piped into other programs
 
 ## NON-GOALS 
 * Adding support for multi-file plugs
