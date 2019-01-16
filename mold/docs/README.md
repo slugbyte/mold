@@ -13,15 +13,15 @@
 
 <span classname='newline'/>
 
-[conf](./conf_help.md) files are dotfiles that are hard linked to the $HOME directory.
+[conf](./conf) files are dotfiles that are hard linked to the $HOME directory.
 
-[plug](./plug_help.md) files are shell scripts that will be sourced each time a new shell is loaded.
+[plug](./plug) files are shell scripts that will be sourced each time a new shell is loaded.
 
-[exec]('./exec_help.md) files will be added to a directory on $PATH.  
+[exec]('./exec) files will be added to a directory on $PATH.  
 
-[file](./file_help.md) files are file asset templates that you can want to future projects.   
+[file](./file) files are file asset templates that you can want to future projects.   
 
-[fold](./fold_help.md) templates are project directory scaffolds, they are files but for whole directories.  
+[fold](./fold) templates are project directory scaffolds, they are files but for whole directories.  
 
 <span classname='newline'/>
 
@@ -82,11 +82,12 @@ Because help is treated as a flag the order of the help arguments do not matter.
 
 ## MOLD COMMANDS
 * [help](./README.md) -- show this help  
-* [sync](./sync_help.md) -- manage MOLD\_ROOT's git
-* [fold](./fold_help.md) -- manage project scaffolding templates
-* [file](./file_help.md) -- manage file asset templates
-* [plug](./plug_help.md) -- manage shell script plugins
-* [conf](./conf_help.md) -- manage configuration files
-* [exec](./exec_help.md) -- manage executables
+* [root](./root) -- setup and manage the MOLD\_ROOT
+* [sync](./sync) -- manage MOLD\_ROOT's git
+* [fold](./fold) -- manage project scaffolding templates
+* [file](./file) -- manage file asset templates
+* [plug](./plug) -- manage shell script plugins
+* [conf](./conf) -- manage configuration files
+* [exec](./exec) -- manage executables
 
 <3 Bug reports are much appreciated https://github.com/slugbyte/mold/issues
