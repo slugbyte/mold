@@ -76,26 +76,26 @@ If you want to install an existing mold-root on another computer you can use `--
 ` USAGE: mold  (command) (task) [...options] [--flags]`  
 mold's arguments are broken down in to the four categorys commands, tasks, options, and flags.
 mold allways requires a command, and with the exception of `--version` all commands require a task.
-Tasks very in the number of options they require, and flags they support. Flags are allways 
-boolean, and can placed in molds arguments in any order (begining, middle, end).  
+Tasks very in the number of options they require and flags they support. Flags are allways 
+boolean truthy values, and can placed in mold's arguments in any order (begining, middle, end).  
 
-Here are a list of mold commands and their uses.   
-* `--verson ` -- print mold version 
-* `root` -- manage the MOLD\_ROOT directory
-* `conf` -- manage dotfiles (CRUD + link to $HOME)
-* `plug` -- manage shell scripts aka. plugins  (CRUD + sourced every new shell)
-* `exec` -- manage executable files (CRUD + add them in a dir on $PATH)
-* `leaf` -- manage file templates (CRUD + export to anywhere you want to use them)
-* `fold` -- manage project scaffolds (CRUD + export to anywhere you want to use them)
-* `sync` -- mangae the MOLD\_ROOT git repository
+Here is list of mold commands and their uses.   
+* `--verson ` -- print mold's version 
+* `root` -- Manage your MOLD\_ROOT directory (install, clone, ect.)
+* `conf` -- Manage dotfiles (CRUD + link to $HOME)
+* `plug` -- Manage single-file shell scripts (CRUD + sourced every new shell)
+* `exec` -- Manage executable files (CRUD + add them to a dir on $PATH)
+* `leaf` -- Manage file templates (CRUD + export to anywhere you need to use them)
+* `fold` -- Manage project directory scaffolds (CRUD + export to anywhere you need to use them)
+* `sync` -- Has git wraper tasks for the MOLD\_ROOT
 
 ####  GETTING  HELP
-When reading mold *help* and *usage* logs arguments wraped in parens are `(required)`, and 
-arguments wraped in square brackets are `[optional]`.  
- 
-mold's `-h`, `--help`, and `help` argumments can be applied to all of molds features, 
-and can be placed anywhere after `mold` on argv. This means that the following statements
-all have identical behavior. `mold conf load help`  
+mold treats `-h`, `--help`, and `help` as mold flags. help flags can be applied to any of mold's arguments. 
+If a you try to run a mold command or task with out the proper arguments mold will automaticly log a short `Usage:` summary.
+When reading mold *help* and *usage* logs arguments wraped in parens are `(required)`, and arguments wraped in square brackets are `[optional]`.   
+
+Because mold help flags are truthy boolean flags they can be applied to mold arguments in any order. This means that the following statements have identical behavior.   
+`mold conf load help`    
 `mold conf load --help`  
 `mold conf load -h`  
 `mold -h conf load`  
