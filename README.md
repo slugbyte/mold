@@ -33,15 +33,6 @@ Mold folds are directory scaffold templates. Folds can be used to setup project 
 Mold leafs are file tempaltes. Leafs can be used to store things like licenses, markdown-templates, .gitignores, and anything you find your self adding to projects regularly. Mold leafs can be expored from the mold-root into the current working directory. all of the mold leafs
 are store in $MOLD\_ROOT/leaf. 
 
-## Warning Unstable
-Mold is under active development and not ready for production use.
-
-### Install
-First you need to install the mold CLI and then use the mold cli to create a mold-root. A mold-root is 
-a git repository that mold uses for storing all of your system configuration, shell scripts, and templates.
-By default the installers will install your mold-root to **~/.mold**. mold uses the environment vairable 
-$MOLD\_ROOT to determine where your mold-root has been installed.
-
 ## Features
 * A consistant CRUD interface for content management 
 * A small but effective interface for managing the mold-root's git repository
@@ -49,6 +40,10 @@ $MOLD\_ROOT to determine where your mold-root has been installed.
 * Ability to download add content from a URL
 * A color coded help logger
 * Bash and Zsh tab completion for arguments and mold-root content
+
+
+## Warning Unstable
+Mold is under active development and not ready for production use.
 
 ## TODO: Install Mold
 ### Download the CLI
