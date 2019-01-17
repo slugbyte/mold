@@ -11,6 +11,7 @@ _flags = set([
     'help', '-h', '--help',
     '--no-linking', '--force', 
     '--complete', '--color', 
+    '--no-prompt',
     ])
 
 # STORES ARGS AND ENV VARS
