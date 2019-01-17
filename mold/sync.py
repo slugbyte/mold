@@ -8,7 +8,7 @@ import mold.system as system
 
 def _usage(ctx, options=''):
     if ctx.task:
-        print(f'''USAGE: mold {ctx.command} {ctx.task} {options} [--flags]
+        print(f'''USAGE: mold {ctx.command} {ctx.task} {options}
     run "mold {ctx.command} {ctx.task} help" for more info''')
         return system.fail()
     else:
@@ -42,6 +42,7 @@ def _make_no_arg_git_task(name):
         "branch": git.branch,
         "status": git.status,
         "remote": git.remote,
+        "fetch": git.fetch,
     }
     def handler(ctx):
         return methods[name](ctx)
@@ -49,9 +50,9 @@ def _make_no_arg_git_task(name):
 
 def _make_one_arg_git_task(name):
     methods = {
+        "pull": git.pull,
         "diff": git.diff,
         "push": git.push,
-        "pull": git.pull,
         "commit": git.commit,
     }
     def handler(ctx):
@@ -67,6 +68,8 @@ def _make_one_arg_git_task_with_usage_warning(name, option_text=None):
         "hard_reset": git.hard_reset,
         "soft_reset": git.soft_reset,
         "force_push": git.force_push,
+        "set_origin": git.set_origin,
+        "set_upstream": git.set_upstream,
     }
     def handler(ctx):
         if not ctx.check_has_options():
@@ -94,24 +97,26 @@ _task_handlers = {
     "status": _make_no_arg_git_task('status'),
     "branch": _make_no_arg_git_task('branch'),
     "remote": _make_no_arg_git_task('remote'),
+    "fetch": _make_no_arg_git_task('fetch'),
     # curry one arg with usage warning
-    "diff": _make_one_arg_git_task_with_usage_warning('diff', '[commit hash or branch]'),
-    "push": _make_one_arg_git_task_with_usage_warning('push', '[branch]'),
-    "pull": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('pull', '[branch]')),
-    "commit": _make_one_arg_git_task_with_usage_warning('commit', '[message]'),
-
+    "diff": _make_one_arg_git_task('diff'),
+    "push": _make_one_arg_git_task('push'),
+    "commit": _make_one_arg_git_task('commit'),
+    "pull": _link_conf_after_git(_make_one_arg_git_task('pull')),
     # curry one arg dangerous tasks with usage warning
+    "--set-origin": _make_one_arg_git_task_with_usage_warning('set_origin', '(git uri)'),
+    "--set-upstream": _make_one_arg_git_task_with_usage_warning('set_upstream', '(git uri)'),
     "--new-branch": _make_one_arg_git_task_with_usage_warning('new_branch', '(branch)'),
     "--force-push": _make_one_arg_git_task_with_usage_warning('force_push', '(branch)'),
-    "--merge": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('merge', '(branch)')),
-    "--checkout": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('checkout', '(branch)')),
-    "--soft-reset": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('soft_reset', '(commit hash or branch)')),
-    "--hard-reset": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('hard_reset', '(commit hash or branch)')),
+    "--merge": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('merge', '(branch) [--flags]')),
+    "--checkout": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('checkout', '(branch) [--flags]')),
+    "--soft-reset": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('soft_reset', '(commit hash or branch) [--flags]')),
+    "--hard-reset": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('hard_reset', '(commit hash or branch) [--flags]')),
 } 
 
 def handle_task(ctx):
-    try:
-        _task_handlers[ctx.task or 'usage'](ctx)
-    except:
-        print(f'mold sync can\'t {ctx.task} yet.')
+    # try:
+    _task_handlers[ctx.task or 'usage'](ctx)
+    # except:
+        # print(f'mold sync can\'t {ctx.task} yet.')
 

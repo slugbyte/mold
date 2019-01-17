@@ -105,7 +105,7 @@ def _handle_mold_root_set_origin(ctx):
     if not remote:
         _log_success(ctx, f' {red}with out a remote remote repository.{reset}')
         return False 
-    if not git.set_remote(ctx, remote).check_ok():
+    if not git.set_origin(ctx, remote).check_ok():
         return _log_warning(ctx, f'''.
 {red}However, git failed to add the remote uri "{remote}" 
 Run mold help and read the about using "mold --set-remote" to add a remote.{reset}''')

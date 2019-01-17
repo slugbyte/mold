@@ -77,7 +77,7 @@ def _set_origin(ctx):
     if not ctx.task:
         print('USAGE: mold root --set-origin (git-uri)')
         return ctx.OK
-    git.set_remote(ctx, ctx.task)
+    git.set_origin(ctx, ctx.task)
     return ctx.OK
 
 _task_handlers = {

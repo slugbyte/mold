@@ -20,10 +20,16 @@ def _check_remote_uri(ctx, uri=None):
     print(f'Checking {uri}: ', end='')
     result = _git_exec(ctx, 'ls-remote ' + uri)
     if not result.check_ok():
-        print(f'Sorry, that a not valid remote uri, make sure it exists.') 
+        print(f'Sorry, that a not valid remote uri.') 
         return result
     print('OK')
     return result
+
+def _check_has_remote(ctx):
+    r = _git_exec(ctx, 'remote -v')
+    if not r.check_ok() or not r.out:
+        return False
+    return True
 
 def _get_remote_name(ctx):
     r = _git_exec(ctx, 'remote -v')
@@ -55,12 +61,11 @@ def _get_current_branch(ctx):
     except: 
         return None
 
-# API INTERFACE
-def set_remote(ctx, uri=None, remote_name='origin'):
+def _set_remote(ctx, uri=None, remote_name='origin'):
     '''works as both git add and git set for the MOLD_ROOT'''
     if not uri:
         return system.fail()
-    if not _check_remote_uri(ctx, uri):
+    if not _check_remote_uri(ctx, uri).check_ok():
         return system.fail()
     _git_exec(ctx, 'remote remove ' + remote_name)  # remove and ignore failure (if no remote)
     result = _git_shell(ctx, f'remote add {remote_name} {uri}')
@@ -72,6 +77,13 @@ def set_remote(ctx, uri=None, remote_name='origin'):
         return result 
     print('MOLD_ROOT\'s git remote origin is now:', uri)
     return result 
+
+# API INTERFACE
+def set_origin(ctx, uri):
+    return _set_remote(ctx, uri, 'origin')
+
+def set_upstream(ctx, uri):
+    return _set_remote(ctx, uri, 'upstream')
 
 def add(ctx):
     return _git_shell(ctx, 'add -A')
@@ -108,6 +120,9 @@ def log(ctx):
 def branch(ctx):
     return _git_shell(ctx, 'branch -av')
 
+def fetch(ctx):
+    return _git_shell(ctx, 'fetch')
+
 def merge(ctx, branch=None):
     print('merging', branch)
     if not branch:
@@ -125,16 +140,25 @@ def new_branch(ctx, branch=None):
     return _git_shell(ctx, f'checkout -b {branch}')
 
 def pull(ctx, branch=None):
+    if not _check_has_remote(ctx):
+        print('ERROR: no remote origin unable to push')
+        return system.fail()
     if not branch:
         branch = _get_current_branch(ctx)
     return _git_shell(ctx, f'pull origin {branch}')
 
 def push(ctx, branch=None):
+    if not _check_has_remote(ctx):
+        print('ERROR: no remote origin unable to push')
+        return system.fail()
     if not branch:
         branch = 'HEAD'
     return _git_shell(ctx, f'push origin {branch}')
 
 def force_push(ctx, branch=None):
+    if not _check_has_remote(ctx):
+        print('ERROR: no remote origin unable to push')
+        return system.fail()
     if not branch:
         branch = 'HEAD'
     _git_shell(ctx, f'push origin {branch} --force')
@@ -149,7 +173,7 @@ def clone(ctx, uri=None):
     print(f'Checking {uri}: ', end='')
     result = system.exec('git ls-remote ' + uri)
     if not result.check_ok():
-        print(f'Sorry, that a not valid remote uri, make sure it exists.') 
+        print(f'Sorry, that a not valid remote uri.') 
         return result
     print('OK')
     return system.shell(f'git clone {uri} {ctx.MOLD_ROOT}' )
