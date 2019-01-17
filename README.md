@@ -182,9 +182,8 @@ mold --merge upstream/master
 
 #### ROOT TASKS
 * `--install` -- Run the interactive mold root installer
-   * `--set-origin` Automatically set the git remote origin with out prompting the user 
-* `--quick-install` Install a mold root without prompting 
-   * Can be used with the `--force` flag to overwrite an existing file or directory TODO
+   * Can be used with the `--no-prompt` flag to stop interactive mode (will not overwrite $MOLD\_ROOT with out --force)
+   * Can be used with the`--force` flag to overwrite $MOLD\_ROOT without prompting
 * `--clone` -- Clone a repo as a mold root
    * Can be used with the `--force` flag to overwrite an existing file or directory
 * `--check` -- Check the MOLD\_ROOT directory stucture is ok
@@ -194,6 +193,7 @@ mold --merge upstream/master
 * `--help | -h | help` -- Print help
 * `--color` -- Force color when piping 
 * `--force` -- allow a mold root installer to overwrite an existing file or directory
+* `--no-prompt` -- stop installer from prompting any questions
 * `--no-linking` -- Stop a mold command from auto-maticly linking the conf files untill the next commit 
 * `--complete` -- Generate smart tab completion for a posix shell like bash or zsh  
 
