@@ -6,9 +6,9 @@ import mold.git as git
 from mold.util import query
 import mold.system as system
 
-def _usage(ctx, options='options'):
+def _usage(ctx, options=''):
     if ctx.task:
-        print(f'''USAGE: mold {ctx.command} {ctx.task} [{options}] [--flags]
+        print(f'''USAGE: mold {ctx.command} {ctx.task} {options} [--flags]
     run "mold {ctx.command} {ctx.task} help" for more info''')
         return system.fail()
     else:
@@ -94,19 +94,19 @@ _task_handlers = {
     "status": _make_no_arg_git_task('status'),
     "branch": _make_no_arg_git_task('branch'),
     "remote": _make_no_arg_git_task('remote'),
-    # curry one arg
-    "diff": _make_one_arg_git_task('diff'),
-    "push": _make_one_arg_git_task('push'),
-    "pull": _link_conf_after_git(_make_one_arg_git_task('pull')),
-    "commit": _make_one_arg_git_task('commit'),
+    # curry one arg with usage warning
+    "diff": _make_one_arg_git_task_with_usage_warning('diff', '[commit hash or branch]'),
+    "push": _make_one_arg_git_task_with_usage_warning('push', '[branch]'),
+    "pull": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('pull', '[branch]')),
+    "commit": _make_one_arg_git_task_with_usage_warning('commit', '[message]'),
 
     # curry one arg dangerous tasks with usage warning
-    "--merge": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('merge', 'branch')),
-    "--checkout": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('checkout', 'branch')),
-    "--new-branch": _make_one_arg_git_task_with_usage_warning('new_branch', 'branch'),
-    "--soft-reset": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('soft_reset', 'commit hash or branch')),
-    "--hard-reset": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('hard_reset', 'commit hash or branch')),
-    "--force-push": _make_one_arg_git_task_with_usage_warning('force_push', 'branch'),
+    "--new-branch": _make_one_arg_git_task_with_usage_warning('new_branch', '(branch)'),
+    "--force-push": _make_one_arg_git_task_with_usage_warning('force_push', '(branch)'),
+    "--merge": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('merge', '(branch)')),
+    "--checkout": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('checkout', '(branch)')),
+    "--soft-reset": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('soft_reset', '(commit hash or branch)')),
+    "--hard-reset": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('hard_reset', '(commit hash or branch)')),
 } 
 
 def handle_task(ctx):
