@@ -191,7 +191,7 @@ mold --merge upstream/master
     
 #### FLAGS -- SUPLAMENTAL BEHAVIORS
 * `--help | -h | help` -- Print help
-* `--color` -- Force color when piping 
+* `--color` -- Force mold to print with color even when piping mold into another program
 * `--force` -- allow a mold root installer to overwrite an existing file or directory
 * `--no-prompt` -- stop installer from prompting any questions
 * `--no-linking` -- Stop a mold command from auto-maticly linking the conf files untill the next commit 
@@ -200,7 +200,7 @@ mold --merge upstream/master
 ### ENV
 * `(MOLD_ROOT)` -- sets the directory that mold will use to install and manage everything 
 * `[MOLD_DEBUG]` -- allow errors to be thrown without being cought 
-* `[MOLD_COLOR]` -- force mold to print color even when piped into other programs
+* `[MOLD_COLOR]` -- allways force mold to print with color even when piped into other programs
 
 ## NON-GOALS 
 * Adding support for multi-file plugs
