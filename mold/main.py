@@ -51,6 +51,17 @@ def _check_core(ctx):
             return False 
     return True
 
+def _check_list(ctx):
+    if ctx.command== 'list':
+        for current in ['leaf', 'fold', 'exec', 'conf', 'plug']:
+            content = ctx.get_command_dirlist(current) 
+            if len(content) == 0:
+                continue
+            print(current)
+            print('    '+ '\n    '.join(ctx.get_command_dirlist(current)) or 'Empty')
+        return False
+    return True
+
 def _check_sync(ctx):
     if ctx.command== 'sync':
         sync.handle_task(ctx)
@@ -76,6 +87,9 @@ def main(ctx):
         return result
 
     if not _check_core(ctx):
+        return ctx.OK
+
+    if not _check_list(ctx):
         return ctx.OK
 
     if not _check_sync(ctx):
