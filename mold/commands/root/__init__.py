@@ -1,11 +1,11 @@
 from mold.util import fs, git 
-from mold.color import get_color
+# from mold.color import get_color
 from mold.commands.root.install import install
 
 def check(ctx):
-    red = get_color(ctx, 'red')
-    yellow = get_color(ctx, 'yellow')
-    reset = get_color(ctx, 'reset')
+    red = ctx.red
+    yellow = ctx.yellow
+    reset = ctx.reset
     if ctx.check_flag_set('--complete'):
         return ctx.OK
     if (not ctx.MOLD_ROOT) or (not fs.exists(ctx.MOLD_ROOT)) or (not fs.is_dir(ctx.MOLD_ROOT)):
@@ -51,9 +51,9 @@ def _fix(ctx):
         return ctx.FAIL
 
 def _clone(ctx):
-    red = get_color(ctx, 'red')
-    cyan = get_color(ctx, 'cyan')
-    reset = get_color(ctx, 'reset')
+    red = ctx.red
+    cyan = ctx.cyan
+    reset = ctx.reset
     remote = ctx.get_option(0)
     if not remote:
         print(f'''USAGE: mold root --clone (git-uri) [--force]
@@ -86,7 +86,6 @@ _task_handlers = {
 def handle_context(ctx):
     if ctx.command != 'root':
         return check(ctx)
-
     try:
         return _task_handlers[ctx.task or 'usage'](ctx)
     except:

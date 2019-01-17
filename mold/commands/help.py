@@ -6,13 +6,6 @@ import re
 import codecs 
 import markdown
 from mold.util import fs
-from mold.color import get_color
-
-_reset = 'reset'
-_error_color = 'red'
-_code_color = 'green'
-_bold_color = 'blue'
-_header_color = 'yellow'
 
 def read_help_file(ctx, help_file):
     help_file = ctx.MOLD_DOCS + '/' + help_file
@@ -21,9 +14,9 @@ def read_help_file(ctx, help_file):
         return markdown.markdown(help_text)
 
 def replace_non_header_tags(ctx, html):
-    reset = get_color(ctx, _reset)
-    code_color = get_color(ctx, _code_color)
-    bold_color = get_color(ctx, _bold_color)
+    reset = ctx.reset
+    code_color = ctx.green
+    bold_color = ctx.blue
     html = html.replace('</h1>', reset + '</h1>\n')
     html = html.replace('</h2>', reset +'</h2>\n')
     html = html.replace('<blockquote>', '').replace('</blockquote>',  '\n')
@@ -69,9 +62,9 @@ def indent_non_headers(ctx, text):
     return text.strip()
 
 def replace_header_tags(ctx, text):
-    reset = get_color(ctx, _reset)
-    error_color = get_color(ctx, _error_color)
-    header_color = get_color(ctx, _header_color)
+    reset = ctx.reset
+    error_color = ctx.red
+    header_color = ctx.yellow
     text = text.replace('<h1>', header_color).replace('<h2>', header_color)
     text = text.replace('<h3>', error_color).replace('<h4>', '    ')
     text = re.sub('</h.*>', reset, text)
@@ -101,8 +94,8 @@ def handle_context(ctx):
             return ctx.OK
         return ctx.NEXT_COMMAND
 
-    reset = get_color(ctx, _reset)
-    error_color = get_color(ctx, _error_color)
+    reset = ctx.reset
+    error_color = ctx.red
     if ctx.command:
         try:
             help_file = f'{ctx.command}/README.md'

@@ -41,29 +41,44 @@ class MoldContext:
         self.HOME = query(os_environ, 'HOME')
         self.EDITOR = query(os_environ, 'EDITOR') or system.which('vim') or system.which('nano')
         self.MOLD_ROOT = query(os_environ, 'MOLD_ROOT') or (HOME +'/.mold')
-        self.MOLD_DOCS = __file__.replace('context.py', 'docs')
+        self.MOLD_DOCS = __file__.replace('context.py', 'assets/docs')
         self.MOLD_DEBUG = bool(query(os_environ, 'MOLD_DEBUG'))
-        self.MOLD_COLOR = system.check_is_tty() or bool(query(os_environ, 'MOLD_COLOR'))
+        self.MOLD_COLOR = system.check_is_tty() or bool(query(os_environ, 'MOLD_COLOR')) or self.check_flag_set('--color')
+
+        # colors 
+        self.reset = '\033[39m' if self.MOLD_COLOR else ''
+        self.red = '\033[31m' if self.MOLD_COLOR else ''
+        self.blue = '\033[94m' if self.MOLD_COLOR else ''
+        self.cyan = '\033[36m' if self.MOLD_COLOR else ''
+        self.grey = '\033[38m' if self.MOLD_COLOR else ''
+        self.green = '\033[32m' if self.MOLD_COLOR else ''
+        self.yellow = '\033[33m' if self.MOLD_COLOR else ''
+        self.magenta  = '\033[35m' if self.MOLD_COLOR else ''
+
+        # EXIT CODES
         self.OK = 0
-        self.FAIL = -1 # MUST BE NEGITIVE 1, POSIVITE 1 will break main beacuse 1 == True
-        self.IO_ERROR = -2
-        self.MOLD_ROOT_ERROR = -3
-        self.MOLD_ROOT_DIRS_ERROR = -4
-        self.CRASH = -5 # MUST BE NEGITIVE 1, POSIVITE 1 will break main beacuse 1 == True
+        self.FAIL = 1 
+        self.IO_ERROR = 2
+        self.MOLD_ROOT_ERROR = 3
+        self.MOLD_ROOT_DIRS_ERROR = 4
+        self.CRASH = 5 
         self.NEXT_COMMAND = 'NEXT_COMMAND'
-        self.DEV_TODO = -99
+        self.DEV_TODO = 99
 
     def check_has_options(self): 
         return len(self.options) != 0
 
+    def get_option(self, index):
+        return query(self.options, index)
+
     def check_flag_set(self, name):
         return self.flags.issuperset([name])
 
-    def check_color_mode_set(self):
-        return self.MOLD_COLOR or self.check_flag_set('--color')
-
     def check_help_set(self):
         return self.check_flag_set('help') or self.check_flag_set('-h') or self.check_flag_set('--help')
+
+    def check_color_mode_set(self):
+        return self.MOLD_COLOR or self.check_flag_set('--color')
 
     def get_command_dir(self, command=None):
         command = command or self.command
@@ -80,6 +95,7 @@ class MoldContext:
             if current != '.mold':
                 result.append(current)
         return result
+
     def link_conf(self):
         if self.check_flag_set('--no-linking'):
             print('NOTICE: conf was NOT linked')
@@ -88,5 +104,3 @@ class MoldContext:
             fs.force_link(self.MOLD_ROOT + '/conf/' + conf, self.HOME + '/' + conf)
             print(f'LINKING conf: {conf}')
 
-    def get_option(self, index):
-        return query(self.options, index)

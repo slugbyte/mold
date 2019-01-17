@@ -12,7 +12,6 @@ import mold.commands.root as root
 import mold.commands.list as list
 import mold.commands.version as version
 import mold.commands.complete as complete
-from mold.color import get_color
 
 # TODO migrate colors into context
 
@@ -35,8 +34,6 @@ def handle_context(ctx):
         if result != ctx.NEXT_COMMAND:
             return result
 
-    red = get_color(ctx, 'red')
-    reset = get_color(ctx, 'reset')
-    print(f'{red}doh!{reset} mold {ctx.command} isn\'t a feature yet.')
+    print(f'{ctx.red}doh!{ctx.reset} mold {ctx.command} isn\'t a feature yet.')
     return ctx.OK
 

@@ -3,23 +3,15 @@ install defines an api for installing a MOLD_ROOT.
 '''
 
 from mold.util import fs, git, system
-from mold.color import get_color
-
-_red = 'red'
-_cyan = 'cyan'
-_reset = 'reset'
-_green = 'green'
-_yellow = 'yellow'
-_magenta = 'magenta'
 
 # PRIVATE
 BUILD_DIR = __file__.replace('install.py', 'assets')
 
 def _log_success(ctx, extra='.'):
-    green = get_color(ctx, _green)
-    yellow = get_color(ctx, _yellow)
-    reset = get_color(ctx, _reset)
-    magenta = get_color(ctx, _magenta)
+    reset = ctx.reset
+    green = ctx.green
+    yellow = ctx.yellow
+    magenta = ctx.magenta
     print(f'''
 {green}SUCCESS{reset}
 A MOLD_ROOT has installed to {ctx.MOLD_ROOT}{extra}
@@ -31,11 +23,11 @@ Next source your shell config (e.g. "source ~/.bashrc").
 Then then you will be good to go, {green}Enjoy mold!{reset} :)''')
 
 def _log_warning(ctx, extra='.'):
-    red = get_color(ctx, _red)
-    green = get_color(ctx, _green)
-    yellow = get_color(ctx, _yellow)
-    reset = get_color(ctx, _reset)
-    magenta = get_color(ctx, _magenta)
+    reset = ctx.reset
+    red = ctx.red
+    green = ctx.green
+    yellow = ctx.yellow
+    magenta = ctx.magenta
     print(f'''
 {red}!WARNING!{reset}
 {yellow}A MOLD_ROOT directory was installed to {ctx.MOLD_ROOT}{extra}{yellow}
@@ -46,23 +38,18 @@ def _log_warning(ctx, extra='.'):
 {yellow}Next source your shell config (e.g. "source ~/.bashrc").{reset} 
 {yellow}Then then you will be good to go, {green}Enjoy mold!{reset} :)''')
 
-def _log_failure(ctx):
-    red = get_color(ctx, _red)
-    reset= get_color(ctx, _reset)
+def _fail(ctx):
+    reset = ctx.reset
+    red = ctx.red
     print(f'''{red}Sorry, something went wrong, a MOLD_ROOT was not installed.{reset}
 You can create an issue at https://github.com/slugbyte/mold/issues for support.''')
-
-def _fail(ctx):
-    _log_failure(ctx )
     return ctx.FAIL
 
 def _create_mold_root(ctx):
-    print('goo')
     try:
         if fs.exists(ctx.MOLD_ROOT):
             fs.rimraf(ctx.MOLD_ROOT)
         system.cd(BUILD_DIR)
-        print('goo')
         tarpath = BUILD_DIR + '/mold-root.tar.gz'
         fs.unpack_tarball(tarpath)
         fs.mv(BUILD_DIR + '/mold-root', ctx.MOLD_ROOT)
@@ -76,9 +63,9 @@ def _setup_git(ctx, remote):
 
 # RETURN TRUE FOR CONTINE FALSE FOR EXIT
 def _handle_mold_root_exists(ctx):
-    red = get_color(ctx, 'red')
-    cyan = get_color(ctx, 'cyan')
-    reset = get_color(ctx, 'reset')
+    red = ctx.red
+    cyan = ctx.cyan
+    reset = ctx.reset
     if ctx.check_flag_set('--force'):
         return True
     if fs.exists(ctx.MOLD_ROOT):
@@ -95,9 +82,9 @@ def _handle_mold_root_exists(ctx):
     return True
 
 def _handle_mold_root_set_origin(ctx):
-    red = get_color(ctx, 'red')
-    cyan = get_color(ctx, 'cyan')
-    reset = get_color(ctx, 'reset')
+    red = ctx.red
+    cyan = ctx.cyan
+    reset = ctx.reset
     remote = ''
     if not ctx.check_flag_set('--no-prompt'):
         cancel = 'y' != input(f'{cyan}Do you want to setup a git remote? y/n:{reset} ').strip()
@@ -126,12 +113,8 @@ overwrite the remote run {cyan}mold sync --force-push{red}, or you can run
 # INTERFACE
 def install(ctx):
     # colors
-    green = get_color(ctx, _green)
-    red = get_color(ctx, _red)
-    cyan = get_color(ctx, _cyan)
-    magenta = get_color(ctx, _magenta)
-    yellow = get_color(ctx, _yellow)
-    reset = get_color(ctx, _reset)
+    green = ctx.green
+    reset = ctx.reset
 
     if not _handle_mold_root_exists(ctx):
         return ctx.OK
