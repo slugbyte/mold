@@ -93,10 +93,9 @@ def handle_help(ctx):
     error_color = get_color(ctx, _error_color)
     if ctx.command:
         try:
-            help_file = ctx.command 
+            help_file = f'{ctx.command}/README.md'
             if ctx.task:
-                help_file += '_' + ctx.task
-            help_file += '_help.md'
+                help_file = f'{ctx.command}/{ctx.command}_{ctx.task}_help.md'
             print_help(ctx, help_file)
         except:
             if not ctx.task:

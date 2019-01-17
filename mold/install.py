@@ -55,9 +55,8 @@ def _log_failure(ctx):
 You can create an issue at https://github.com/slugbyte/mold/issues for support.''')
 
 def _cleanup_and_fail(ctx):
-    if fs.exists(ctx.MOLD_ROOT):
-        fs.rimraf(ctx.MOLD_ROOT)
     _log_failure(ctx )
+    return ctx.FAIL
 
 def _create_mold_root(ctx):
     try:
@@ -80,7 +79,14 @@ def _handle_mold_root_exists(ctx):
     red = get_color(ctx, 'red')
     cyan = get_color(ctx, 'cyan')
     reset = get_color(ctx, 'reset')
-    if fs.exists(ctx.MOLD_ROOT) and not ctx.check_flag_set('--quick-install'):
+    if ctx.check_flag_set('--force'):
+        return True
+    if fs.exists(ctx.MOLD_ROOT):
+        if ctx.check_flag_set('--no-prompt') and not ctx.check_flag_set('--force'):
+            print(f'''Sorry, {ctx.MOLD_ROOT} allread exists
+    Use the interactive installer or the flag '--force' to overwrite it.''')
+            return False
+
         print(f'{red}Hmm,{reset} {ctx.MOLD_ROOT} {red}allready exits.{reset}')
         cancel = 'y' != input(f'{cyan}Do you want to remove it and continue? y/n:{reset} ').strip()
         if cancel: 
@@ -96,16 +102,18 @@ def _handle_mold_root_set_origin(ctx):
     if ctx.check_set_origin_set():
         remote = ctx.task
     else:
-        if not ctx.check_flag_set('--quick-install'):
+        if not ctx.check_flag_set('--no-prompt'):
             cancel = 'y' != input(f'{cyan}Do you want to setup a git remote? y/n:{reset} ').strip()
             if cancel: 
                 print(f'Ok, no git remote will be configured.')
-                return False
-            remote = input(f'{cyan}Enter a git remote uri:{reset} ').strip()
+            else: 
+                remote = input(f'{cyan}Enter a git remote uri:{reset} ').strip()
     if not remote:
-        _log_success(ctx, f' {red}with out a remote remote repository.{reset}')
+        _log_success(ctx, f''' 
+{red}WARNING: your mold-root was created with out a remote remote repository.
+    run {cyan}'mold sync --set-origin (git uri)'{red} to setup a git remote origin{reset}''')
         return False 
-    if not git.set_remote(ctx, remote).check_ok():
+    if not git.set_origin(ctx, remote).check_ok():
         return _log_warning(ctx, f'''.
 {red}However, git failed to add the remote uri "{remote}" 
 Run mold help and read the about using "mold --set-remote" to add a remote.{reset}''')
@@ -128,8 +136,9 @@ def install(ctx):
     yellow = get_color(ctx, _yellow)
     reset = get_color(ctx, _reset)
 
-    quick = ctx.check_flag_set('--quick-install')
+    quick = ctx.check_flag_set('--no-prompt')
     if not _handle_mold_root_exists(ctx):
+        print('yeye')
         return ctx.OK
     print(f'{green}Installing{reset} a MOLD_ROOT in {ctx.MOLD_ROOT}')
     if not _create_mold_root(ctx):

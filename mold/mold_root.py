@@ -55,8 +55,10 @@ def _clone(ctx):
     red = get_color(ctx, 'red')
     cyan = get_color(ctx, 'cyan')
     reset = get_color(ctx, 'reset')
-    if not ctx.task:
-        print('{red}USAGE ERROR:{reset} mising git-uri\n    e.g. mold root --set-origin [git-uri]')
+    remote = ctx.get_option(0)
+    if not remote:
+        print(f'''USAGE: mold root --clone (git-uri) [--force]
+    run 'mold root --clone help' for more info''')
         return ctx.FAIL
     if fs.exists(ctx.MOLD_ROOT):
         if not ctx.check_flag_set('--force'):
@@ -66,7 +68,7 @@ def _clone(ctx):
                 print('Ok, mold --clone aborted.')
                 return ctx.OK
         fs.rimraf(ctx.MOLD_ROOT) 
-    git.clone(ctx, ctx.task)
+    git.clone(ctx, remote)
     result = check(ctx)
     if result != ctx.OK:
         return result
@@ -77,22 +79,18 @@ def _set_origin(ctx):
     if not ctx.task:
         print('USAGE: mold root --set-origin (git-uri)')
         return ctx.OK
-    git.set_remote(ctx, ctx.task)
+    git.set_origin(ctx, ctx.task)
     return ctx.OK
 
 _task_handlers = {
-    "check": _check,
-    "usage": _usage,
+    "--install": install,
+    "--clone": _clone,
+    "--check": _check,
     "--fix": _fix,
+    "usage": _usage,
 }
 
 def handle_flag(ctx):
-    if ctx.check_install_set():
-        return install(ctx)
-    if ctx.check_clone_set():
-        return _clone(ctx)
-    if ctx.check_set_origin_set():
-        return _set_origin(ctx)
     try:
         _task_handlers[ctx.task or 'usage'](ctx)
     except:
