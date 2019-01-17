@@ -57,7 +57,7 @@
                 "sha256:c00429bd503a47ec88d5e30a751e147dcb4c6889663cd3e2ba0afe858e009baa",
                 "sha256:d02e0f9b04c500cde6637c11ad7c72671f359b87b9fe924b2383649d8841db7c"
             ],
-            "index": "pypi",
+            "index": "mold",
             "version": "==3.0.1"
         },
         "mold": {
@@ -89,7 +89,7 @@
                 "sha256:502a824f31acdacb3a35b6690b5fbf0bc41d63a24a45c4004352b0242707598e",
                 "sha256:7bf2a778576d825600030a110f3c0e3e8edc51dfaafe1c146e39a2027784957b"
             ],
-            "index": "pypi",
+            "index": "mold",
             "version": "==2.21.0"
         },
         "requests-toolbelt": {
@@ -118,7 +118,7 @@
                 "sha256:7d89bc6acafb31d124e6e5b295ef26ac77030bf098960c2a4c4e058335827c5c",
                 "sha256:fad6f1251195f7ddd1460cb76d6ea106c93adb4e56c41e0da79658e56e547d2c"
             ],
-            "index": "pypi",
+            "index": "mold",
             "version": "==1.12.1"
         },
         "urllib3": {
@@ -178,7 +178,7 @@
                 "sha256:41568ea7ecb4a68d7f63837cf65b92ce8d0105e43196ff2b26622995bb3dc4b2",
                 "sha256:c3c573a29d7c9547fb90217ece8a8843aa0c1328a797e200290dc3d0b4b823be"
             ],
-            "index": "pypi",
+            "index": "mold",
             "version": "==4.1.1"
         },
         "six": {

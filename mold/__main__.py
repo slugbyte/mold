@@ -3,6 +3,11 @@
 The main entry point. Invoke as `mold' if installed or `python3 -m mold'.
 """
 
+# TODO figure out how to get consistant builds with version number changes
+# TODO then figure out how to deploy to PYPI and start deployin v0.0.1
+# TODO rename command dir plugins
+# TODO write a small readme on adding plugins
+
 import os 
 import sys
 
