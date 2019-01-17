@@ -14,22 +14,27 @@ _completable_sync_tasks = ['auto', 'log', 'add', 'commit', 'push', 'pull', 'diff
 
 def _complete_no_suggestions(ctx):
     print('')
+    return ctx.OK
 
 def _complete_magic_mold(ctx):
     print('__MAGIC_MOLD__')
+    return ctx.OK
 
 def _complete_command_dirlist(ctx):
     print(' '.join(ctx.get_command_dirlist()))
+    return ctx.OK
 
 def _complete_branch_names(ctx):
     result = git._git_exec(ctx, 'branch')
     if not result.check_ok():
-        return ''
+        return ctx.OK
     print(result.out.replace('*', ''))
+    return ctx.OK
 
 def _create_handler_from_word_list(words):
     def _complete_words(ctx):
         print(' '.join(words))
+        return ctx.OK
     return _complete_words
 
 _completion_handlers = {
@@ -79,6 +84,9 @@ _completion_handlers = {
 
 # complete gets passed $COMPLINE and needs to reparse argv[2] and 
 def handle_context(ctx):
+    if not ctx.check_flag_set('--complete'):
+        return ctx.NEXT_COMMAND
+
     # if MOLD_ROOT is not setup no completion 4 you
     # if no command show main until command 
     if ctx.check_help_set():
@@ -93,8 +101,7 @@ def handle_context(ctx):
 
     # if no task show command until task 
     try:
-        _completion_handlers[ctx.task](ctx)
+        return _completion_handlers[ctx.task](ctx)
     except:
-        print('fiu')
         return _completion_handlers[ctx.command](ctx)
 

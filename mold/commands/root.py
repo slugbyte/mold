@@ -18,7 +18,7 @@ def check(ctx):
             print(f'''{red}ERROR:{reset} Somthing is wrong with your MOLD_ROOT directory.
     {yellow}Try runing "mold root --fix"{reset}''')
             return ctx.MOLD_ROOT_DIRS_ERROR
-    return ctx.OK
+    return ctx.NEXT_COMMAND
 
 def _usage(ctx):
     print(f'''USAGE: mold root [task] [options]  [--flags]
@@ -47,7 +47,7 @@ def _fix(ctx):
         if result != ctx.OK:
             print('''Sorry, Something went wrong.
     You may want to open an issue at https://github.com/slugbyte/mold/issues''')
-        return result
+        return ctx.NEXT_COMMAND
     except:
         return ctx.FAIL
 
@@ -66,21 +66,15 @@ def _clone(ctx):
             abort = 'y' != input(f'{cyan}Do you want to contiune the installation? y/n:{reset} ').strip()
             if (abort):
                 print('Ok, mold --clone aborted.')
-                return ctx.OK
+                return ctx.OK # TODO should this be a fail?
         fs.rimraf(ctx.MOLD_ROOT) 
     git.clone(ctx, remote)
     result = check(ctx)
-    if result != ctx.OK:
-        return result
+    if result != ctx.NEXT_COMMAND:
+        return ctx.FAIL
     ctx.link_conf()
     return ctx.OK
 
-def _set_origin(ctx):
-    if not ctx.task:
-        print('USAGE: mold root --set-origin (git-uri)')
-        return ctx.OK
-    git.set_origin(ctx, ctx.task)
-    return ctx.OK
 
 _task_handlers = {
     "--install": install,
@@ -91,8 +85,11 @@ _task_handlers = {
 }
 
 def handle_context(ctx):
+    if ctx.command != 'root':
+        return check(ctx)
+
     try:
-        _task_handlers[ctx.task or 'usage'](ctx)
+        return _task_handlers[ctx.task or 'usage'](ctx)
     except:
         print('TODO: BAD TASK', ctx.task)
         return ctx.FAIL

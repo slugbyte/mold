@@ -78,6 +78,8 @@ def replace_header_tags(ctx, text):
     text = text.replace('<span/>', '    ')
     text = text.replace('<span />', '    ')
     text = text.replace("<span classname='newline'/>", '')
+    text = text.replace("&lt;", '<')
+    text = text.replace("&gt;", '>')
     return text.strip()
 
 def print_help(ctx, help_file):
@@ -87,8 +89,18 @@ def print_help(ctx, help_file):
     help_text = indent_non_headers(ctx, help_text)
     help_text = replace_header_tags(ctx, help_text)
     print(help_text)
+    return ctx.OK
+
+_no_help_no_command_usage = '''USAGE: mold [--flags] [command] [task] [...options]
+    run "mold help" for more info'''
 
 def handle_context(ctx):
+    if not ctx.check_help_set():
+        if not ctx.command:
+            print(_no_help_no_command_usage)
+            return ctx.OK
+        return ctx.NEXT_COMMAND
+
     reset = get_color(ctx, _reset)
     error_color = get_color(ctx, _error_color)
     if ctx.command:
@@ -96,10 +108,13 @@ def handle_context(ctx):
             help_file = f'{ctx.command}/README.md'
             if ctx.task:
                 help_file = f'{ctx.command}/{ctx.command}_{ctx.task}_help.md'
-            print_help(ctx, help_file)
+            return print_help(ctx, help_file)
         except:
             if not ctx.task:
-                return print(f'{error_color}Sorry, mold can not help with:{reset} mold {ctx.command}')
+                print(f'{error_color}Sorry, mold can not help with:{reset} mold {ctx.command}')
+                return ctx.OK
             print(f'{error_color}Sorry, mold can not help with:{reset} mold {ctx.command} {ctx.task}')
+            return ctx.OK # TODO SHOULD THESE BE ctx.FAIL (should help fail)
     else:
         print_help(ctx, 'README.md')
+        return ctx.OK

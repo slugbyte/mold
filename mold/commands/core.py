@@ -163,8 +163,14 @@ _task_handlers = {
 }
 
 
+_core_commands = set(['leaf', 'fold', 'excec', 'conf', 'plug'])
+
 def handle_context(ctx):
+    if not _core_commands.issuperset([ctx.command]):
+        return ctx.NEXT_COMMAND
     try: 
         _task_handlers[ctx.task or 'usage'](ctx)
+        return ctx.OK
     except: 
         print(f'USAGE ERROR: "mold {ctx.command}" has no task named "{ctx.task}"')
+        return ctx.FAIL

@@ -115,8 +115,12 @@ _task_handlers = {
 } 
 
 def handle_context(ctx):
-    # try:
-    _task_handlers[ctx.task or 'usage'](ctx)
-    # except:
-        # print(f'mold sync can\'t {ctx.task} yet.')
+    if ctx.command != 'sync':
+        return ctx.NEXT_COMMAND
+    try:
+        _task_handlers[ctx.task or 'usage'](ctx)
+        return ctx.OK
+    except:
+        print(f'mold sync can\'t {ctx.task} yet.')
+        return ctx.FAIL
 

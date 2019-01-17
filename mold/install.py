@@ -54,15 +54,17 @@ def _log_failure(ctx):
     print(f'''{red}Sorry, something went wrong, a MOLD_ROOT was not installed.{reset}
 You can create an issue at https://github.com/slugbyte/mold/issues for support.''')
 
-def _cleanup_and_fail(ctx):
+def _fail(ctx):
     _log_failure(ctx )
     return ctx.FAIL
 
 def _create_mold_root(ctx):
+    print('goo')
     try:
         if fs.exists(ctx.MOLD_ROOT):
             fs.rimraf(ctx.MOLD_ROOT)
         system.cd(BUILD_DIR)
+        print('goo')
         tarpath = BUILD_DIR + '/mold-root.tar.gz'
         fs.unpack_tarball(tarpath)
         fs.mv(BUILD_DIR + '/mold-root', ctx.MOLD_ROOT)
@@ -99,15 +101,12 @@ def _handle_mold_root_set_origin(ctx):
     cyan = get_color(ctx, 'cyan')
     reset = get_color(ctx, 'reset')
     remote = ''
-    if ctx.check_set_origin_set():
-        remote = ctx.task
-    else:
-        if not ctx.check_flag_set('--no-prompt'):
-            cancel = 'y' != input(f'{cyan}Do you want to setup a git remote? y/n:{reset} ').strip()
-            if cancel: 
-                print(f'Ok, no git remote will be configured.')
-            else: 
-                remote = input(f'{cyan}Enter a git remote uri:{reset} ').strip()
+    if not ctx.check_flag_set('--no-prompt'):
+        cancel = 'y' != input(f'{cyan}Do you want to setup a git remote? y/n:{reset} ').strip()
+        if cancel: 
+            print(f'Ok, no git remote will be configured.')
+        else: 
+            remote = input(f'{cyan}Enter a git remote uri:{reset} ').strip()
     if not remote:
         _log_success(ctx, f''' 
 {red}WARNING: your mold-root was created with out a remote remote repository.
@@ -136,15 +135,14 @@ def install(ctx):
     yellow = get_color(ctx, _yellow)
     reset = get_color(ctx, _reset)
 
-    quick = ctx.check_flag_set('--no-prompt')
     if not _handle_mold_root_exists(ctx):
-        print('yeye')
         return ctx.OK
     print(f'{green}Installing{reset} a MOLD_ROOT in {ctx.MOLD_ROOT}')
     if not _create_mold_root(ctx):
-        return _cleanup_and_fail(ctx)
+        return _fail(ctx)
     if not git.init(ctx).check_ok():
-        return _cleanup_and_fail(ctx)
+        return _fail(ctx)
     if not _handle_mold_root_set_origin(ctx):
-        return 
+        return ctx.OK
     _log_success(ctx, f' with the remote repository {remote}')
+    return ctx.OK
