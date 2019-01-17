@@ -163,7 +163,7 @@ _task_handlers = {
 }
 
 
-def handle_task(ctx):
+def handle_context(ctx):
     try: 
         _task_handlers[ctx.task or 'usage'](ctx)
     except: 

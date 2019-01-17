@@ -90,9 +90,10 @@ _task_handlers = {
     "usage": _usage,
 }
 
-def handle_flag(ctx):
+def handle_context(ctx):
     try:
         _task_handlers[ctx.task or 'usage'](ctx)
     except:
+        print('TODO: BAD TASK', ctx.task)
         return ctx.FAIL
 

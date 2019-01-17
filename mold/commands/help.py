@@ -88,7 +88,7 @@ def print_help(ctx, help_file):
     help_text = replace_header_tags(ctx, help_text)
     print(help_text)
 
-def handle_help(ctx):
+def handle_context(ctx):
     reset = get_color(ctx, _reset)
     error_color = get_color(ctx, _error_color)
     if ctx.command:

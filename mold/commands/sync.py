@@ -114,7 +114,7 @@ _task_handlers = {
     "--hard-reset": _link_conf_after_git(_make_one_arg_git_task_with_usage_warning('hard_reset', '(commit hash or branch) [--flags]')),
 } 
 
-def handle_task(ctx):
+def handle_context(ctx):
     # try:
     _task_handlers[ctx.task or 'usage'](ctx)
     # except:

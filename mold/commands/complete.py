@@ -2,7 +2,6 @@
 complete defines the routing routing logic for arguments to  mold --complete. 
 '''
 
-import mold.core as core
 import mold.util as util
 import mold.git as git
 
@@ -79,7 +78,7 @@ _completion_handlers = {
 # INTERFACE
 
 # complete gets passed $COMPLINE and needs to reparse argv[2] and 
-def complete(ctx):
+def handle_context(ctx):
     # if MOLD_ROOT is not setup no completion 4 you
     # if no command show main until command 
     if ctx.check_help_set():

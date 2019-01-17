@@ -6,11 +6,11 @@ for SUB_COMMANDs and OPTIONS.
 import sys
 
 import mold
-import mold.core as core
-import mold.sync as sync
-import mold.help as help
-import mold.mold_root as mold_root
-from mold.complete import complete
+import mold.commands.core as core
+import mold.commands.sync as sync
+import mold.commands.help as help
+import mold.commands.root as root
+import mold.commands.complete as complete
 from mold.color import get_color
 
 # PRIVATE
@@ -24,10 +24,10 @@ def _check_help(ctx):
         return False
     return True
 
-def _check_mold_root(ctx):
+def _check_root(ctx):
     if ctx.command == 'root':
-        return mold_root.handle_flag(ctx)
-    result = mold_root.check(ctx)
+        return root.handle_context(ctx)
+    result = root.check(ctx)
     if result != ctx.OK:
         return result
     return True
@@ -40,14 +40,14 @@ def _check_main_tasks(ctx):
 
 def _check_complete(ctx):
     if ctx.check_flag_set('--complete'):
-        complete(ctx)
+        complete.handle_context(ctx)
         return False
     return True
 
 def _check_core(ctx):
     for current in ['leaf', 'fold', 'exec', 'conf', 'plug']:
         if ctx.command == current:
-            core.handle_task(ctx)
+            core.handle_context(ctx)
             return False 
     return True
 
@@ -63,8 +63,8 @@ def _check_list(ctx):
     return True
 
 def _check_sync(ctx):
-    if ctx.command== 'sync':
-        sync.handle_task(ctx)
+    if ctx.command == 'sync':
+        sync.handle_context(ctx)
         return False
     return True
 
@@ -82,7 +82,7 @@ def handle_context(ctx):
     if not _check_help(ctx):
         return ctx.OK
 
-    result = _check_mold_root(ctx)
+    result = _check_root(ctx)
     if result != True:
         return result
 

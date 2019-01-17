@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-The main entry point. Invoke as `mold' or `python -m mold'.
+The main entry point. Invoke as `mold' if installed or `python3 -m mold'.
 """
 
 import os 
