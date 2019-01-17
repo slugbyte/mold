@@ -69,7 +69,7 @@ def _check_sync(ctx):
     return True
 
 # INTERFACE
-def main(ctx):
+def handle_context(ctx):
     red = get_color(ctx, 'red')
     reset = get_color(ctx, 'reset')
     # the order of the check invocations can not change

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Note: To use the 'upload' functionality of this file, you must:
@@ -22,8 +22,9 @@ DESCRIPTION = mold.__description__
 REQUIRES_PYTHON = '>=3.6.0'
 
 # What packages are required for this module to be executed?
-REQUIRED = [
-]
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
+REQUIRED = required
 
 # What packages are optional?
 EXTRAS = {
@@ -107,7 +108,7 @@ setup(
     # py_modules=['mypackage'],
 
     entry_points={
-        'console_scripts': ['mold=mold.cli:main'],
+        'console_scripts': ['mold=mold.__main__:main'],
     },
     install_requires=REQUIRED,
     extras_require=EXTRAS,
