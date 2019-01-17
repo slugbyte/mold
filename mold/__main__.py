@@ -9,18 +9,19 @@ import sys
 import mold.cli as cli 
 from mold.context import MoldContext
 
-
 def main():
+    exit_code = 0
     ctx = MoldContext(sys.argv, os.environ)
     if ctx.MOLD_DEBUG:
-        sys.exit(cli.handle_context(ctx))
+        return sys.exit(cli.handle_context(ctx))
     else:
         try:
-            sys.exit(cli.handle_context(ctx))
+            exit_code = cli.handle_context(ctx)
         except:
-            sys.exit(1)
-    sys.exit(2)
-
+            print('Sorry, there seems to be a mold in mold.')
+            print('    You may want to try reinstalling the mold-cli')
+            sys.exit(ctx.CRASH)
+    sys.exit(exit_code)
 
 if __name__ == '__main__':
     main()

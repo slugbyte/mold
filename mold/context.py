@@ -50,6 +50,7 @@ class MoldContext:
         self.IO_ERROR = -2
         self.MOLD_ROOT_ERROR = -3
         self.MOLD_ROOT_DIRS_ERROR = -4
+        self.CRASH = -5 # MUST BE NEGITIVE 1, POSIVITE 1 will break main beacuse 1 == True
         self.DEV_TODO = -99
 
     def check_has_options(self): 

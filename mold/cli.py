@@ -95,5 +95,5 @@ def handle_context(ctx):
     if not _check_sync(ctx):
         return ctx.OK
     print(f'{red}doh!{reset} mold {ctx.command} isn\'t a feature yet.')
-    return ctx.FAIL
+    return ctx.OK
 

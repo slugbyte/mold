@@ -1,15 +1,15 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ce4492319c1eb3cc65a81bb15e23ff81d96ee56a5b447aee9f4da11a704efdfc"
+            "sha256": "e3c974afd4ee3c6af9402ca12cc43386bae32bbefc313dfc6e48409d86db041f"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.7"
+            "python_version": "3.7.2"
         },
         "sources": [
             {
-                "name": "pypi",
+                "name": "mold",
                 "url": "https://pypi.org/simple",
                 "verify_ssl": true
             }
