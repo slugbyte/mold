@@ -85,9 +85,9 @@ def _set_origin(ctx):
 _task_handlers = {
     "--install": install,
     "--clone": _clone,
-    "check": _check,
-    "usage": _usage,
+    "--check": _check,
     "--fix": _fix,
+    "usage": _usage,
 }
 
 def handle_flag(ctx):
