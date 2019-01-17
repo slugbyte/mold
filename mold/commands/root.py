@@ -96,4 +96,3 @@ def handle_context(ctx):
     except:
         print('TODO: BAD TASK', ctx.task)
         return ctx.FAIL
-

@@ -51,6 +51,7 @@ class MoldContext:
         self.MOLD_ROOT_ERROR = -3
         self.MOLD_ROOT_DIRS_ERROR = -4
         self.CRASH = -5 # MUST BE NEGITIVE 1, POSIVITE 1 will break main beacuse 1 == True
+        self.NEXT_COMMAND = 'NEXT_COMMAND'
         self.DEV_TODO = -99
 
     def check_has_options(self): 
@@ -62,20 +63,8 @@ class MoldContext:
     def check_color_mode_set(self):
         return self.MOLD_COLOR or self.check_flag_set('--color')
 
-    def check_verbose_set(self):
-        return self.check_flag_set('-v')
-
     def check_help_set(self):
         return self.check_flag_set('help') or self.check_flag_set('-h') or self.check_flag_set('--help')
-
-    def check_set_origin_set(self):
-        return self.check_flag_set('--set-origin')
-
-    def check_clone_set(self):
-        return self.check_flag_set('--clone')
-
-    def check_install_set(self):
-        return self.check_flag_set('--install') or self.check_flag_set('--quick-install')
 
     def get_command_dir(self, command=None):
         command = command or self.command
