@@ -2,9 +2,7 @@
 sync defines the logic for maintaining a MOLD_ROOT using git 
 '''
 
-import mold.git as git 
-from mold.util import query
-import mold.system as system
+from mold.util import git, query, system
 
 def _usage(ctx, options=''):
     if ctx.task:

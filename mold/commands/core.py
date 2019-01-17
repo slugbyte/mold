@@ -6,9 +6,7 @@ It also defines the abilty for file and fold to export content.
 import os 
 import re
 import requests 
-import mold.fs as fs
-import mold.system as system
-from mold.util import query
+from mold.util import fs, system, query
 
 # TODO: have each task handler return an exit code from the ctx
 # then refactor main to return the result of the task handler

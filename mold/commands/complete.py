@@ -2,8 +2,7 @@
 complete defines the routing routing logic for arguments to  mold --complete. 
 '''
 
-import mold.util as util
-import mold.git as git
+from mold.util import git 
 
 # PRIVATE 
 _completable_commands = ['conf', 'plug', 'exec', 'temp', 'leaf', 'sync']

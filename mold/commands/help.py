@@ -5,7 +5,7 @@ help defines an api for printing mold help messages.
 import re
 import codecs 
 import markdown
-import mold.fs  as fs
+from mold.util import fs
 from mold.color import get_color
 
 _reset = 'reset'

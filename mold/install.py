@@ -2,9 +2,7 @@
 install defines an api for installing a MOLD_ROOT.
 '''
 
-import mold.git as git 
-import mold.fs as fs
-import mold.system as system
+from mold.util import fs, git, system
 from mold.color import get_color
 
 _red = 'red'

@@ -3,9 +3,8 @@ a MoldContext parses and stores sys.argv and os.environ, it also has several con
 some convience methods. One context gets created in __main__ and is passed through the entire app.
 '''
 
-import mold.fs as fs
-from mold.util import query 
-from mold.system import which, check_is_tty
+
+from mold.util import fs, query, system
 
 _flags = set([
     'help', '-h', '--help',
@@ -40,11 +39,11 @@ class MoldContext:
 
         # PARSED ENVIRON AND CONSTANTS
         self.HOME = query(os_environ, 'HOME')
-        self.EDITOR = query(os_environ, 'EDITOR') or which('vim') or which('nano')
+        self.EDITOR = query(os_environ, 'EDITOR') or system.which('vim') or system.which('nano')
         self.MOLD_ROOT = query(os_environ, 'MOLD_ROOT') or (HOME +'/.mold')
         self.MOLD_DOCS = __file__.replace('context.py', 'docs')
         self.MOLD_DEBUG = bool(query(os_environ, 'MOLD_DEBUG'))
-        self.MOLD_COLOR = check_is_tty() or bool(query(os_environ, 'MOLD_COLOR'))
+        self.MOLD_COLOR = system.check_is_tty() or bool(query(os_environ, 'MOLD_COLOR'))
         self.OK = 0
         self.FAIL = -1 # MUST BE NEGITIVE 1, POSIVITE 1 will break main beacuse 1 == True
         self.IO_ERROR = -2

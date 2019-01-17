@@ -4,7 +4,7 @@ git defines an api for running git opperartions in DOT_ROOT
 The Public interface returns a Bool on the success of the opperation
 '''
 
-import mold.system as system 
+import mold.util.system as system 
 
 # PRIVATE
 def _git_exec(ctx, args):

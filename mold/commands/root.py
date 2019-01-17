@@ -1,5 +1,4 @@
-import mold.fs as fs
-import mold.git as git 
+from mold.util import fs, git 
 from mold.install import install
 from mold.color import get_color
 
