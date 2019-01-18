@@ -1,3 +1,4 @@
 include mold/assets/mold-root.tar.gz
-include mold/docs/*.md
+include mold/assets/docs/*.md
+include mold/assets/docs/*/*.md
 
