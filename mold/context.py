@@ -10,7 +10,7 @@ _flags = set([
     'help', '-h', '--help',
     '--no-linking', '--force', 
     '--complete', '--color', 
-    '--no-prompt',
+    '--no-prompt', '--sign',
     ])
 
 # STORES ARGS AND ENV VARS
@@ -44,6 +44,7 @@ class MoldContext:
         self.MOLD_DOCS = __file__.replace('context.py', 'assets/docs')
         self.MOLD_DEBUG = bool(query(os_environ, 'MOLD_DEBUG'))
         self.MOLD_COLOR = system.check_is_tty() or bool(query(os_environ, 'MOLD_COLOR')) or self.check_flag_set('--color')
+        self.MOLD_SIGN = bool(query(os_environ, 'MOLD_SIGN')) or self.check_flag_set('--sign')
 
         # colors 
         self.reset = '\033[39m' if self.MOLD_COLOR else ''

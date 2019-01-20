@@ -100,9 +100,10 @@ def diff(ctx, githash=None):
     return _git_shell(ctx, f'diff {githash}')
 
 def commit(ctx, message=None):
+    sign = '-S' if ctx.MOLD_SIGN else ''
     if message:
-        return _git_shell(ctx, f"commit -m '{message}'")
-    return _git_shell(ctx, 'commit')
+        return _git_shell(ctx, f"commit {sign} -m '{message}'")
+    return _git_shell(ctx, f'commit {sign}')
 
 def hard_reset(ctx, githash=None):
     if not githash:
@@ -179,6 +180,7 @@ def clone(ctx, uri=None):
     return system.shell(f'git clone {uri} {ctx.MOLD_ROOT}' )
 
 def init(ctx):
+    sign = '-S' if ctx.MOLD_SIGN else ''
     result = _git_shell(ctx, 'init .')
     if not result.check_ok():
         print('Error: git init failed')
@@ -187,7 +189,7 @@ def init(ctx):
     if not result.check_ok():
         print('Error: git add -A failed')
         return result
-    result = _git_shell(ctx, 'commit  -m "initial commit"') 
+    result = _git_shell(ctx, f'commit {sign} -m "initial commit"') 
     if not result .check_ok():
         print('Error: inital git commit failed')
     return result 
