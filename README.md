@@ -4,34 +4,26 @@
 ![breakfast grool](https://assets.slugbyte.com/github/github-header-00011.png)  
 
 ## About mold
-`mold` is is a cli for helping programmers mold thier shell environment to be more fun and productive to write
-code in. Its goal is to enable users to bring all of the tools, scripts, and templates that make their programing 
-environment feel like home and take them anywhere. Mold has a consistant interface for doing [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) oprations to the content it tracks, and a small but effective set of git helper tasks for syncing configurations.  
+`mold` is is a cli for helping programmers mold thier shell environment to be more fun and productive to write code in. Its goal is to enable users to bring all of the tools, scripts, and templates that make their programing environment feel like home and take them anywhere. Mold has a consistant interface for doing [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) oprations to the content it tracks, and a small but effective set of git helper tasks for syncing configurations.  
 
-Mold is not a really meant to be shell plugin manager, instead it aims to help users write and mangange their own configuration files and scripts. However, mold also believes that [dotfiles are ment to be forked](https://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/) and supports cloning mold-roots, tracking a git remote upstream, as well as dowloading content from urls. Mold can even be used along side acutal shell plugin managers like
-[antigen](https://github.com/zsh-users/antigen) or [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh), without any hastel. 
+Mold is not a really meant to be shell plugin manager, instead it aims to help users write and mangange their own configuration files and scripts. However, mold also believes that [dotfiles are ment to be forked](https://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/) and supports cloning mold-roots, tracking a git remote upstream, as well as dowloading content from urls. Mold can even be used along side acutal shell plugin managers like [antigen](https://github.com/zsh-users/antigen) or [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh), without any hastel.  
 
-Mold has a few opinionated limitations that aim to help programmers be more productive, by spending less time 
-configuring their enviroment and more time working on their projects. It does this by narrowing down system-configuration
-into five content classifcations which each have slightly different behaviors. Mold stores its content in a git repoistory 
-called a mold-root, and uses the environment variable $MOLD\_ROOT to determine it's location. Mold content is split into the  classifications below, that each have their own directory in the the mold-root. 
+Mold has a few opinionated limitations that aim to help programmers be more productive, by spending less time configuring their enviroment and more time working on their projects. It does this by narrowing down system-configuration into five content classifcations which each have slightly different behaviors. Mold stores its content in a git repoistory called a mold-root, and uses the environment variable $MOLD\_ROOT to determine it's location. Mold content is split into the  classifications below, that each have their own directory in the the mold-root.  
 
 ##### conf 
-Mold confs are dotfiles. Each time a mold conf is loaded or created it is automaticly hard linked to the $HOME directory.
-By using hard links no matter where you edit the file, changes are tracked by the mold-roots git. All of the mold conf files are stored in $MOLD\_ROOT/conf .  
+Mold confs are dotfiles. Each time a mold conf is loaded or created it is automaticly hard linked to the $HOME directory.  By using hard links no matter where you edit the file, changes are tracked by the mold-roots git. All of the mold conf files are stored in $MOLD\_ROOT/conf.  
 
 ##### plug 
 Mold plugs are single-file shell scripts that act as shell plugins. Each time a shell is created it will loop though the mold-root plug directory and source each plug. All of the mold plug files are stored in $MOLD\_ROOT/plug.   
 
 #### exec
-Mold execs are single-file executable scripts. Each time an exec is loaded or created it will be automaticly be given executable persions. All of the mold exec files are stored in $MOLD\_ROOT/exec, which is added to the begging of $PATH .
+Mold execs are single-file executable scripts. Each time an exec is loaded or created it will be automaticly be given executable persions. All of the mold exec files are stored in $MOLD\_ROOT/exec, which is added to the begging of $PATH.  
 
 #### fold
-Mold folds are directory scaffold templates. Folds can be used to setup project boiler plate code so that the overhead of getting to work on a new project will be cut down. Mold folds can be expored from the the mold-root into the current working directory. All of the mold folds are stored in $MOLD\_ROOT/fold .
+Mold folds are directory scaffold templates. Folds can be used to setup project boiler plate code so that the overhead of getting to work on a new project will be cut down. Mold folds can be expored from the the mold-root into the current working directory. All of the mold folds are stored in $MOLD\_ROOT/fold.
 
 #### leaf 
-Mold leafs are file tempaltes. Leafs can be used to store things like licenses, markdown-templates, .gitignores, and anything you find your self adding to projects regularly. Mold leafs can be expored from the mold-root into the current working directory. all of the mold leafs
-are store in $MOLD\_ROOT/leaf. 
+Mold leafs are file tempaltes. Leafs can be used to store things like licenses, markdown-templates, .gitignores, and anything you find your self adding to projects regularly. Mold leafs can be expored from the mold-root into the current working directory. all of the mold leafs are store in $MOLD\_ROOT/leaf.  
 
 ## Features
 * A consistant CRUD interface for content management 
@@ -54,10 +46,7 @@ Mold is under active development and not ready for production use.
 
 ## USING MOLD
 `USAGE: mold  (command) (task) [...options] [--flags]`  
-Mold's arguments are broken down in to the four categorys commands, tasks, options, and flags.
-Mold allways requires a command, and with the exception of `--version` all commands require a task.
-Tasks very in the number of options they require and flags they support. Flags are allways 
-boolean truthy values, and can be written in mold's arguments in any order (begining, middle, end).  
+Mold's arguments are broken down in to the four categorys commands, tasks, options, and flags.  Mold allways requires a command, and with the exception of `--version` all commands require a task.  Tasks very in the number of options they require and flags they support. Flags are allways boolean truthy values, and can be written in mold's arguments in any order (begining, middle, end).  
 
 Mold commands and their uses.
 * `--verson ` -- Print mold's version 
@@ -70,8 +59,7 @@ Mold commands and their uses.
 * `fold` -- Manage project directory scaffolds (CRUD + export to anywhere you need to use them)
 
 ####  GETTING  HELP
-Mold treats `-h`, `--help`, and `help` as mold flags that trigger help logs. All of mold's commands and tasks have color coded 
-help logs. Also, If a you try to run a mold command or task with out the proper arguments mold will automaticly log a short `Usage:` summary. When reading mold *help* and *usage* logs arguments wraped in parens are `(required)`, and arguments wraped in square brackets are `[optional]`.   
+Mold treats `-h`, `--help`, and `help` as mold flags that trigger help logs. All of mold's commands and tasks have color coded help logs. Also, If a you try to run a mold command or task with out the proper arguments mold will automaticly log a short `Usage:` summary. When reading mold *help* and *usage* logs arguments wraped in parens are `(required)`, and arguments wraped in square brackets are `[optional]`.   
 
 Because mold help flags are truthy boolean flags they can be applied to mold arguments in any order. This means that the following statements have identical behavior.   
 * `mold conf load help`    
@@ -89,12 +77,9 @@ Mold's main utility is to manage configuration files. It does this though provid
 * `take` -- Export a file from the mold-root into the current directory (take is only supported by `fold` and `leaf`)
 
 ##### Important notes
-* When the `fold` command applys tasks it will create, update, delete, export, and list directorys instead of 
-files.
-* When the `conf` command applys the `make` or `load` tasks it will automaticly hard-link the new conf
-to your $HOME directory, unless you use the `--no-linking` flag (Documented below).
-* When the `exec` command applys the `make` or `load` tasks it will automaticly give the new content [755](https://thegeeksalive.com/linux-file-permissions-explained/)
-executable permissions.
+* When the `fold` command applys tasks it will create, update, delete, export, and list directorys instead of files.
+* When the `conf` command applys the `make` or `load` tasks it will automaticly hard-link the new conf to your $HOME directory, unless you use the `--no-linking` flag (Documented below).
+* When the `exec` command applys the `make` or `load` tasks it will automaticly give the new content [755](https://thegeeksalive.com/linux-file-permissions-explained/) executable permissions.
 
 ###### Content Managment Examples 
 ``` bash
@@ -118,8 +103,7 @@ mold leaf drop aliases.sh
 ```
 
 #### Managing the Mold-Root's Git Repository 
-Mold's main objective is to help programers transport and track their system configurations, and it achieves this using git. 
-Instead of making users cd to their mold-root every time they want to manage git, mold's `sync` command is an interface for interacting with the mold-root's git repository from anywhere. Mold's `sync` tasks not only help manage git but also automate auto-linking conf files to the $HOME directory. However, if a merge conflict occurs mold will not auto-link the conf files until the next commit.
+Mold's main objective is to help programers transport and track their system configurations, and it achieves this using git. Instead of making users cd to their mold-root every time they want to manage git, mold's `sync` command is an interface for interacting with the mold-root's git repository from anywhere. Mold's `sync` tasks not only help manage git but also automate auto-linking conf files to the $HOME directory. However, if a merge conflict occurs mold will not auto-link the conf files until the next commit.
 
 ##### WARNING About Sync's `--` Tasks
 Except for `--set-origin` and `--set-upstream`, The mold sync tasks that start with `--` are consided to be dangerous. This is because they can both remove content in an unreversable manner, and because any changes they apply to the mold-root will automaticly change your system configuration. Meaning the conf files will automaticly be linked to your home directory, and any plugs that change will be loaded when the next shell is created. The `--` tasks are great tools but should be used with caution. 
@@ -165,8 +149,8 @@ Mold commands and their uses.
 mold sync auto 'added ll alias to aliases.sh plug'
 
 # manualy add changes, commit using a text editor, and push
-mold sync add
-mold sync commit # if commit is not given an argument it git will open your editor 
+mold sync add mold sync commit 
+# if commit is not given an argument it git will open your editor 
 mold sync push
 
 # diff the changes that have not been commited

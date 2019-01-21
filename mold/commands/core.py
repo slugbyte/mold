@@ -46,26 +46,31 @@ def _make(ctx):
         return print(f'ERROR: {ctx.EDITOR} could not open {filepath}')
     if not fs.exists(filepath):
         return print(f'MAKE {ctx.command} ABORTED: {filename} not created')
+    if ctx.command == 'exec':
+        fs.chmod(filepath, 0o755)
     print(f'MADE {ctx.command}:', filename)
     if ctx.command == 'conf':
         _link_conf(ctx, filename)
 
 def _load_file(ctx, filepath):
     filename = ctx.get_option(1) or fs.basename(filepath)
+    destpath = ctx.get_command_dir() + '/' + filename 
     if fs.exists(filepath):
         # first load content
         if ctx.command == 'fold':
             if not fs.is_dir(filepath):
                 return print(f'USAGE ERROR: {filepath} is not a directory, use mold file instead.')
-            fs.copy_dir(filepath, ctx.get_command_dir() + '/' + filename)
+            fs.copy_dir(filepath, destpath)
         else:
             if fs.is_dir(filepath):
                 return print(f'USAGE ERROR: {filepath}" is a directory, mold {ctx.command} only supports files.')
-            fs.copy(filepath, ctx.get_command_dir() + '/' + filename)
+            fs.copy(filepath, destpath)
         # then if its a conf link it 
+        if ctx.command == 'exec':
+            fs.chmod(destpath, 0o755)
         if ctx.command == 'conf':
             _link_conf(ctx, filename)
-        print(f'LOADED {ctx.command.upper()}: {filename}')
+        print(f'LOADED {ctx.command}: {filename}')
         return 
     print(f'ERROR: could not find "{filepath}"')
 
@@ -74,14 +79,17 @@ def _load_URI(ctx, uri):
         print(f'USAGE ERROR: "mold fold" load does not support URI downloads')
         return ctx.FAIL
     filename = ctx.get_option(1) or fs.basename(uri)
+    destpath = ctx.get_command_dir() + '/' + filename 
     r = requests.get(uri)
     if r.status_code != 200:
         print(f'ERROR: unable to fetch {ctx.command} {uri}')
         return ctx.FAIL
-    if not fs.write_file(ctx.get_command_dir() + '/' + filename, r.text.strip()):
+    if not fs.write_file(destpath, r.text.strip()):
         print(f'ERROR: trouble saving {filename}')
         return ctx.FAIL
     print(f'LOADED {ctx.command}: {filename}')
+    if ctx.command == 'exec':
+        fs.chmod(destpath, 0o755)
     if ctx.command == 'conf':
         _link_conf(ctx, filename)
     return ctx.OK
@@ -161,7 +169,7 @@ _task_handlers = {
 }
 
 
-_core_commands = set(['leaf', 'fold', 'excec', 'conf', 'plug'])
+_core_commands = set(['leaf', 'fold', 'exec', 'conf', 'plug'])
 
 def handle_context(ctx):
     if not _core_commands.issuperset([ctx.command]):

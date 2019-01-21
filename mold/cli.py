@@ -13,8 +13,6 @@ import mold.commands.list as list
 import mold.commands.version as version
 import mold.commands.complete as complete
 
-# TODO migrate colors into context
-
 # INTERFACE
 def handle_context(ctx):
     # The ordering of the command_chain array is important

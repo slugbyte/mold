@@ -103,7 +103,7 @@ def commit(ctx, message=None):
     sign = '-S' if ctx.MOLD_SIGN else ''
     if message:
         return _git_shell(ctx, f"commit {sign} -m '{message}'")
-    return _git_shell(ctx, f'commit {sign}')
+    return _git_shell(ctx, f'commit -v {sign}')
 
 def hard_reset(ctx, githash=None):
     if not githash:

@@ -67,6 +67,11 @@ def force_link(src, dest):
             rm(dest)
     return link(src, dest)
 
+
+def chmod(path, permissions):
+    return os.chmod(path, permissions)
+
+        
 def unpack_tarball(path):
     tar = tarfile.open(path, 'r:gz')
     tar.extractall()
