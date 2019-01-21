@@ -64,7 +64,6 @@ class MoldContext:
         self.MOLD_ROOT_DIRS_ERROR = 4
         self.CRASH = 5 
         self.NEXT_COMMAND = 'NEXT_COMMAND'
-        self.DEV_TODO = 99
 
     def check_has_options(self): 
         return len(self.options) != 0

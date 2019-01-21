@@ -107,7 +107,7 @@ def handle_context(ctx):
                 print(f'{error_color}Sorry, mold can not help with:{reset} mold {ctx.command}')
                 return ctx.OK
             print(f'{error_color}Sorry, mold can not help with:{reset} mold {ctx.command} {ctx.task}')
-            return ctx.OK # TODO SHOULD THESE BE ctx.FAIL (should help fail)
+            return ctx.OK 
     else:
         print_help(ctx, 'README.md')
         return ctx.OK

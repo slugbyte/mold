@@ -8,11 +8,11 @@ import re
 import requests 
 from mold.util import fs, system, query
 
-# TODO: have each task handler return an exit code from the ctx
+# TODO: v0.2.0 have each task handler return an exit code from the ctx
 # then refactor main to return the result of the task handler
 # IDEA create two log functions for OK and FAIL , they can be used
 # They should return OK or FAIL exit codes they can be used 
-# to log a status and exit in one one :)
+# to log a status and exit in one one :) 
 def _usage(ctx, options='[options]'):
     if ctx.task:
         return print(f'''USAGE: mold {ctx.command} {ctx.task} {options} [--flags]
