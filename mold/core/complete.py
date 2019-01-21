@@ -6,7 +6,7 @@ from mold.util import git
 
 # PRIVATE 
 _completable_commands = ['conf', 'plug', 'exec', 'temp', 'leaf', 'sync']
-_completable_core_default_tasks = ['help', 'make', 'load', 'list', 'edit', 'drop']
+_completable_content_default_tasks = ['help', 'make', 'load', 'list', 'edit', 'drop']
 _completable_root_commands = ['--set-origin', '--fix', '--check']
 # sync "--" tasks do not show up in tab completion because they are dangerous
 _completable_sync_tasks = ['auto', 'log', 'add', 'commit', 'push', 'pull', 'diff', 'status', 'branch']
@@ -42,11 +42,11 @@ _completion_handlers = {
     # commands
     "help": _complete_no_suggestions,
     "root": _create_handler_from_word_list(_completable_root_commands),
-    "conf": _create_handler_from_word_list(_completable_core_default_tasks),
-    "exec": _create_handler_from_word_list(_completable_core_default_tasks),
-    "plug": _create_handler_from_word_list(_completable_core_default_tasks),
-    "fold": _create_handler_from_word_list(_completable_core_default_tasks + ['take']),
-    "leaf": _create_handler_from_word_list(_completable_core_default_tasks + ['take']),
+    "conf": _create_handler_from_word_list(_completable_content_default_tasks),
+    "exec": _create_handler_from_word_list(_completable_content_default_tasks),
+    "plug": _create_handler_from_word_list(_completable_content_default_tasks),
+    "fold": _create_handler_from_word_list(_completable_content_default_tasks + ['take']),
+    "leaf": _create_handler_from_word_list(_completable_content_default_tasks + ['take']),
     "sync": _create_handler_from_word_list(_completable_sync_tasks),
     "--install": _complete_no_suggestions,
     "--set-remote": _complete_no_suggestions,
@@ -54,7 +54,7 @@ _completion_handlers = {
     "--fix": _complete_no_suggestions,
     "--check": _complete_no_suggestions,
     "--set-origin": _complete_no_suggestions,
-    # core tasks
+    # content tasks
     "load": _complete_magic_mold,
     "make": _complete_no_suggestions,
     "list": _complete_no_suggestions,

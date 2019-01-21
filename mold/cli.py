@@ -1,17 +1,17 @@
 '''
 main is defines the logic for the cli, it is a router 
-for SUB_COMMANDs and OPTIONS.
+for SUB_core and OPTIONS.
 '''
 
 import sys
 import mold
-import mold.commands.core as core
-import mold.commands.sync as sync
-import mold.commands.help as help
-import mold.commands.root as root
-import mold.commands.list as list
-import mold.commands.version as version
-import mold.commands.complete as complete
+import mold.core.sync as sync
+import mold.core.help as help
+import mold.core.root as root
+import mold.core.list as list
+import mold.core.content as content
+import mold.core.version as version
+import mold.core.complete as complete
 
 # INTERFACE
 def handle_context(ctx):
@@ -22,9 +22,9 @@ def handle_context(ctx):
         help.handle_context,     # priority 3 because help should allways be available
         root.handle_context,     # priorigy 4 because it asserts a mold root is installed 
         # below this point order does not matter and a mold_root is garinteed
-        core.handle_context,     
-        list.handle_context,
+        content.handle_context,     
         sync.handle_context,
+        list.handle_context,
     ]
     
     for command in command_chain:

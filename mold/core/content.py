@@ -1,5 +1,5 @@
 '''
-core defines the logic for the sub commands make load list edit drop.
+content defines the logic for the sub commands make load list edit drop.
 It also defines the abilty for file and fold to export content.
 '''
 
@@ -169,10 +169,10 @@ _task_handlers = {
 }
 
 
-_core_commands = set(['leaf', 'fold', 'exec', 'conf', 'plug'])
+_content_commands = set(['leaf', 'fold', 'exec', 'conf', 'plug'])
 
 def handle_context(ctx):
-    if not _core_commands.issuperset([ctx.command]):
+    if not _content_commands.issuperset([ctx.command]):
         return ctx.NEXT_COMMAND
     try: 
         _task_handlers[ctx.task or 'usage'](ctx)

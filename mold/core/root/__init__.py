@@ -1,6 +1,6 @@
 from mold.util import fs, git 
 # from mold.color import get_color
-from mold.commands.root.install import install
+from mold.core.root.install import install
 
 def check(ctx):
     red = ctx.red
