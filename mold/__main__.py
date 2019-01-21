@@ -4,8 +4,6 @@ The main entry point. Invoke as `mold' if installed or `python3 -m mold'.
 """
 
 # TODO then figure out how to deploy to PYPI and start deployin v0.0.1
-# TODO rename command dir plugins
-
 import os 
 import sys
 

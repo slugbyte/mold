@@ -65,7 +65,7 @@ def _clone(ctx):
             abort = 'y' != input(f'{cyan}Do you want to contiune the installation? y/n:{reset} ').strip()
             if (abort):
                 print('Ok, mold --clone aborted.')
-                return ctx.OK # TODO should this be a fail?
+                return ctx.OK 
         fs.rimraf(ctx.MOLD_ROOT) 
     git.clone(ctx, remote)
     result = check(ctx)
@@ -89,5 +89,5 @@ def handle_context(ctx):
     try:
         return _task_handlers[ctx.task or 'usage'](ctx)
     except:
-        print('TODO: BAD TASK', ctx.task)
+        print(f'ERROR: mold root has not "{ctx.task}"')
         return ctx.FAIL

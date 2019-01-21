@@ -119,6 +119,6 @@ def handle_context(ctx):
         _task_handlers[ctx.task or 'usage'](ctx)
         return ctx.OK
     except:
-        print(f'mold sync can\'t {ctx.task} yet.')
+        print(f'ERROR: mold sync can\'t {ctx.task} yet.')
         return ctx.FAIL
 
