@@ -14,6 +14,10 @@ def _usage(ctx, options=''):
     run "mold {ctx.command} help" for more info''')
         return system.fail()
 
+def _link(ctx):
+    ctx.link_conf()
+    return ctx.OK 
+
 def _auto(ctx):
     message = ctx.get_option(0)
     result = git.pull(ctx)
@@ -88,6 +92,7 @@ def _link_conf_after_git(handler):
 _task_handlers = {
     # custom 
     "auto": _auto, # internaly handles linking conf
+    "link": _link,
     "usage": _usage,
     # curry no arg
     "add": _make_no_arg_git_task('add'),

@@ -9,7 +9,7 @@ _completable_commands = ['conf', 'plug', 'exec', 'temp', 'leaf', 'sync']
 _completable_content_default_tasks = ['help', 'make', 'load', 'list', 'edit', 'drop']
 _completable_root_commands = ['--set-origin', '--fix', '--check']
 # sync "--" tasks do not show up in tab completion because they are dangerous
-_completable_sync_tasks = ['auto', 'log', 'add', 'commit', 'push', 'pull', 'diff', 'status', 'branch']
+_completable_sync_tasks = ['auto', 'log', 'link', 'add', 'commit', 'push', 'pull', 'diff', 'status', 'branch']
 
 def _complete_no_suggestions(ctx):
     print('')
@@ -62,6 +62,7 @@ _completion_handlers = {
     "drop": _complete_command_dirlist, 
     "take": _complete_command_dirlist, 
     # sync tasks
+    "link": _complete_no_suggestions,
     "auto": _complete_no_suggestions,
     "log": _complete_no_suggestions,
     "add": _complete_no_suggestions,

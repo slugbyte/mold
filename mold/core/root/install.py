@@ -5,7 +5,7 @@ install defines an api for installing a MOLD_ROOT.
 from mold.util import fs, git, system
 
 # PRIVATE
-BUILD_DIR = __file__.replace('install.py', 'assets')
+BUILD_DIR = __file__.replace('install.py', '../../asset')
 
 def _log_success(ctx, extra='.'):
     reset = ctx.reset
@@ -50,7 +50,8 @@ def _create_mold_root(ctx):
         if fs.exists(ctx.MOLD_ROOT):
             fs.rimraf(ctx.MOLD_ROOT)
         system.cd(BUILD_DIR)
-        tarpath = BUILD_DIR + '/mold-root.tar.gz'
+        print('chicken')
+        tarpath = BUILD_DIR + '/mold_root.tar.gz'
         fs.unpack_tarball(tarpath)
         fs.mv(BUILD_DIR + '/mold-root', ctx.MOLD_ROOT)
         return True
