@@ -3,6 +3,7 @@ sync defines the logic for maintaining a MOLD_ROOT using git
 '''
 
 from mold.util import git, query, system
+# TODO v0.2.0 adde --unset-origin and --unset-upstream
 
 def _usage(ctx, options=''):
     if ctx.task:

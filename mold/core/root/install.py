@@ -46,14 +46,12 @@ You can create an issue at https://github.com/slugbyte/mold/issues for support.'
     return ctx.FAIL
 
 def _create_mold_root(ctx):
+    print('cool', BUILD_DIR)
     try:
         if fs.exists(ctx.MOLD_ROOT):
             fs.rimraf(ctx.MOLD_ROOT)
         system.cd(BUILD_DIR)
-        print('chicken')
-        tarpath = BUILD_DIR + '/mold_root.tar.gz'
-        fs.unpack_tarball(tarpath)
-        fs.mv(BUILD_DIR + '/mold-root', ctx.MOLD_ROOT)
+        fs.copy_dir(BUILD_DIR + '/mold_root', ctx.MOLD_ROOT)
         return True
     except: 
         return False
@@ -113,6 +111,7 @@ overwrite the remote run {cyan}mold sync --force-push{red}, or you can run
 
 # INTERFACE
 def install(ctx):
+    print('cool', BUILD_DIR)
     # colors
     green = ctx.green
     reset = ctx.reset

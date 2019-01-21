@@ -141,7 +141,7 @@ Mold commands and their uses.
 * `--force-push (branch)` -- will run `git push origin (branch)`  
 * `--merge (branch)` -- will run `git merge (branch)`
 * `--set-origin (git uri)` -- will remove the remote orgin if exists and then set origin to the git uri
-* `--set-upstream (git uri)` -- will remove the remote upstream if exists and then set upstream to the git uri TODO
+* `--set-upstream (git uri)` -- will remove the remote upstream if exists and then set upstream to the git uri
 
 ###### Mold Sync Usage Examples
 ``` bash

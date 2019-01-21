@@ -75,7 +75,7 @@ def _set_remote(ctx, uri=None, remote_name='origin'):
     if not result.check_ok():
         print(f'WARNING: failed to git fetch {remote_name}')
         return result 
-    print('MOLD_ROOT\'s git remote origin is now:', uri)
+    print(f'MOLD_ROOT\'s git remote {remote_name} is now:', uri)
     return result 
 
 # API INTERFACE
