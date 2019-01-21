@@ -71,7 +71,7 @@ def _set_remote(ctx, uri=None, remote_name='origin'):
     result = _git_shell(ctx, f'remote add {remote_name} {uri}')
     if not result.check_ok():
         return result
-    result = _git_shell(ctx, f'fetch -v {remote_name}')
+    result = _git_shell(ctx, f'fetch --all -v')
     if not result.check_ok():
         print(f'WARNING: failed to git fetch {remote_name}')
         return result 
@@ -122,7 +122,7 @@ def branch(ctx):
     return _git_shell(ctx, 'branch -av')
 
 def fetch(ctx):
-    return _git_shell(ctx, 'fetch -v')
+    return _git_shell(ctx, 'fetch -v --all')
 
 def merge(ctx, branch=None):
     print('merging', branch)

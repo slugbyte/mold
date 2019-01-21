@@ -113,7 +113,7 @@ Mold commands and their uses.
 * `log` -- will run git log
 * `add` -- will run `git add -A` 
 * `status` -- will run `git status` 
-* `fetch` -- will run `git fetch` TODO
+* `fetch` -- will run `git fetch`
 * `branch` -- will run `git branch -av` 
 * `remove` -- will run `git remote -v` 
 * `auto` -- will execute teh following steps 

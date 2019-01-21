@@ -1,11 +1,8 @@
-nguage: python
+language: python
 python:
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "3.7"
+# TODO test other version of python
+  - "3.7.4"
 install:
 	- pip install pipenv 
-	- pipenv install -d 
-# command to run tests
+	- pipenv install --dev
 script: pytest

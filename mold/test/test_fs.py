@@ -1,5 +1,5 @@
 import os
-import mold.fs as fs
+import mold.util.fs as fs
 
 TEMP_DIR = __file__.replace('test_fs.py', 'temp')
 
