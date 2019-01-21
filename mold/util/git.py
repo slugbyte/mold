@@ -71,7 +71,7 @@ def _set_remote(ctx, uri=None, remote_name='origin'):
     result = _git_shell(ctx, f'remote add {remote_name} {uri}')
     if not result.check_ok():
         return result
-    result = _git_shell(ctx, f'fetch {remote_name}')
+    result = _git_shell(ctx, f'fetch -v {remote_name}')
     if not result.check_ok():
         print(f'WARNING: failed to git fetch {remote_name}')
         return result 
@@ -116,13 +116,13 @@ def soft_reset(ctx, githash=None):
     return _git_shell(ctx, f"reset --soft {githash}")
 
 def log(ctx):
-    return _git_shell(ctx, 'log')
+    return _git_shell(ctx, 'log --graph --oneline --tags')
 
 def branch(ctx):
     return _git_shell(ctx, 'branch -av')
 
 def fetch(ctx):
-    return _git_shell(ctx, 'fetch')
+    return _git_shell(ctx, 'fetch -v')
 
 def merge(ctx, branch=None):
     print('merging', branch)
