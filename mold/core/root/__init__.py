@@ -86,7 +86,6 @@ _task_handlers = {
 def handle_context(ctx):
     if ctx.command != 'root':
         return check(ctx)
-    print('hahah')
     try:
         _task_handlers[ctx.task or 'usage'](ctx)
     except:
