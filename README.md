@@ -1,6 +1,8 @@
 # MOLD  
 > A CLI for managing dotfiles, shell scripts, executables, project scaffolds, and file templates  
 
+[![Build Status](https://travis-ci.org/slugbyte/mold.svg?branch=master)](https://travis-ci.org/slugbyte/mold)  
+
 ![breakfast grool](https://assets.slugbyte.com/github/github-header-00011.png)  
 
 ## About mold
