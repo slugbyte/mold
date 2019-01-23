@@ -86,8 +86,9 @@ _task_handlers = {
 def handle_context(ctx):
     if ctx.command != 'root':
         return check(ctx)
+    print('hahah')
     try:
-        return _task_handlers[ctx.task or 'usage'](ctx)
+        _task_handlers[ctx.task or 'usage'](ctx)
     except:
         print(f'ERROR: mold root has not "{ctx.task}"')
         return ctx.FAIL

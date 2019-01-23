@@ -49,7 +49,6 @@ def _create_mold_root(ctx):
     try:
         if fs.exists(ctx.MOLD_ROOT):
             fs.rimraf(ctx.MOLD_ROOT)
-        system.cd(BUILD_DIR)
         fs.copy_dir(BUILD_DIR + '/mold_root', ctx.MOLD_ROOT)
         return True
     except: 

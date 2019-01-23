@@ -181,16 +181,20 @@ def clone(ctx, uri=None):
 
 def init(ctx):
     sign = '-S' if ctx.MOLD_SIGN else ''
+    print('GIT INIT')
     result = _git_shell(ctx, 'init .')
     if not result.check_ok():
         print('Error: git init failed')
         return result
+    print('GIT STATUS')
+    _git_shell(ctx, 'status')
     result = _git_shell(ctx, 'add -A')
     if not result.check_ok():
         print('Error: git add -A failed')
         return result
-    result = _git_shell(ctx, f'commit {sign} -m "initial commit"') 
-    if not result .check_ok():
+    result = _git_shell(ctx, f'commit -a -m "initial commit"') 
+    if not result.check_ok():
+        print('fuck', result.status, result.fail)
         print('Error: inital git commit failed')
     return result 
 

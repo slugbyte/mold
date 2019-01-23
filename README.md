@@ -41,6 +41,9 @@ Mold is under active development and not ready for production use.
 
 ## TODO: Install Mold
 ### Download the CLI
+mold requires python3. 
+
+`pip install mold
 ### Setup a Mold-Root
 ##### Mold-Root Interative Installer
 ##### Mold-Root Quick Install

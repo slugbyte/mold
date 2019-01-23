@@ -6,6 +6,7 @@ echo "    MOLD_COLOR: true"
 export MOLD_ROOT=$HOME/.mold-dev
 export MOLD_DEBUG='true'
 export MOLD_COLOR='true'
+export MOLD_SIGN=''
 
 echo "Creating aliases"
 echo "    mold is now aliased to 'python3 -m mold'"
