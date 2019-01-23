@@ -1,8 +1,8 @@
 language: python
 python:
-  - "3.6"
+  - "3.7-dev"
 install: 
   - pip install pipenv 
-  - pipenv instal --dev
-  - pytest
+  - pipenv install --dev
+  - pipenv run pytest
 script: pytest
