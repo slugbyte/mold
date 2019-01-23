@@ -40,14 +40,18 @@ Mold leafs are file tempaltes. Leafs can be used to store things like licenses, 
 Mold is under active development and not ready for production use.
 
 ## TODO: Install Mold
+Mold requires python3.
 ### Download the CLI
-mold requires python3. 
-
-`pip install mold
+To install the mold cli run `pip3 install mold-cli`.
 ### Setup a Mold-Root
+By default the mold-root will be installed to `~/.mold` if you want to use a different directory set the environment vairable $MOLD\_ROOT to your prefered dirrectory before running the any `mold root` tasks.
 ##### Mold-Root Interative Installer
+To Install an empty mold-root using the interacive installer run `mold root --install`. 
 ##### Mold-Root Quick Install
+To run the mold installer without any prompting run `mold root --install --no-prompt`. Optionaly you can add `--force` If you 
+want it to overwrite an existing file or directory.
 ##### Cloning a Mold-Root 
+To clone an existing mold root and automaticly link its conf files run `mold root --clone (git-uri)`. Optionally you can add `--force` if you want it to overwrite an existing file or directory.
 
 ## USING MOLD
 `USAGE: mold  (command) (task) [...options] [--flags]`  
