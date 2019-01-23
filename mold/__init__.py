@@ -1,6 +1,7 @@
 """
 mold - a CLI for system configuration and shell workflow.
 """
+import mold.util as mold 
 
 __name__ = 'mold'
 __licence__ = 'MIT'
