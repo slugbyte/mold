@@ -34,4 +34,3 @@ def handle_context(ctx):
 
     print(f'{ctx.red}doh!{ctx.reset} mold {ctx.command} isn\'t a feature yet.')
     return ctx.OK
-

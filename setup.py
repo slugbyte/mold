@@ -22,9 +22,12 @@ DESCRIPTION = mold.__description__
 REQUIRES_PYTHON = '>=3.6.0'
 
 # What packages are required for this module to be executed?
-with open('requirements.txt') as f:
-    required = f.read().splitlines()
-REQUIRED = required
+REQUIRED = [
+    "Markdown>=3.0.1",      
+    "requests>=2.21.0",
+]
+
+print(REQUIRED)
 
 # What packages are optional?
 EXTRAS = {
