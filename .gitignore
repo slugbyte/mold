@@ -1,6 +1,26 @@
+temp
 
 # Created by https://www.gitignore.io/api/vim,osx,linux,windows,python
 # Edit at https://www.gitignore.io/?templates=vim,osx,linux,windows,python
+
+# Created by https://www.gitignore.io/api/virtualenv
+# Edit at https://www.gitignore.io/?templates=virtualenv
+
+### VirtualEnv ###
+# Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json
+# End of https://www.gitignore.io/api/virtualenv
+
 
 ### Linux ###
 *~

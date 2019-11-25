@@ -1,19 +1,28 @@
 #!/usr/bin/env python
-"""The main entry point. Invoke as `mold' or `python -m mold'.
 """
+The main entry point. Invoke as `mold' if installed or `python3 -m mold'.
+"""
+
+# TODO then figure out how to deploy to PYPI and start deployin v0.0.1
 import os 
 import sys
 
-from .main import main
+import mold.cli as cli 
+from mold.context import MoldContext
 
-if __name__ == '__main__':
-    if os.environ['MOLD_DEBUG_MODE']:
-        print('DEBUG_MODE')
-        main()
+def main():
+    exit_code = 0
+    ctx = MoldContext(sys.argv, os.environ)
+    if ctx.MOLD_DEBUG:
+        return sys.exit(cli.handle_context(ctx))
     else:
         try:
-            main()
+            exit_code = cli.handle_context(ctx)
         except:
-            print('Sorry, Unexpected error.', file=sys.stderr)
-            sys.exit(1)
-    sys.exit(0)
+            print('Sorry, there seems to be a mold in mold.')
+            print('    You may want to try reinstalling the mold-cli')
+            sys.exit(ctx.CRASH)
+    sys.exit(exit_code)
+
+if __name__ == '__main__':
+    main()
