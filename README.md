@@ -6,8 +6,8 @@
 ![breakfast grool](https://assets.slugbyte.com/github/github-header-00011.png)  
 
 
-## Warning Unstable
-**Mold is under active development and not ready for production use.**
+## WARNING
+**Mold is depricated don't use it.**
 
 ## About mold
 `mold` is is a cli for helping programmers mold thier shell environment to be more fun and productive to write code in. Its goal is to enable users to bring all of the tools, scripts, and templates that make their programing environment feel like home and take them anywhere. Mold has a consistant interface for doing [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) oprations to the content it tracks, and a small but effective set of git helper tasks for syncing configurations.  
